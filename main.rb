@@ -135,7 +135,7 @@ __END__
   
 @@email
 :plain
-  Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}
+  Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}. You can see your card here http://ecards.heroku.com/card/1
   
 @@xmas
 #card
