@@ -70,10 +70,10 @@ end
 post '/send' do 
     require 'pony'
     Pony.mail(
-      :from => params[:from],
+      :from => "eCards",
       :to => params[:email],
       :subject => params[:from] + " has sent you a card",
-      :body => haml(:email),
+      :body => haml(:email,:layout=>false),
       :port => '587',
       :via => :smtp,
       :via_options => { 
@@ -134,7 +134,8 @@ __END__
   %input(type="submit" value="Send")
   
 @@email
-%p Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}
+:plain
+  Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}
   
 @@xmas
 #card
