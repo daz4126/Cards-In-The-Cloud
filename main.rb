@@ -71,12 +71,11 @@ post '/send' do
     require 'pony'
     Pony.mail(
       :from => params[:from],
-      :to => params[:to],
+      :to => params[:email],
       :subject => params[:from] + " has sent you a card",
-      :body => "You've been sent an eCard from #{params[:from]}",
+      :body => "Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}",
       :port => '587',
       :via => :smtp,
-      :delivery_method => :smtp,
       :via_options => { 
         :address              => 'smtp.sendgrid.net', 
         :port                 => '587', 
