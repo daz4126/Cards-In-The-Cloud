@@ -73,7 +73,7 @@ post '/send' do
       :from => params[:from],
       :to => params[:email],
       :subject => params[:from] + " has sent you a card",
-      :body => "Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}",
+      :body => haml :email,
       :port => '587',
       :via => :smtp,
       :via_options => { 
@@ -132,6 +132,9 @@ __END__
   %label(for="email")Their email address:
   %input(type="text" name="email")
   %input(type="submit" value="Send")
+  
+@@email
+%p Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}
   
 @@xmas
 #card
