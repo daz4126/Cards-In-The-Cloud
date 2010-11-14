@@ -73,7 +73,7 @@ post '/send' do
       :from => params[:from],
       :to => params[:to],
       :subject => params[:from] + " has sent you a card",
-      :body => "You've been sent an eCard from #{params[:name]}",
+      :body => "You've been sent an eCard from #{params[:from]}",
       :port => '587',
       :via => :smtp,
       :delivery_method => :smtp,
