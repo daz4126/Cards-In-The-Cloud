@@ -59,7 +59,7 @@ post '/send' do
     :from => settings.name,
     :to => params[:email],
     :subject => params[:from] + " has sent you a card",
-    :body => haml(:email,:layout=>false),
+    :body => haml(:email,{ :layout=>false,:card => card }),
     :port => '587',
     :via => :smtp,
     :via_options => { 
@@ -125,7 +125,7 @@ __END__
   
 @@email
 :plain
-  Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}. You can see your card here http://ecards.heroku.com/card/1
+  Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}. You can see your card here http://ecards.heroku.com/card/#{card.id}
   
 @@xmas
 #card
