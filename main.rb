@@ -1,5 +1,5 @@
 ########### Libraries ###########
-%w[rubygems sinatra data_mapper haml sass].each{ |lib| require lib }
+%w[rubygems sinatra data_mapper haml sass pony].each{ |lib| require lib }
 
 ########### Configuration ###########
 set :name, ENV['name'] || 'eCards'
@@ -53,8 +53,24 @@ get '/new' do
   haml :new
 end
 
-post '/create' do
+post '/send' do
   card = Card.create(params[:card])
+  Pony.mail(
+    :from => settings.name,
+    :to => params[:email],
+    :subject => params[:from] + " has sent you a card",
+    :body => haml(:email,:layout=>false),
+    :port => '587',
+    :via => :smtp,
+    :via_options => { 
+      :address              => 'smtp.sendgrid.net', 
+      :port                 => '587', 
+      :enable_starttls_auto => true, 
+      :user_name            => ENV['SENDGRID_USERNAME']||'daz4126', 
+      :password             => ENV['SENDGRID_PASSWORD']||'senior6DJ!', 
+      :authentication       => :plain, 
+      :domain               => ENV['SENDGRID_DOMAIN']||"gmail.com"
+    })
   redirect '/card/' + card.id.to_s
 end
 
@@ -62,31 +78,6 @@ get '/card/:id' do
   @message = Card.get(params[:id]).message
   haml :xmas
 end
-
-get '/send' do
-  haml :send
-end
-
-post '/send' do 
-    require 'pony'
-    Pony.mail(
-      :from => "eCards",
-      :to => params[:email],
-      :subject => params[:from] + " has sent you a card",
-      :body => haml(:email,:layout=>false),
-      :port => '587',
-      :via => :smtp,
-      :via_options => { 
-        :address              => 'smtp.sendgrid.net', 
-        :port                 => '587', 
-        :enable_starttls_auto => true, 
-        :user_name            => ENV['SENDGRID_USERNAME']||'daz4126', 
-        :password             => ENV['SENDGRID_PASSWORD']||'senior6DJ!', 
-        :authentication       => :plain, 
-        :domain               => ENV['SENDGRID_DOMAIN']||"gmail.com"
-      })
-    redirect '/' 
-end 
 
 __END__
 ########### Views ###########
@@ -115,23 +106,22 @@ __END__
 @@index
 %h1= @greeting + "!"
 %p Welcome to #{settings.name}. The easiest way to send an electronic greetings card to your friends and family.
-%a(href="/new")Send a card
+%a(href="/new")Send a xmas card
 
 @@new
-%p Write your message in the box below
-%form(action="/create" method="post")
-  %textarea#message(name="card[message]" rows="10" cols="28")
-  %input(type="submit" value="Send")
-  
-@@send
-%form(action="/send" method="post")
-  %label(for="from")Your Name:
-  %input(type="text" name="from")
-  %label(for="to")Their name:
-  %input(type="text" name="to")
-  %label(for="email")Their email address:
-  %input(type="text" name="email")
-  %input(type="submit" value="Send")
+#card
+  #front
+    %h1 Merry Xmas!
+    %img(src="/freexmas.png")
+  %form(action="/send" method="post")
+    %textarea#message(name="card[message]" rows="10" cols="28")Write your message here...
+    %label(for="from")Your Name:
+    %input(type="text" name="from")
+    %label(for="to")Their name:
+    %input(type="text" name="to")
+    %label(for="email")Their email address:
+    %input(type="text" name="email")
+    %input(type="submit" value="Send")
   
 @@email
 :plain
@@ -139,8 +129,9 @@ __END__
   
 @@xmas
 #card
-  %h1 Merry Xmas!
-  %img(src="/freexmas.png")
+  #front
+    %h1 Merry Xmas!
+    %img(src="/freexmas.png")
   #message
     =@message
 %footer(role="contentinfo")
