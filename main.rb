@@ -59,7 +59,7 @@ post '/send' do
     :from => settings.name,
     :to => params[:email],
     :subject => params[:from] + " has sent you a card",
-    :body => haml(:email,{ :layout=>false,:card => card }),
+    :body => haml(:email,{ :layout=>false,:locals => { :card => card } }),
     :port => '587',
     :via => :smtp,
     :via_options => { 
