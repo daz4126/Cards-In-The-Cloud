@@ -63,13 +63,13 @@ post '/send' do
     :port => '587',
     :via => :smtp,
     :via_options => { 
-      :address              => 'smtp.sendgrid.net', 
+      :address              => ENV['SENDGRID_ADDRESS']||'smtp.gmail.com', 
       :port                 => '587', 
       :enable_starttls_auto => true, 
       :user_name            => ENV['SENDGRID_USERNAME']||'daz4126', 
       :password             => ENV['SENDGRID_PASSWORD']||'senior6DJ!', 
       :authentication       => :plain, 
-      :domain               => ENV['SENDGRID_DOMAIN']||"gmail.com"
+      :domain               => ENV['SENDGRID_DOMAIN']||'localhost.localdomain'
     })
   redirect '/card/' + card.id.to_s
 end
@@ -110,18 +110,14 @@ __END__
 
 @@new
 #card
-  #front
-    %h1 Merry Xmas!
-    %img(src="/freexmas.png")
-  %form(action="/send" method="post")
-    %textarea#message(name="card[message]" rows="10" cols="28")Write your message here...
-    %label(for="from")Your Name:
-    %input(type="text" name="from")
-    %label(for="to")Their name:
-    %input(type="text" name="to")
-    %label(for="email")Their email address:
-    %input(type="text" name="email")
-    %input(type="submit" value="Send")
+  %h1 Merry Xmas!
+  %img(src="/freexmas.png")
+%form(action="/send" method="post")
+  %label(for="to")To:<input type="text" name="to" id="to">
+  %label(for="email")Email:<input type="text" name="email" id="email">
+  %textarea#message(name="card[message]")Write your message here...
+  %label(for="from")From:<input type="text" name="from" id="from">
+  %input#send(type="submit" value="Send")
   
 @@email
 :plain
@@ -166,24 +162,38 @@ a:visited{color:$avisited;}
 a:hover{color:$ahover;text-decoration:none;}
 img{max-width:100%;_width:100%;display:block;margin:0 auto;}
 
+header{background:#A3A8AB;border-bottom:5px solid #ccc;
 h1{
 font-family:verdana,sans;
 text-transform:uppercase;
-font-size:72px;
-}
+font-size:24px;
+text-align:right;
+}}
 
 #message{
-  width:100%;max-width: 400px;_width:400px;
-  padding:20px 10px;margin:0 auto;
-  background: #ffc;border:5px solid #ff9;
-  font-size: 24px;
-  font-family: 'Reenie Beanie', serif;
+  padding:20px 10px;margin:0;
+  background: #fff url(paper.jpg);border:5px solid #ccc;
+  font-size: 32px;
+  font-family:'Reenie Beanie',sans-serif;
   text-align:center;
+  min-height:4em;_height:4em;
+  width:12em;
+}
+
+#card{overflow:hidden;margin:0 auto;float:left;margin-left:20px;
 }
 
 #card h1{
-  font-size: 32px;
-  font-family: Lobster,serif;
-  color:#63c;
+  font-size: 48px;
+  font-family:Lobster,serif;
+  color:#F04137;
   text-align:center;
 }
+form{float:left;margin-left:50px;position:relative;padding-bottom:4em;
+label{display:block;margin:10px auto;font-size:60px;font-family:'Reenie Beanie', serif;;color:#999;}
+input{font-size:24px;font-family:verdana,sans-serif;}
+input#to{position:relative;left:3.4em;}
+input#email{position:relative;left:1.0em;}
+input#from{position:relative;left:1.7em;}
+}
+#send{font-size:48px;background:#f04137;color:#fff;border:none;border-radius:12px;position:absolute;bottom:0;right:0;}
