@@ -183,6 +183,8 @@ text-align:right;
 #card{overflow:hidden;margin:0 auto;float:left;margin-left:20px;
 }
 
+footer{clear:both;}
+
 #card h1{
   font-size: 48px;
   font-family:Lobster,serif;
