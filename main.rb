@@ -55,22 +55,24 @@ end
 
 post '/send' do
   card = Card.create(params[:card])
-  Pony.mail(
-    :from => settings.name,
-    :to => params[:email],
-    :subject => params[:from] + " has sent you a card",
-    :body => haml(:email,{ :layout=>false,:locals => { :card => card } }),
-    :port => '587',
-    :via => :smtp,
-    :via_options => { 
-      :address              => ENV['SENDGRID_ADDRESS']||'smtp.gmail.com', 
-      :port                 => '587', 
-      :enable_starttls_auto => true, 
-      :user_name            => ENV['SENDGRID_USERNAME']||'daz4126', 
-      :password             => ENV['SENDGRID_PASSWORD']||'senior6DJ!', 
-      :authentication       => :plain, 
-      :domain               => ENV['SENDGRID_DOMAIN']||'localhost.localdomain'
-    })
+  params[:email].split(",").each do |email|
+    Pony.mail(
+      :from => settings.name,
+      :to => email,
+      :subject => params[:from] + " has sent you a card",
+      :body => haml(:email,{ :layout=>false,:locals => { :card => card } }),
+      :port => '587',
+      :via => :smtp,
+      :via_options => { 
+        :address              => ENV['SENDGRID_ADDRESS']||'smtp.gmail.com', 
+        :port                 => '587', 
+        :enable_starttls_auto => true, 
+        :user_name            => ENV['SENDGRID_USERNAME']||'daz4126', 
+        :password             => ENV['SENDGRID_PASSWORD']||'senior6DJ!', 
+        :authentication       => :plain, 
+        :domain               => ENV['SENDGRID_DOMAIN']||'localhost.localdomain'
+      })
+    end
   redirect '/card/' + card.id.to_s
 end
 
