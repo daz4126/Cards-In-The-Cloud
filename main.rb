@@ -1,5 +1,5 @@
 ########### Libraries ###########
-%w[rubygems sinatra data_mapper haml sass pony].each{ |lib| require lib }
+%w[rubygems sinatra data_mapper haml sass pony moonshado-sms].each{ |lib| require lib }
 
 ########### Configuration ###########
 set :name, ENV['name'] || 'eCards'
@@ -8,6 +8,10 @@ set :token, ENV['TOKEN'] || 'makethisrandomandhardtoremember'
 set :password, ENV['PASSWORD'] || 'secret'
 set :haml, { :format => :html5 }
 set :public, Proc.new { root }
+
+Moonshado::Sms.configure do |config|
+    config.api_key = ENV['MOONSHADOSMS_URL']
+end
 
 ########### Models ###########
 DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",settings.root, "development.db"))
