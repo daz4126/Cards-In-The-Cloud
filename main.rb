@@ -80,7 +80,9 @@ post '/send' do
 end
 
 get '/:key' do
-  @message = Card.first(:secret_key => params[:key]).message
+  card = Card.first(:secret_key => params[:key])
+  raise error(404) unless card
+  @message = card.message
   haml :xmas
 end
 __END__
