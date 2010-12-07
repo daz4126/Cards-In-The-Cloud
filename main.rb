@@ -1,17 +1,13 @@
 ########### Libraries ###########
-%w[rubygems sinatra data_mapper haml sass pony moonshado-sms].each{ |lib| require lib }
+%w[rubygems sinatra data_mapper haml sass pony digest/sha2].each{ |lib| require lib }
 
 ########### Configuration ###########
 set :name, ENV['name'] || 'eCards'
 set :author, ENV['author'] || 'DAZ'
-set :token, ENV['TOKEN'] || 'makethisrandomandhardtoremember'
+set :salt, ENV['SALT'] || 'makethisrandomandhardtoremember'
 set :password, ENV['PASSWORD'] || 'secret'
 set :haml, { :format => :html5 }
 set :public, Proc.new { root }
-
-Moonshado::Sms.configure do |config|
-    config.api_key = ENV['MOONSHADOSMS_URL']
-end
 
 ########### Models ###########
 DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",settings.root, "development.db"))
@@ -19,9 +15,12 @@ class Card
   include DataMapper::Resource
   property :id,           Serial
   property :message,      Text, :required => true
+  property :secret_key,   Text, :default => Proc.new { |r, p| Digest::SHA2.hexdigest(r.message + Time.now.to_s) }
   property :design,       String
+  def url
+    '/' + self.secret_key 
+  end
 end
-
 DataMapper.auto_upgrade!
 
 ###########  Admin ###########
@@ -77,14 +76,13 @@ post '/send' do
         :domain               => ENV['SENDGRID_DOMAIN']||'localhost.localdomain'
       })
     end
-  redirect '/card/' + card.id.to_s
+  redirect card.url
 end
 
-get '/card/:id' do
-  @message = Card.get(params[:id]).message
+get '/:key' do
+  @message = Card.first(:secret_key => params[:key]).message
   haml :xmas
 end
-
 __END__
 ########### Views ###########
 @@layout
@@ -127,7 +125,7 @@ __END__
   
 @@email
 :plain
-  Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}. You can see your card here http://ecards.heroku.com/card/#{card.id}
+  Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}. You can see your card here http://ecards.heroku.com#{card.url}
   
 @@xmas
 #card
