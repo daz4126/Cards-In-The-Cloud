@@ -2,7 +2,7 @@
 %w[rubygems sinatra data_mapper haml sass pony digest/sha2].each{ |lib| require lib }
 
 ########### Configuration ###########
-set :name, ENV['name'] || 'eCards'
+set :name, ENV['name'] || 'Cloudgrams'
 set :author, ENV['author'] || 'DAZ'
 set :salt, ENV['SALT'] || 'makethisrandomandhardtoremember'
 set :password, ENV['PASSWORD'] || 'secret'
@@ -116,8 +116,8 @@ __END__
 
 @@new
 #card
-  %h1 Merry Xmas!
-  %img(src="/freexmas.png")
+  %h1 Let It Snow! Let It Snow!
+  %img(src="/snowman.png")
 %form(action="/send" method="post")
   %label(for="to")To:<input type="text" name="to" id="to">
   %label(for="email")Email:<input type="text" name="email" id="email">
@@ -127,13 +127,13 @@ __END__
   
 @@email
 :plain
-  Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}. You can see your card here http://ecards.heroku.com#{card.url}
+  Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}. You can see your card here http://#{env['HTTP_HOST']+card.url}
   
 @@xmas
 #card
   #front
-    %h1 Merry Xmas!
-    %img(src="/freexmas.png")
+    %h1 Let It Snow! Let It Snow!
+    %img(src="/snowman.png")
   #message
     =@message
 %footer(role="contentinfo")
@@ -146,11 +146,11 @@ __END__
 // javascript goes here
 
 @@styles
-@import url("http://fonts.googleapis.com/css?family=Reenie+Beanie|Lobster&subset=latin");
+@import url("http://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here|Raleway:100|Mountains+of+Christmas&subset=latin");
 $bg: #fff;$color: #666;
-$primary: red;$secondary: blue;
+$primary: #619FEA;$secondary:#1757A4;
 $font: "Droid serif",Times,"Times New Roman",serif;
-$hcolor: $primary;$hfont: "Droid sans",sans-serif;
+$hcolor: $primary;$hfont: "Raleway",sans-serif;
 $hbold: false;
 $acolor:$primary;$ahover:$secondary;$avisited:lighten($acolor,10%);
 
@@ -168,9 +168,9 @@ a:visited{color:$avisited;}
 a:hover{color:$ahover;text-decoration:none;}
 img{max-width:100%;_width:100%;display:block;margin:0 auto;}
 
-header{background:#A3A8AB;border-bottom:5px solid #ccc;
+header{background:$primary;border-bottom:5px solid $secondary;
+a,a:link,a:visited{color:#fff;text-decoration:none;}
 h1{
-font-family:verdana,sans;
 text-transform:uppercase;
 font-size:24px;
 text-align:right;
@@ -180,23 +180,28 @@ text-align:right;
   padding:20px 10px;margin:0;
   background: #fff url(paper.jpg);border:5px solid #ccc;
   font-size: 32px;
-  font-family:'Reenie Beanie',sans-serif;
+  font-family:'Just Me Again Down Here',sans-serif;
   text-align:center;
   min-height:4em;_height:4em;
   width:12em;
+  margin: 10px auto;
 }
 
-#card{overflow:hidden;margin:0 auto;float:left;margin-left:20px;
-}
 
-footer{clear:both;}
+footer{clear:both;margin-top:40px;}
 
 #card h1{
-  font-size: 48px;
-  font-family:Lobster,serif;
+  font-size: 64px;
+  font-family:'Mountains of Christmas',serif;
   color:#F04137;
+  text-shadow: 1px 1px 0 green;
   text-align:center;
+  position:relative;top:1.6em;
+  font-weight:bold;
 }
+#card img{max-width:100%;display:block;margin: 0 auto;}
+
+
 form{float:left;margin-left:50px;position:relative;padding-bottom:4em;
 label{display:block;margin:10px auto;font-size:60px;font-family:'Reenie Beanie', serif;;color:#999;}
 input{font-size:24px;font-family:verdana,sans-serif;}
