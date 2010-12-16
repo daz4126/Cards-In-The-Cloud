@@ -2,7 +2,7 @@
 %w[rubygems sinatra data_mapper haml sass pony digest/sha2].each{ |lib| require lib }
 
 ########### Configuration ###########
-set :name, ENV['name'] || 'Cloudgrams'
+set :name, ENV['name'] || 'Cards in the Cloud'
 set :author, ENV['author'] || 'DAZ'
 set :salt, ENV['SALT'] || 'makethisrandomandhardtoremember'
 set :password, ENV['PASSWORD'] || 'secret'
