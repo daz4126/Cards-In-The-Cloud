@@ -47,7 +47,7 @@ get('/application.js') { content_type 'text/javascript' ; render :str, :js, :lay
 
 # home
 get '/' do
-  greetings = %w[Hi Hello Hola Hallo Ciao Sawubona Merhaba Labdien Ola Szervusz]
+  greetings = %w[Hi Hello Hola Hallo Ciao Sawubona Merhaba Labdien Ola Szervusz Howdy]
   @greeting = greetings[rand(greetings.size)]
   haml :index
 end
