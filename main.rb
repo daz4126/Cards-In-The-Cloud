@@ -1,5 +1,5 @@
 ########### Libraries ###########
-%w[rubygems sinatra data_mapper haml sass pony digest/sha2].each{ |lib| require lib }
+%w[rubygems sinatra dm-core dm-migrations haml sass pony digest/sha2].each{ |lib| require lib }
 
 ########### Configuration ###########
 set :name, ENV['name'] || 'Cards in the Cloud'
