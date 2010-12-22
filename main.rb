@@ -23,27 +23,9 @@ class Card
 end
 DataMapper.auto_upgrade!
 
-###########  Admin ###########
-helpers do
-	def admin? ; request.cookies[settings.author] == settings.token ; end
-	def protected! ; halt [ 401, 'Not authorized' ] unless admin? ; end
-end
-get('/admin'){ haml :admin }
-post '/login' do
-	response.set_cookie(settings.author, settings.token) if params[:password] == settings.password
-	redirect '/'
-end
-get('/logout'){ response.set_cookie(settings.author, false) ; redirect '/' }
-
-########### Helpers ###########
-helpers do
-# custom helpers go here
-end
-
 ###########  Routes ###########
 not_found { haml :'404' }
 get('/styles.css'){ content_type 'text/css', :charset => 'utf-8' ; scss :styles }
-get('/application.js') { content_type 'text/javascript' ; render :str, :js, :layout => false }
 
 # home
 get '/' do
@@ -75,15 +57,17 @@ post '/send' do
         :authentication       => :plain, 
         :domain               => ENV['SENDGRID_DOMAIN']||'localhost.localdomain'
       })
+      #Need to figure out how to log cards sent
+      #LOG.info "Card sent to #{email} by #{params[:from]}"
     end
-  redirect card.url
+  redirect card.url + "?pic=#{params[:pic]}&msg=#{params[:msg]}"
 end
 
 get '/:key' do
   card = Card.first(:secret_key => params[:key])
   raise error(404) unless card
   @message = card.message
-  haml :xmas
+  haml :card
 end
 __END__
 ########### Views ###########
@@ -95,62 +79,79 @@ __END__
     %title= @title || settings.name
     %link(rel="stylesheet" media="screen, projection" href="/reset.css")
     %link(rel="stylesheet" media="screen, projection" href="/styles.css")
-    %script(src="http://rightjs.org/hotlink/right.js")
-    %script(src="/application.js")
     /[if lt IE 9]
       %script(src="http://html5shiv.googlecode.com/svn/trunk/html5.js")
-  %body{:id => settings.name, :class => @title || settings.name}
+  %body
     %header(role="banner")
       %h1 <a title="home" href="/">#{ settings.name }</a>
-    = yield
-
-@@admin
-%form(action="/login" method="post")
-  %input(type="password" name="password")
-  %input(type="submit" value="Login") or <a href="/">Cancel</a>
+    .content
+      = yield
   
 @@index
 %h1= @greeting + "!"
 %p Welcome to #{settings.name}. The easiest way to send an electronic greetings card to your friends and family.
-%a(href="/new")Send a xmas card
+%p Choose a card from the list below then click on the picture to send it!
+%ul.cards
+  %li
+    %h3 Let It Snow!
+    %a(href="/new?pic=snowman&msg=Let+It+Snow!")
+      %img(src="/snowman-th.png")
+  %li
+    %h3 Rocking Robins
+    %a(href="/new?pic=robins&msg=Rocking+Robins")
+      %img(src="/robins-th.png")
+%footer(role="contentinfo")
+  %small <a href="/">#{settings.name}</a> is and always will be a free service. Why not make a donation charity to say thank you?
+  .charities
+    %a(href="http://www.unicef.org.uk/Donate/Donate-Now/" alt="Donate to Unicef")
+      %img(src="unicef-logo.png")
+    %a(href="http://www.amnesty.org.uk/content.asp?CategoryID=2064" alt="Donate to Amnesty International")
+      %img(src="ai_logo.gif")
+    %a(href="https://www.oxfam.org.uk/donate/" alt="Donate to Oxfam")
+      %img(src="logo_oxfam.gif")
 
 @@new
 #card
-  %h1 Let It Snow! Let It Snow!
-  %img(src="/snowman.png")
+  %h1= params[:msg]
+  %img(src="/#{params[:pic]}.png")
 %form(action="/send" method="post")
   %label(for="to")To:<input type="text" name="to" id="to">
   %label(for="email")Email:<input type="text" name="email" id="email">
   %textarea#message(name="card[message]")Write your message here...
   %label(for="from")From:<input type="text" name="from" id="from">
+  %input(type="hidden" name="msg" value="#{params[:msg]}")
+  %input(type="hidden" name="pic" value="#{params[:pic]}")
   %input#send(type="submit" value="Send")
   
 @@email
 :plain
   Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}. You can see your card here http://#{env['HTTP_HOST']+card.url}
   
-@@xmas
+@@card
 #card
-  #front
-    %h1 Let It Snow! Let It Snow!
-    %img(src="/snowman.png")
-  #message
-    =@message
+  %h1= params[:msg]
+  %img(src="/#{params[:pic]}.png")
+#message
+  =@message
 %footer(role="contentinfo")
-  %small This card was brought to you by <a href="/">#{settings.name}</a>
+  %small This card was delivered for free by <a href="/">#{settings.name}</a>. Why not make a donation charity to say thank you?
+  .charities
+    %a(href="http://www.unicef.org.uk/Donate/Donate-Now/" alt="Donate to Unicef")
+      %img(src="unicef-logo.png")
+    %a(href="http://www.amnesty.org.uk/content.asp?CategoryID=2064" alt="Donate to Amnesty International")
+      %img(src="ai_logo.gif")
+    %a(href="https://www.oxfam.org.uk/donate/" alt="Donate to Oxfam")
+      %img(src="logo_oxfam.gif")
       
 @@404
 %h3 Sorry, but that page cannot be found
 
-@@js
-// javascript goes here
-
 @@styles
-@import url("http://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here|Raleway:100|Mountains+of+Christmas&subset=latin");
+@import url("http://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here|Sniglet:800|Corben:bold|Ubuntu|Mountains+of+Christmas&subset=latin");
 $bg: #fff;$color: #666;
 $primary: #619FEA;$secondary:#1757A4;
-$font: "Droid serif",Times,"Times New Roman",serif;
-$hcolor: $primary;$hfont: "Raleway",sans-serif;
+$font: Ubuntu,Times,"Times New Roman",serif;
+$hcolor: $primary;$hfont: 'Corben',sans-serif;
 $hbold: false;
 $acolor:$primary;$ahover:$secondary;$avisited:lighten($acolor,10%);
 
@@ -158,22 +159,24 @@ html, body, div, span, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre
 article,aside,canvas,details,figcaption,figure,
 footer,header,hgroup,menu,nav,section,summary{ display: block; }
 body{ font-family: $font;background-color: $bg;color: $color; }
-h1,h2,h3,h4,h5,h6{ color: $hcolor;font-family: $hfont;@if $hbold { font-weight: bold; } @else {font-weight: normal;}}
+h1,h2,h3,h4,h5,h6{ color:$hcolor;font-family:$hfont;margin:0;@if $hbold { font-weight: bold; } @else {font-weight: normal;}}
 h1{font-size:4.2em;}h2{font-size:3em;}h3{font-size:2.4em;}
 h4{font-size:1.6em;}h5{font-size:1.2em;}h6{font-size:1em;}
-p{font-size:1.2em;line-height:1.5;margin:1em 0;max-width:40em;}
+p{font-size:1.2em;line-height:1.5;margin:0.5em 0;max-width:40em;}
+ul,ol{list-style:none;}
 li{font-size:1.2em;line-height:1.5;}
 a,a:link{color:$acolor;}
 a:visited{color:$avisited;}
 a:hover{color:$ahover;text-decoration:none;}
-img{max-width:100%;_width:100%;display:block;margin:0 auto;}
+
+.content{padding:0 20px;}
 
 header{background:$primary;border-bottom:5px solid $secondary;
 a,a:link,a:visited{color:#fff;text-decoration:none;}
 h1{
-text-transform:uppercase;
-font-size:24px;
-text-align:right;
+font-family:sniglet;
+font-size:48px;
+text-align:center;
 }}
 
 #message{
@@ -187,20 +190,22 @@ text-align:right;
   margin: 10px auto;
 }
 
+.cards{margin-bottom:200px;}
+
 
 footer{clear:both;margin-top:40px;}
-
-#card h1{
+#card{
+position:relative;height:420px;width:640px;margin:10px auto 0;
+h1{
   font-size: 64px;
   font-family:'Mountains of Christmas',serif;
-  color:#F04137;
-  text-shadow: 1px 1px 0 green;
+  color:#d40000;
+  text-shadow: 1px 1px 0 #050;
   text-align:center;
-  position:relative;top:1.6em;
   font-weight:bold;
 }
-#card img{max-width:100%;display:block;margin: 0 auto;}
-
+img{max-width:100%;display:block;margin: 0 auto;position:absolute;top:0;left:0;z-index:-1;}
+}
 
 form{float:left;margin-left:50px;position:relative;padding-bottom:4em;
 label{display:block;margin:10px auto;font-size:60px;font-family:'Reenie Beanie', serif;;color:#999;}
