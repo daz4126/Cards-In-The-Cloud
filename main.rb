@@ -14,9 +14,9 @@ DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",setting
 class Card
   include DataMapper::Resource
   property :id,           Serial
-  property :message,      Text, :required => true
+  property :message,      Text
   property :secret_key,   Text, :default => Proc.new { |r, p| Digest::SHA2.hexdigest(r.message + Time.now.to_s) }
-  property :design,       String
+  property :design_id,    Integer
   def url
     '/' + self.secret_key 
   end
@@ -34,7 +34,9 @@ get '/' do
   haml :index
 end
 
-get '/new' do
+get '/new/card/:id' do
+  @design_id = params[:id]
+  @design = ("design" + params[:id]).to_sym
   haml :new
 end
 
@@ -60,13 +62,14 @@ post '/send' do
       #Need to figure out how to log cards sent
       #LOG.info "Card sent to #{email} by #{params[:from]}"
     end
-  redirect card.url + "?pic=#{params[:pic]}&msg=#{params[:msg]}"
+  redirect card.url
 end
 
 get '/:key' do
   card = Card.first(:secret_key => params[:key])
   raise error(404) unless card
   @message = card.message
+  @design = ("design" + card.design_id.to_s).to_sym
   haml :card
 end
 __END__
@@ -77,7 +80,6 @@ __END__
   %head
     %meta(charset="utf-8")
     %title= @title || settings.name
-    %link(rel="stylesheet" media="screen, projection" href="/reset.css")
     %link(rel="stylesheet" media="screen, projection" href="/styles.css")
     /[if lt IE 9]
       %script(src="http://html5shiv.googlecode.com/svn/trunk/html5.js")
@@ -94,11 +96,11 @@ __END__
 %ul.cards
   %li
     %h3 Let It Snow!
-    %a(href="/new?pic=snowman&msg=Let+It+Snow!")
+    %a(href="/new/card/1")
       %img(src="/snowman-th.png")
   %li
     %h3 Rocking Robins
-    %a(href="/new?pic=robins&msg=Rocking+Robins")
+    %a(href="/new/card/2")
       %img(src="/robins-th.png")
 %footer(role="contentinfo")
   %small <a href="/">#{settings.name}</a> is and always will be a free service. Why not make a donation charity to say thank you?
@@ -112,25 +114,22 @@ __END__
 
 @@new
 #card
-  %h1= params[:msg]
-  %img(src="/#{params[:pic]}.png")
+  =haml @design
 %form(action="/send" method="post")
   %label(for="to")To:<input type="text" name="to" id="to">
   %label(for="email")Email:<input type="text" name="email" id="email">
   %textarea#message(name="card[message]")Write your message here...
   %label(for="from")From:<input type="text" name="from" id="from">
-  %input(type="hidden" name="msg" value="#{params[:msg]}")
-  %input(type="hidden" name="pic" value="#{params[:pic]}")
+  %input(type="hidden" name="card[design_id]" value="#{@design_id}")
   %input#send(type="submit" value="Send")
   
 @@email
 :plain
-  Hi #{params[:to]}. You've been sent an eCard from #{params[:from]}. You can see your card here http://#{env['HTTP_HOST']+card.url}
+  Hi #{params[:to]}. You've been sent a card in the cloud from #{params[:from]}. You can see your card here http://#{env['HTTP_HOST']+card.url}
   
 @@card
 #card
-  %h1= params[:msg]
-  %img(src="/#{params[:pic]}.png")
+  =haml @design
 #message
   =@message
 %footer(role="contentinfo")
@@ -143,6 +142,14 @@ __END__
     %a(href="https://www.oxfam.org.uk/donate/" alt="Donate to Oxfam")
       %img(src="logo_oxfam.gif")
       
+@@design1
+%h1= "Let It Snow! Let It Snow!"
+%img(src="/snowman.png")
+
+@@design2
+%h1= "Rocking Robins!"
+%img(src="/robins.png")
+ 
 @@404
 %h3 Sorry, but that page cannot be found
 
