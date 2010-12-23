@@ -103,7 +103,7 @@ __END__
     %a(href="/new/card/2")
       %img(src="/robins-th.png")
 %footer(role="contentinfo")
-  %small <a href="/">#{settings.name}</a> is and always will be a free service. Why not make a donation charity to say thank you?
+  %small <a href="/">#{settings.name}</a> is and always will be a free service. Why not make a donation to charity to say thank you?
   .charities
     %a(href="http://www.unicef.org.uk/Donate/Donate-Now/" alt="Donate to Unicef")
       %img(src="unicef-logo.png")
@@ -133,7 +133,7 @@ __END__
 #message
   =@message
 %footer(role="contentinfo")
-  %small This card was delivered for free by <a href="/">#{settings.name}</a>. Why not make a donation charity to say thank you?
+  %small This card was delivered for free by <a href="/">#{settings.name}</a>. Why not make a donation to charity to say thank you?
   .charities
     %a(href="http://www.unicef.org.uk/Donate/Donate-Now/" alt="Donate to Unicef")
       %img(src="unicef-logo.png")
