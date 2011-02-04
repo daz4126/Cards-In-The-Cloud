@@ -1,5 +1,5 @@
 ########### Libraries ###########
-%w[rubygems sinatra dm-core dm-migrations haml sass pony digest/sha2].each{ |lib| require lib }
+%w[rubygems sinatra dm-core dm-migrations haml sass pony digest/md5].each{ |lib| require lib }
 
 ########### Configuration ###########
 set :name, ENV['name'] || 'Cards in the Cloud'
@@ -15,7 +15,7 @@ class Card
   include DataMapper::Resource
   property :id,           Serial
   property :message,      Text
-  property :secret_key,   Text, :default => Proc.new { |r, p| Digest::SHA2.hexdigest(r.message + Time.now.to_s) }
+  property :secret_key,   Text, :default => Proc.new { |r, p| Digest::MD5.hexdigest(r.message + Time.now.to_s) }
   property :design_id,    Integer
   def url
     '/' + self.secret_key 
@@ -133,7 +133,7 @@ __END__
 #message
   =@message
 %footer(role="contentinfo")
-  %small This card was delivered for free by <a href="/">#{settings.name}</a>. Why not make a donation to charity to say thank you?
+  %small This card was brought to you by <a href="/">#{settings.name}</a>. Why not make a donation to charity to say thank you?
   .charities
     %a(href="http://www.unicef.org.uk/Donate/Donate-Now/" alt="Donate to Unicef")
       %img(src="unicef-logo.png")
@@ -149,12 +149,16 @@ __END__
 @@design2
 %h1= "Rocking Robins!"
 %img(src="/robins.png")
+
+@@design3
+%h1= "Hippo Birthday!"
+%img(src="/hippo.png")
  
 @@404
 %h3 Sorry, but that page cannot be found
 
 @@styles
-@import url("http://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here|Sniglet:800|Corben:bold|Ubuntu|Mountains+of+Christmas&subset=latin");
+@import url("http://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here|Sniglet:800|Corben:bold|Ubuntu|Chewy&subset=latin");
 $bg: #fff;$color: #666;
 $primary: #619FEA;$secondary:#1757A4;
 $font: Ubuntu,Times,"Times New Roman",serif;
@@ -201,13 +205,14 @@ text-align:center;
 
 
 footer{clear:both;margin-top:40px;}
+
 #card{
 position:relative;height:420px;width:640px;margin:10px auto 0;
 h1{
   font-size: 64px;
-  font-family:'Mountains of Christmas',serif;
-  color:#d40000;
-  text-shadow: 1px 1px 0 #050;
+  font-family:'Chewy',serif;
+  color:#43A966;
+  text-shadow: 3px 3px 0 #050;
   text-align:center;
   font-weight:bold;
 }
