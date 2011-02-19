@@ -6,6 +6,7 @@ set :name, ENV['name'] || 'Cards in the Cloud'
 set :author, ENV['author'] || 'DAZ'
 set :salt, ENV['SALT'] || 'makethisrandomandhardtoremember'
 set :password, ENV['PASSWORD'] || 'secret'
+set :images, 'https://s3.amazonaws.com/cloudcards'
 set :haml, { :format => :html5 }
 set :public, Proc.new { root }
 
@@ -93,15 +94,27 @@ __END__
 %h1= @greeting + "!"
 %p Welcome to #{settings.name}. The easiest way to send an electronic greetings card to your friends and family.
 %p Choose a card from the list below then click on the picture to send it!
+%h3 Birthday Cards
 %ul.cards
   %li
-    %h3 Let It Snow!
-    %a(href="/new/card/1")
-      %img(src="/snowman-th.png")
+    %h1 Snappy Birthday!
+    %a(href="/new/card/4")
+      %img{:src=>settings.images+"/croc-th.png"}
   %li
-    %h3 Rocking Robins
+    %h1 Hippo Birthday
+    %a(href="/new/card/3")
+      %img{:src=>settings.images+"/hippo-th.png"}
+
+%h3 Xmas Cards
+%ul.cards
+  %li
+    %h1 Let It Snow!
+    %a(href="/new/card/1")
+      %img{:src=>settings.images+"/snowman-th.png"}
+  %li
+    %h1 Rocking Robins
     %a(href="/new/card/2")
-      %img(src="/robins-th.png")
+      %img{:src=>settings.images+"/robins-th.png"}
 %footer(role="contentinfo")
   %small <a href="/">#{settings.name}</a> is and always will be a free service. Why not make a donation to charity to say thank you?
   .charities
@@ -144,15 +157,19 @@ __END__
       
 @@design1
 %h1= "Let It Snow! Let It Snow!"
-%img(src="/snowman.png")
+%img{:src=>settings.images+"/snowman.png"}
 
 @@design2
 %h1= "Rocking Robins!"
-%img(src="/robins.png")
+%img{:src=>settings.images+"/robins.png"}
 
 @@design3
 %h1= "Hippo Birthday!"
-%img(src="/hippo.png")
+%img{:src=>settings.images+"/hippo.png"}
+
+@@design4
+%h1= "Snappy Birthday!"
+%img{:src=>settings.images+"/croc.png"}
  
 @@404
 %h3 Sorry, but that page cannot be found
@@ -201,7 +218,10 @@ text-align:center;
   margin: 10px auto;
 }
 
-.cards{margin-bottom:200px;}
+.cards{overflow:hidden;
+li{float:left;margin-right:10px;
+h1{font-size:12px;
+}}}
 
 
 footer{clear:both;margin-top:40px;}
