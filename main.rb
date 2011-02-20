@@ -185,7 +185,7 @@ __END__
 %h1= "Birthday Fishes!"
 %img{:src=>settings.images+"/fish.png"}
 
-@@design5
+@@design6
 %h1= "Happy Birthday!"
 %img{:src=>settings.images+"/cupcake.png"}
  
