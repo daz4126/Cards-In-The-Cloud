@@ -104,6 +104,11 @@ __END__
     %h1 Hippo Birthday
     %a(href="/new/card/3")
       %img{:src=>settings.images+"/hippo-th.png"}
+      
+  %li
+    %h1 Birthday Fishes
+    %a(href="/new/card/5")
+      %img{:src=>settings.images+"/fish-th.png"}
 
 %h3 Xmas Cards
 %ul.cards
@@ -170,6 +175,10 @@ __END__
 @@design4
 %h1= "Snappy Birthday!"
 %img{:src=>settings.images+"/croc.png"}
+
+@@design5
+%h1= "Birthday Fishes!"
+%img{:src=>settings.images+"/fish.png"}
  
 @@404
 %h3 Sorry, but that page cannot be found
