@@ -81,6 +81,7 @@ __END__
   %head
     %meta(charset="utf-8")
     %title= @title || settings.name
+    %link(rel="shortcut icon" href="/favicon.ico")
     %link(rel="stylesheet" media="screen, projection" href="/styles.css")
     /[if lt IE 9]
       %script(src="http://html5shiv.googlecode.com/svn/trunk/html5.js")
