@@ -30,7 +30,7 @@ get('/styles.css'){ content_type 'text/css', :charset => 'utf-8' ; scss :styles 
 
 # home
 get '/' do
-  greetings = %w[Hi Hello Hola Hallo Ciao Sawubona Merhaba Labdien Ola Szervusz Howdy]
+  greetings = %w[Hi Hello Hola Hallo Ciao Sawubona Ola Szervusz Howdy]
   @greeting = greetings[rand(greetings.size)]
   haml :index
 end
@@ -111,7 +111,7 @@ __END__
       %img{:src=>settings.images+"/fish-th.png"}
 
   %li
-    %h1 Birthday Cupcake
+    %h1 Birthday Cupcakes
     %a(href="/new/card/6")
       %img{:src=>settings.images+"/cupcake-th.png"}
 
@@ -166,27 +166,27 @@ __END__
       %img(src="logo_oxfam.gif")
       
 @@design1
-%h1= "Let It Snow! Let It Snow!"
+%h1.snow= "Let It Snow! Let It Snow!"
 %img{:src=>settings.images+"/snowman.png"}
 
 @@design2
-%h1= "Rocking Robins!"
+%h1.robin= "Rocking Robins!"
 %img{:src=>settings.images+"/robins.png"}
 
 @@design3
-%h1= "Hippo Birthday!"
+%h1.hippo= "Hippo Birthday!"
 %img{:src=>settings.images+"/hippo.png"}
 
 @@design4
-%h1= "Snappy Birthday!"
+%h1.croc= "Snappy Birthday!"
 %img{:src=>settings.images+"/croc.png"}
 
 @@design5
-%h1= "Birthday Fishes!"
+%h1.fish= "Birthday Fishes!"
 %img{:src=>settings.images+"/fish.png"}
 
 @@design6
-%h1= "Happy Birthday!"
+%h1.cake= "Happy Birthday!"
 %img{:src=>settings.images+"/cupcake.png"}
  
 @@404
@@ -215,30 +215,38 @@ a,a:link{color:$acolor;}
 a:visited{color:$avisited;}
 a:hover{color:$ahover;text-decoration:none;}
 
+@mixin gradient($start: #CCCCCC,$finish: darken($start,25%),$stop: 1){
+  -webkit-background-clip: padding-box;
+  background: $start;
+  background-image: -moz-linear-gradient(top, $start 0%, $finish percentage($stop));
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, $start),color-stop($stop, $finish));
+ -pie-background: linear-gradient(top, $start 0%, $finish percentage($stop));
+  background-image: linear-gradient(top, $start 0%, $finish percentage($stop));
+  behavior: url(PIE.htc);
+}
+
 .content{padding:0 20px;}
 
-header{background:$primary;border-bottom:5px solid $secondary;
-a,a:link,a:visited{color:#fff;text-decoration:none;}
-h1{
-font-family:sniglet;
-font-size:48px;
-text-align:center;
+header{padding:5px 0 16px;background:$primary;@include gradient($primary, #fff);
+a,a:link,a:visited{color:#fff;text-decoration:none;
+text-shadow: 0px 6px 4px rgba(255,255,255,0.5);}
+a:hover{text-shadow: 0px 8px 8px rgba(255,255,255,0.7);}
+h1{font-family:sniglet;font-size:64px;text-align:center;
 }}
 
 #message{
   padding:20px 10px;margin:0;
-  background: #fff url(paper.jpg);border:5px solid #ccc;
-  font-size: 32px;
-  font-family:'Just Me Again Down Here',sans-serif;
+  background: #fff;
+  border:5px solid #ccc;
+  font-size: 32px;font-family:'Just Me Again Down Here',sans-serif;
   text-align:center;
-  min-height:4em;_height:4em;
-  width:12em;
+  min-height:4em;_height:4em;width:12em;
   margin: 10px auto;
 }
 
 .cards{overflow:hidden;
 li{float:left;margin-right:10px;
-h1{font-size:12px;
+h1{font-size:16px;font-family:'Chewy',serif;text-align:center;font-weight:bold;
 }}}
 
 
@@ -249,13 +257,18 @@ position:relative;height:420px;width:640px;margin:10px auto 0;
 h1{
   font-size: 64px;
   font-family:'Chewy',serif;
-  color:#43A966;
-  text-shadow: 3px 3px 0 #050;
   text-align:center;
   font-weight:bold;
 }
 img{max-width:100%;display:block;margin: 0 auto;position:absolute;top:0;left:0;z-index:-1;}
 }
+
+h1.croc{color:#ff6;}
+h1.hippo{color:#ff6;}
+h1.fish{color:#f6f;}
+h1.cake{color:#96f;}
+h1.snow{color:#c00;text-shadow: 3px 3px 0 #050;}
+h1.robin{color:#c00;text-shadow: 3px 3px 0 #050;}
 
 form{float:left;margin-left:50px;position:relative;padding-bottom:4em;
 label{display:block;margin:10px auto;font-size:60px;font-family:'Reenie Beanie', serif;;color:#999;}
@@ -264,4 +277,5 @@ input#to{position:relative;left:3.4em;}
 input#email{position:relative;left:1.0em;}
 input#from{position:relative;left:1.7em;}
 }
-#send{font-size:48px;background:#f04137;color:#fff;border:none;border-radius:12px;position:absolute;bottom:0;right:0;}
+#send{font-size:48px;background:$primary;color:#fff;border:1px $secondary solid;border-radius:12px;position:absolute;bottom:0;right:0;
+@include gradient($primary, $secondary);}
