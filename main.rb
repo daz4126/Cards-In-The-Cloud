@@ -222,11 +222,11 @@ p{margin:0 auto 0.5em;text-align:center;}
 li{float:left;margin-right:10px;
 h1{font-size:16px;}}}}
 
-footer{
+footer{text-align:center;
 @include gradient(white,$primary);color:white;font-size:90%;
 text-shadow: 0px 1px 0px $primary;
 clear:both;margin-top:20px;padding:40px 20px 20px;
-.logo{font-size:1.4em;}}
+.logo{font-size:1.4em;padding-right:0.2em;}}
 
 #card{background:red;
 position:relative;height:420px;width:640px;margin:10px auto 0;
@@ -262,6 +262,6 @@ text-shadow:-1px -1px 0px rgba(0,0,0,0.5);}
 //OOP
 .logo,.logo:link,.logo:visited{font-family:sniglet;
 color:#fff;text-decoration:none;
-text-shadow: 0px 0.15em 0.1em rgba(255,255,255,0.5);}
-.logo:hover{text-shadow: 0px 0.2em 0.2em rgba(255,255,255,0.7);}
+text-shadow: 0px 0.15em 0.2em rgba(255,255,255,0.5);}
+.logo:hover{text-shadow: 0.1em 0.1em 0.4em rgba(255,255,255,0.7),-0.1em -0.1em 0.4em rgba(255,255,255,0.4);}
 .title{font-family:$titlefont;text-align:center;font-weight:bold;}
