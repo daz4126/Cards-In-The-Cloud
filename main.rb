@@ -2,10 +2,7 @@
 %w[rubygems sinatra dm-core dm-migrations haml sass pony digest/md5].each{ |lib| require lib }
 
 ########### Configuration ###########
-set :name, ENV['name'] || 'Cards in the Cloud'
-set :author, ENV['author'] || 'DAZ'
-set :salt, ENV['SALT'] || 'makethisrandomandhardtoremember'
-set :password, ENV['PASSWORD'] || 'secret'
+set :name,'Cards in the Cloud'
 set :images, 'https://s3.amazonaws.com/cloudcards'
 set :haml, { :format => :html5 }
 set :public, Proc.new { root }
@@ -30,12 +27,12 @@ get('/styles.css'){ content_type 'text/css', :charset => 'utf-8' ; scss :styles 
 
 # home
 get '/' do
-  greetings = %w[Hi Hello Hola Hallo Ciao Sawubona Ola Szervusz Howdy]
+  greetings = %w[Hi Hello Hola Hallo Ciao Sawubona Ola Szervusz Howdy Bonjour]
   @greeting = greetings[rand(greetings.size)]
   haml :index
 end
 
-get '/new/card/:id' do
+get '/card/:id' do
   @design_id = params[:id]
   @design = ("design" + params[:id]).to_sym
   haml :new
@@ -79,70 +76,64 @@ __END__
 !!! 5
 %html
   %head
-    %meta(charset="utf-8")
+    %meta(charset='utf-8')
     %title= @title || settings.name
-    %link(rel="shortcut icon" href="/favicon.ico")
-    %link(rel="stylesheet" media="screen, projection" href="/styles.css")
+    %link(rel='shortcut icon' href='/favicon.ico')
+    %link(rel='stylesheet' media="screen, projection" href='/styles.css')
     /[if lt IE 9]
-      %script(src="http://html5shiv.googlecode.com/svn/trunk/html5.js")
+      %script(src='http://html5shiv.googlecode.com/svn/trunk/html5.js')
   %body
-    %header(role="banner")
-      %h1 <a title="home" href="/">#{ settings.name }</a>
+    %header(role='banner')
+      %h1 <a title='home' href='/' class='logo'>#{settings.name}</a>
     .content
       = yield
+    %footer(role='contentinfo')
+      %small <a href='/' class='logo'>#{settings.name}</a> is completely free to use. Why not make a <a href='http://uk.virginmoneygiving.com/giving/'>donation to charity</a> to say thank you?
   
 @@index
-%h1= @greeting + "!"
-%p Welcome to #{settings.name}. The easiest way to send an electronic greetings card to your friends and family.
-%p Choose a card from the list below then click on the picture to send it!
+%h1= @greeting+'!'
+%p Welcome to #{settings.name}!
+%p It's easy to send a card in the cloud to your friends and family. 
+%p Just choose which card to send and click on the picture!
 %h3 Birthday Cards
 %ul.cards
   %li
-    %h1 Snappy Birthday!
-    %a(href="/new/card/4")
+    %h1.title Snappy Birthday!
+    %a(href='/card/4')
       %img{:src=>settings.images+"/croc-th.png"}
   %li
-    %h1 Hippo Birthday
-    %a(href="/new/card/3")
+    %h1.title Hippo Birthday
+    %a(href='/card/3')
       %img{:src=>settings.images+"/hippo-th.png"}
       
   %li
-    %h1 Birthday Fishes
-    %a(href="/new/card/5")
+    %h1.title Birthday Fishes
+    %a(href='/card/5')
       %img{:src=>settings.images+"/fish-th.png"}
 
   %li
-    %h1 Birthday Cupcakes
-    %a(href="/new/card/6")
+    %h1.title Birthday Cupcakes
+    %a(href='/card/6')
       %img{:src=>settings.images+"/cupcake-th.png"}
 
 %h3 Xmas Cards
 %ul.cards
   %li
-    %h1 Let It Snow!
-    %a(href="/new/card/1")
+    %h1.title Let It Snow!
+    %a(href='/card/1')
       %img{:src=>settings.images+"/snowman-th.png"}
   %li
-    %h1 Rocking Robins
-    %a(href="/new/card/2")
+    %h1.title Rocking Robins
+    %a(href='/card/2')
       %img{:src=>settings.images+"/robins-th.png"}
-%footer(role="contentinfo")
-  %small <a href="/">#{settings.name}</a> is and always will be a free service. Why not make a donation to charity to say thank you?
-  .charities
-    %a(href="http://www.unicef.org.uk/Donate/Donate-Now/" alt="Donate to Unicef")
-      %img(src="unicef-logo.png")
-    %a(href="http://www.amnesty.org.uk/content.asp?CategoryID=2064" alt="Donate to Amnesty International")
-      %img(src="ai_logo.gif")
-    %a(href="https://www.oxfam.org.uk/donate/" alt="Donate to Oxfam")
-      %img(src="logo_oxfam.gif")
 
 @@new
 #card
   =haml @design
 %form(action="/send" method="post")
+  %textarea#message(name="card[message]")Write your message here...
   %label(for="to")To:<input type="text" name="to" id="to">
   %label(for="email")Email:<input type="text" name="email" id="email">
-  %textarea#message(name="card[message]")Write your message here...
   %label(for="from")From:<input type="text" name="from" id="from">
   %input(type="hidden" name="card[design_id]" value="#{@design_id}")
   %input#send(type="submit" value="Send")
@@ -156,51 +147,45 @@ __END__
   =haml @design
 #message
   =@message
-%footer(role="contentinfo")
-  %small This card was brought to you by <a href="/">#{settings.name}</a>. Why not make a donation to charity to say thank you?
-  .charities
-    %a(href="http://www.unicef.org.uk/Donate/Donate-Now/" alt="Donate to Unicef")
-      %img(src="unicef-logo.png")
-    %a(href="http://www.amnesty.org.uk/content.asp?CategoryID=2064" alt="Donate to Amnesty International")
-      %img(src="ai_logo.gif")
-    %a(href="https://www.oxfam.org.uk/donate/" alt="Donate to Oxfam")
-      %img(src="logo_oxfam.gif")
       
 @@design1
-%h1.snow= "Let It Snow! Let It Snow!"
-%img{:src=>settings.images+"/snowman.png"}
+%h1.title.snow Let It Snow! Let It Snow!
+%img{:src=>settings.images+'/snowman.png'}
 
 @@design2
-%h1.robin= "Rocking Robins!"
-%img{:src=>settings.images+"/robins.png"}
+%h1.title.robin Rocking Robins!
+%img{:src=>settings.images+'/robins.png'}
 
 @@design3
-%h1.hippo= "Hippo Birthday!"
-%img{:src=>settings.images+"/hippo.png"}
+%h1.title.hippo Hippo Birthday!
+%img{:src=>settings.images+'/hippo.png'}
 
 @@design4
-%h1.croc= "Snappy Birthday!"
-%img{:src=>settings.images+"/croc.png"}
+%h1.title.croc Snappy Birthday!
+%img{:src=>settings.images+'/croc.png'}
 
 @@design5
-%h1.fish= "Birthday Fishes!"
-%img{:src=>settings.images+"/fish.png"}
+%h1.title.fish Birthday Fishes!
+%img{:src=>settings.images+'/fish.png'}
 
 @@design6
-%h1.cake= "Happy Birthday!"
-%img{:src=>settings.images+"/cupcake.png"}
+%h1.title.cake Happy Birthday!
+%img{:src=>settings.images+'/cupcake.png'}
  
 @@404
-%h3 Sorry, but that page cannot be found
+%h3 That page seems to be lost in the clouds!
 
 @@styles
-@import url("http://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here|Sniglet:800|Corben:bold|Ubuntu|Chewy&subset=latin");
-$bg: #fff;$color: #666;
-$primary: #619FEA;$secondary:#1757A4;
-$font: Ubuntu,Times,"Times New Roman",serif;
-$hcolor: $primary;$hfont: 'Corben',sans-serif;
-$hbold: false;
-$acolor:$primary;$ahover:$secondary;$avisited:lighten($acolor,10%);
+@import url('http://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here|Sniglet:800|Corben:bold|Ubuntu|Chewy&subset=latin');
+$bg:#fff;$color: #666;
+$primary:#619FEA;
+$secondary:#1757A4;
+$font:Ubuntu,Times,'Times New Roman',serif;
+$titlefont:'Chewy',serif;
+$msgfont:'Just Me Again Down Here',sans-serif;
+$hfont:'Corben',sans-serif;
+$hcolor:$primary;
+$hbold:false;
 
 html, body, div, span, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,abbr, address, cite, code,del, dfn, em, img, ins, kbd, q, samp,small, strong, sub, sup, var,b, i,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary,time, mark, audio, video{ margin: 0;padding: 0;border: 0;outline: 0;font-size: 100%;vertical-align: baseline;background: transparent; }
 article,aside,canvas,details,figcaption,figure,
@@ -209,12 +194,13 @@ body{ font-family: $font;background-color: $bg;color: $color; }
 h1,h2,h3,h4,h5,h6{ color:$hcolor;font-family:$hfont;margin:0;@if $hbold { font-weight: bold; } @else {font-weight: normal;}}
 h1{font-size:4.2em;}h2{font-size:3em;}h3{font-size:2.4em;}
 h4{font-size:1.6em;}h5{font-size:1.2em;}h6{font-size:1em;}
-p{font-size:1.2em;line-height:1.5;margin:0.5em 0;max-width:40em;}
+p{font-size:1.2em;line-height:1.5;margin-bottom:0.5em;max-width:40em;}
 ul,ol{list-style:none;}
 li{font-size:1.2em;line-height:1.5;}
-a,a:link{color:$acolor;}
-a:visited{color:$avisited;}
-a:hover{color:$ahover;text-decoration:none;}
+a,a:link,a:visited{color:inherit;}
+a:hover{text-decoration:none;}
+
+html{background:$primary;}
 
 @mixin gradient($start: #CCCCCC,$finish: darken($start,25%),$stop: 1){
   -webkit-background-clip: padding-box;
@@ -226,43 +212,32 @@ a:hover{color:$ahover;text-decoration:none;}
   behavior: url(PIE.htc);
 }
 
-.content{padding:0 20px;}
-
 header{padding:5px 0 16px;background:$primary;@include gradient($primary, #fff);
-a,a:link,a:visited{color:#fff;text-decoration:none;
-text-shadow: 0px 6px 4px rgba(255,255,255,0.5);}
-a:hover{text-shadow: 0px 8px 8px rgba(255,255,255,0.7);}
-h1{font-family:sniglet;font-size:64px;text-align:center;
-}}
+h1{font-size:64px;text-align:center;}}
 
-#message{
-  padding:20px 10px;margin:0;
-  background: #fff;
-  border:5px solid #ccc;
-  font-size: 32px;font-family:'Just Me Again Down Here',sans-serif;
-  text-align:center;
-  min-height:4em;_height:4em;width:12em;
-  margin: 10px auto;
-}
-
+.content{padding:0 10%;
+h1{text-align:center;}
+p{margin:0 auto 0.5em;text-align:center;}
 .cards{overflow:hidden;
 li{float:left;margin-right:10px;
-h1{font-size:16px;font-family:'Chewy',serif;text-align:center;font-weight:bold;
-}}}
+h1{font-size:16px;}}}}
 
+footer{
+@include gradient(white,$primary);color:white;font-size:90%;
+text-shadow: 0px 1px 0px $primary;
+clear:both;margin-top:20px;padding:40px 20px 20px;
+.logo{font-size:1.4em;}}
 
-footer{clear:both;margin-top:40px;}
-
-#card{
+#card{background:red;
 position:relative;height:420px;width:640px;margin:10px auto 0;
-h1{
-  font-size: 64px;
-  font-family:'Chewy',serif;
-  text-align:center;
-  font-weight:bold;
-}
-img{max-width:100%;display:block;margin: 0 auto;position:absolute;top:0;left:0;z-index:-1;}
-}
+h1{font-size:64px;position:absolute;top:0;left:0;width:100%;}
+img{max-width:100%;display:block;margin:0 auto;}}
+
+#message{
+padding:20px 10px;margin:10px auto;text-align:center;display:block;
+background: #fff;border:5px solid #ccc;
+font-size: 32px;font-family:$msgfont;  
+min-height:4em;_height:4em;width:610px;}
 
 h1.croc{color:#ff6;}
 h1.hippo{color:#ff6;}
@@ -271,12 +246,22 @@ h1.cake{color:#96f;}
 h1.snow{color:#c00;text-shadow: 3px 3px 0 #050;}
 h1.robin{color:#c00;text-shadow: 3px 3px 0 #050;}
 
-form{float:left;margin-left:50px;position:relative;padding-bottom:4em;
-label{display:block;margin:10px auto;font-size:60px;font-family:'Reenie Beanie', serif;;color:#999;}
+form{padding-bottom:4em;
+label{display:block;margin:10px auto;font-size:60px;font-family:$msgfont;color:#999;}
 input{font-size:24px;font-family:verdana,sans-serif;}
 input#to{position:relative;left:3.4em;}
 input#email{position:relative;left:1.0em;}
 input#from{position:relative;left:1.7em;}
+#send{background:$primary;color:white;@include gradient($primary,$secondary);
+border:1px $secondary solid;border-radius:0.8em;
+margin:10px auto;text-align:center;display:block;width:200px;padding:20px 10px;
+font-size:48px;text-transform:uppercase;font-weight:bold;
+text-shadow:-1px -1px 0px rgba(0,0,0,0.5);}
 }
-#send{font-size:48px;background:$primary;color:#fff;border:1px $secondary solid;border-radius:12px;position:absolute;bottom:0;right:0;
-@include gradient($primary, $secondary);}
+
+//OOP
+.logo,.logo:link,.logo:visited{font-family:sniglet;
+color:#fff;text-decoration:none;
+text-shadow: 0px 0.15em 0.1em rgba(255,255,255,0.5);}
+.logo:hover{text-shadow: 0px 0.2em 0.2em rgba(255,255,255,0.7);}
+.title{font-family:$titlefont;text-align:center;font-weight:bold;}
