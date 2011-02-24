@@ -134,6 +134,7 @@ __END__
   %textarea#message(name="card[message]")Write your message here...
   %label(for="to")To:<input type="text" name="to" id="to">
   %label(for="email")Email:<input type="text" name="email" id="email">
+  %p *TIP* You can send more than 1 card at once by writing a list of email addresses, separated by commas
   %label(for="from")From:<input type="text" name="from" id="from">
   %input(type="hidden" name="card[design_id]" value="#{@design_id}")
   %input#send(type="submit" value="Send")
@@ -228,8 +229,7 @@ text-shadow: 0px 1px 0px $primary;
 clear:both;margin-top:20px;padding:40px 20px 20px;
 .logo{font-size:1.4em;padding-right:0.2em;}}
 
-#card{background:red;
-position:relative;height:420px;width:640px;margin:10px auto 0;
+#card{position:relative;height:420px;width:640px;margin:10px auto 0;
 h1{font-size:64px;position:absolute;top:0;left:0;width:100%;}
 img{max-width:100%;display:block;margin:0 auto;}}
 
@@ -246,12 +246,13 @@ h1.cake{color:#96f;}
 h1.snow{color:#c00;text-shadow: 3px 3px 0 #050;}
 h1.robin{color:#c00;text-shadow: 3px 3px 0 #050;}
 
-form{padding-bottom:4em;
-label{display:block;margin:10px auto;font-size:60px;font-family:$msgfont;color:#999;}
-input{font-size:24px;font-family:verdana,sans-serif;}
-input#to{position:relative;left:3.4em;}
+.content form{padding-bottom:4em;
+p{margin:0;text-align:left;font-size:0.9em;max-width:100%;color:$secondary;}
+label{display:block;margin:10px auto;font-size:60px;font-family:$msgfont;color:#999;
+input{font-size:24px;font-family:verdana,sans-serif;width:18em;}
+input#to{position:relative;left:2.5em;}
 input#email{position:relative;left:1.0em;}
-input#from{position:relative;left:1.7em;}
+input#from{position:relative;left:0.9em;}}
 #send{background:$primary;color:white;@include gradient($primary,$secondary);
 border:1px $secondary solid;border-radius:0.8em;
 margin:10px auto;text-align:center;display:block;width:200px;padding:20px 10px;
