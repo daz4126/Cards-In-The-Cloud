@@ -3,7 +3,7 @@
 
 ########### Configuration ###########
 set :name,'Cards in the Cloud'
-set :url,'http://cardsinthecloud.com'
+set :domain,'cardsinthecloud.com'
 set :images, 'https://s3.amazonaws.com/cloudcards'
 set :haml, { :format => :html5 }
 set :public, Proc.new { root }
@@ -142,7 +142,7 @@ __END__
   
 @@email
 :plain
-  Hi #{params[:to]}. You've been sent a card in the cloud from #{params[:from]}. You can see your card here http://#{settings.url+card.url}
+  Hi #{params[:to]}. You've been sent a card in the cloud from #{params[:from]}. You can see your card here http://#{settings.domain+card.url}
   
 @@card
 #card
