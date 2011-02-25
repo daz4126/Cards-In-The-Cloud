@@ -98,38 +98,38 @@ __END__
 %p Just choose which card to send and click on the picture!
 %h3 Birthday Cards
 %ul.cards
-  %li
-    %h1.title Snappy Birthday!
+  %li.card
+    %h1.title.croc Snappy Birthday!
     %a(href='/card/4')
       %img{:src=>settings.images+"/croc-th.png"}
-  %li
-    %h1.title Hippo Birthday
+  %li.card
+    %h1.title.hippo Hippo Birthday
     %a(href='/card/3')
       %img{:src=>settings.images+"/hippo-th.png"}
       
-  %li
-    %h1.title Birthday Fishes
+  %li.card
+    %h1.title.fish Birthday Fishes
     %a(href='/card/5')
       %img{:src=>settings.images+"/fish-th.png"}
 
-  %li
-    %h1.title Birthday Cupcakes
+  %li.card
+    %h1.title.cake Birthday Cupcakes
     %a(href='/card/6')
       %img{:src=>settings.images+"/cupcake-th.png"}
 
 %h3 Xmas Cards
 %ul.cards
-  %li
-    %h1.title Let It Snow!
+  %li.card
+    %h1.title.snow Let It Snow!
     %a(href='/card/1')
       %img{:src=>settings.images+"/snowman-th.png"}
-  %li
-    %h1.title Rocking Robins
+  %li.card
+    %h1.title.robin Rocking Robins
     %a(href='/card/2')
       %img{:src=>settings.images+"/robins-th.png"}
 
 @@new
-#card
+#card.card
   =haml @design
 %form(action="/send" method="post")
   %textarea#message(name="card[message]")Write your message here...
@@ -145,7 +145,7 @@ __END__
   Hi #{params[:to]}. You've been sent a card in the cloud from #{params[:from]}. You can see your card here http://#{settings.domain+card.url}
   
 @@card
-#card
+#card.card
   =haml @design
 #message
   =@message
@@ -224,15 +224,14 @@ p{margin:0 auto 0.5em;text-align:center;}
 li{float:left;margin-right:10px;
 h1{font-size:16px;}}}}
 
-footer{text-align:center;
+footer{text-align:center;background:$primary;
 @include gradient(white,$primary);color:white;font-size:90%;
 text-shadow: 0px 1px 0px $primary;
 clear:both;margin-top:20px;padding:40px 20px 20px;
 .logo{font-size:1.4em;padding-right:0.2em;}}
 
-#card{position:relative;height:420px;width:640px;margin:10px auto 0;
-h1{font-size:64px;position:absolute;top:0;left:0;width:100%;}
-img{max-width:100%;display:block;margin:0 auto;}}
+#card{height:420px;width:640px;margin:10px auto 0;
+h1{font-size:64px;}}
 
 #message{
 padding:20px 10px;margin:10px auto;text-align:center;display:block;
@@ -244,8 +243,8 @@ h1.croc{color:#ff6;}
 h1.hippo{color:#ff6;}
 h1.fish{color:#f6f;}
 h1.cake{color:#96f;}
-h1.snow{color:#c00;text-shadow: 3px 3px 0 #050;}
-h1.robin{color:#c00;text-shadow: 3px 3px 0 #050;}
+h1.snow{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
+h1.robin{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
 
 .content form{padding-bottom:4em;
 p{margin:0;text-align:left;font-size:0.9em;max-width:100%;color:$secondary;}
@@ -267,3 +266,6 @@ color:#fff;text-decoration:none;
 text-shadow: 0px 0.15em 0.2em rgba(255,255,255,0.5);}
 .logo:hover{text-shadow: 0.1em 0.1em 0.4em rgba(255,255,255,0.7),-0.1em -0.1em 0.4em rgba(255,255,255,0.4);}
 .title{font-family:$titlefont;text-align:center;font-weight:bold;}
+.card{position:relative;
+h1{position:absolute;top:0;left:0;width:100%;}
+img{max-width:100%;_width:100%;display:block;margin:0 auto;}}
