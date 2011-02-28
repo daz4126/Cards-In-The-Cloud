@@ -45,7 +45,7 @@ post '/send' do
   @sender = params[:from]
   @email = params[:email].split(",").each do |email|
     Pony.mail(
-      :from => @sender+'@'+settings.domain,
+      :from => 'CardsintheCloud',
       :to => email,
       :subject => @sender + " has sent you a card",
       :body => haml(:email,{ :layout=>false,:locals => { :card => @card } }),
