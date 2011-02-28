@@ -40,13 +40,15 @@ get '/card/:id' do
 end
 
 post '/send' do
-  card = Card.create(params[:card])
-  params[:email].split(",").each do |email|
+  @card = Card.create(params[:card])
+  @receiver = params[:to]
+  @sender = params[:from]
+  @email = params[:email].split(",").each do |email|
     Pony.mail(
       :from => "CloudCards",
       :to => email,
-      :subject => params[:from] + " has sent you a card",
-      :body => haml(:email,{ :layout=>false,:locals => { :card => card } }),
+      :subject => @sender + " has sent you a card",
+      :body => haml(:email,{ :layout=>false,:locals => { :card => @card } }),
       :port => '587',
       :via => :smtp,
       :via_options => { 
@@ -61,7 +63,7 @@ post '/send' do
       #Need to figure out how to log cards sent
       #LOG.info "Card sent to #{email} by #{params[:from]}"
     end
-  redirect card.url
+  haml :sent
 end
 
 get '/:key' do
@@ -93,9 +95,8 @@ __END__
   
 @@index
 %h1= @greeting+'!'
-%p Welcome to #{settings.name}!
-%p It's easy to send a card in the cloud to your friends and family. 
-%p Just choose which card to send and click on the picture!
+%p Welcome to #{settings.name}! The simple and free way to send an electronic card to your frineds and family.
+%p Just choose a card and click to send!
 %h3 Birthday Cards
 %ul.cards
   %li.card
@@ -135,20 +136,26 @@ __END__
   %textarea#message(name="card[message]")Write your message here...
   %label(for="to")To:<input type="text" name="to" id="to">
   %label(for="email")Email:<input type="text" name="email" id="email">
-  %p *TIP* You can send more than 1 card at once by writing a list of email addresses, separated by commas
+  %p *TIP* You can send this card to lots of people by writing a list of email addresses, separated by commas
   %label(for="from")From:<input type="text" name="from" id="from">
   %input(type="hidden" name="card[design_id]" value="#{@design_id}")
   %input#send(type="submit" value="Send")
   
 @@email
 :plain
-  Hi #{params[:to]}. You've been sent a card in the cloud from #{params[:from]}. You can see your card here http://#{settings.domain+card.url}
+  Hi #{@receiver}. You've been sent a card in the cloud from #{@sender}. You can see your card here http://#{settings.domain+@card.url}
   
 @@card
 #card.card
   =haml @design
 #message
   =@message
+  
+@@sent
+%h1 Success!
+%p Your card has been delivered to #{@receiver} at the following email address(s):
+%p= @email
+%p You can see the card here - <a href="http://#{settings.domain+@card.url}">http://#{settings.domain+@card.url}</a>
       
 @@design1
 %h1.title.snow Let It Snow! Let It Snow!
@@ -204,17 +211,16 @@ a:hover{text-decoration:none;}
 
 html{background:$primary;}
 
-@mixin gradient($start: #CCCCCC,$finish: darken($start,25%),$stop: 1){
-  -webkit-background-clip: padding-box;
-  background: $start;
-  background-image: -moz-linear-gradient(top, $start 0%, $finish percentage($stop));
-  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, $start),color-stop($stop, $finish));
- -pie-background: linear-gradient(top, $start 0%, $finish percentage($stop));
-  background-image: linear-gradient(top, $start 0%, $finish percentage($stop));
-  behavior: url(PIE.htc);
-}
+@mixin gradient($start:#CCCCCC,$finish:darken($start,25%),$stop:1){
+-webkit-background-clip: padding-box;
+background-image: -moz-linear-gradient(top, $start 0%, $finish percentage($stop));
+background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, $start),color-stop($stop, $finish));
+-pie-background: linear-gradient(top, $start 0%, $finish percentage($stop));
+background-image: linear-gradient(top, $start 0%, $finish percentage($stop));
+behavior: url(PIE.htc);}
 
-header{padding:5px 0 16px;background:$primary;@include gradient($primary, #fff);
+header{padding:5px 0 16px;background:$primary;
+position:relative;@include gradient($primary, #fff);
 h1{font-size:64px;text-align:center;}}
 
 .content{padding:0 10%;
@@ -224,7 +230,7 @@ p{margin:0 auto 0.5em;text-align:center;}
 li{float:left;margin-right:10px;
 h1{font-size:16px;}}}}
 
-footer{text-align:center;background:$primary;
+footer{text-align:center;background:$primary;position:relative;
 @include gradient(white,$primary);color:white;font-size:90%;
 text-shadow: 0px 1px 0px $primary;
 clear:both;margin-top:20px;padding:40px 20px 20px;
