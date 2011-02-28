@@ -45,7 +45,7 @@ post '/send' do
   @sender = params[:from]
   @email = params[:email].split(",").each do |email|
     Pony.mail(
-      :from => "CloudCards",
+      :from => @sender+'@'+settings.domain,
       :to => email,
       :subject => @sender + " has sent you a card",
       :body => haml(:email,{ :layout=>false,:locals => { :card => @card } }),
@@ -140,6 +140,7 @@ __END__
   %label(for="from")From:<input type="text" name="from" id="from">
   %input(type="hidden" name="card[design_id]" value="#{@design_id}")
   %input#send(type="submit" value="Send")
+
   
 @@email
 :plain
