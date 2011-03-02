@@ -97,7 +97,7 @@ __END__
   
 @@index
 %h1= @greeting+'!'
-%p Welcome to #{settings.name}! The simple and free way to send an electronic card to your frineds and family.
+%p Welcome to #{settings.name}! The simple and free way to send an electronic card to your friends and family.
 %p Just choose a card and click to send!
 %h3 Birthday Cards
 %ul.cards
