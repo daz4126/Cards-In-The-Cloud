@@ -1,5 +1,5 @@
 ########### Libraries ###########
-%w[rubygems sinatra dm-core dm-migrations haml sass pony digest/md5].each{ |lib| require lib }
+%w[rubygems sinatra dm-core dm-migrations haml sass pony].each{ |lib| require lib }
 
 ########### Configuration ###########
 set :name,'Cards in the Cloud'
@@ -15,7 +15,7 @@ class Card
   include DataMapper::Resource
   property :id,           Serial
   property :message,      Text
-  property :secret_key,   Text, :default => Proc.new { |r, p| Digest::MD5.hexdigest(r.message + Time.now.to_s) }
+  property :secret_key,   Text, :default => Proc.new { |r, p| r.message.crypt(Time.now.to_s) }
   property :design_id,    Integer
   def url
     '/' + self.secret_key 
@@ -44,7 +44,8 @@ post '/send' do
   @card = Card.create(params[:card])
   @receiver = params[:to]
   @sender = params[:from]
-  @email = params[:email].split(",").each do |email|
+  @email = params[:email]
+  @email.split(",").each do |email|
     Pony.mail(
       :from => 'CardsintheCloud',
       :to => email,
@@ -93,12 +94,11 @@ __END__
     .content
       = yield
     %footer(role='contentinfo')
-      %small <a href='/' class='logo'>#{settings.name}</a> is completely free to use. Why not make a <a href='http://uk.virginmoneygiving.com/giving/'>donation to charity</a> to say thank you?
+      %small <a href='/' class='logo'>#{settings.name}</a> - The simple and free way to send electronic cards to your friends and family!
   
 @@index
-%h1= @greeting+'!'
-%p Welcome to #{settings.name}! The simple and free way to send an electronic card to your friends and family.
-%p Just choose a card and click to send!
+%h1 Pick A Card, any Card ...
+%p Just click on a card to send it!
 %h3 Birthday Cards
 %ul.cards
   %li.card
@@ -155,10 +155,11 @@ __END__
   =@message
   
 @@sent
-%h1 Success!
+%h1 Your Card is now in the Cloud!
 %p Your card has been delivered to #{@receiver} at the following email address(s):
 %p= @email
 %p You can see the card here - <a href="http://#{settings.domain+@card.url}">http://#{settings.domain+@card.url}</a>
+%p Sending a Card in the Cloud is completely free. Why not make a <a href='http://uk.virginmoneygiving.com/giving/'>donation to charity</a> to say thank you?
       
 @@design1
 %h1.title.snow Let It Snow! Let It Snow!
@@ -218,11 +219,11 @@ body{ font-family: $font;background-color: $bg;color: $color; }
 h1,h2,h3,h4,h5,h6{ color:$hcolor;font-family:$hfont;margin:0;@if $hbold { font-weight: bold; } @else {font-weight: normal;}}
 h1{font-size:4.2em;}h2{font-size:3em;}h3{font-size:2.4em;}
 h4{font-size:1.6em;}h5{font-size:1.2em;}h6{font-size:1em;}
-p{font-size:1.2em;line-height:1.5;margin-bottom:0.5em;max-width:40em;}
+p{font-size:1.2em;line-height:1.5;margin-bottom:0.5em;}
 ul,ol{list-style:none;}
 li{font-size:1.2em;line-height:1.5;}
 a,a:link,a:visited{color:inherit;}
-a:hover{text-decoration:none;}
+a:hover{text-decoration:none;color:$secondary;}
 
 html{background:$primary;}
 
@@ -236,11 +237,11 @@ behavior: url(PIE.htc);}
 
 header{padding:5px 0 16px;background:$primary;
 position:relative;@include gradient($primary, #fff);
-h1{font-size:64px;text-align:center;}}
+h1{font-size:48px;text-align:center;}}
 
 .content{padding:0 10%;
 h1{text-align:center;}
-p{margin:0 auto 0.5em;text-align:center;}
+p{margin:0 auto 0.5em;}
 .cards{overflow:hidden;
 li{float:left;margin-right:10px;
 h1{font-size:16px;}}}}
@@ -268,7 +269,7 @@ h1.snow{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
 h1.robin{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
 
 .content form{padding-bottom:4em;
-p{margin:0;text-align:left;font-size:0.9em;max-width:100%;color:$secondary;}
+p{margin:0;font-size:0.9em;max-width:100%;color:$secondary;}
 label{display:block;margin:10px auto;font-size:60px;font-family:$msgfont;color:#999;
 input{font-size:24px;font-family:verdana,sans-serif;width:18em;}
 input#to{position:relative;left:2.5em;}
