@@ -25,6 +25,7 @@ DataMapper.auto_upgrade!
 
 ###########  Routes ###########
 not_found { haml :'404' }
+error { @error = request.env['sinatra_error'] ; haml :'500' }
 get('/styles.css'){ content_type 'text/css', :charset => 'utf-8' ; scss :styles }
 
 # home
@@ -187,6 +188,10 @@ __END__
  
 @@404
 %h3 That page seems to be lost in the clouds!
+
+@@500
+%h3 Oops ... there was and error, it was:
+%p= @error
 
 @@analytics
 :javascript
