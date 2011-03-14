@@ -10,6 +10,7 @@ set :public, Proc.new { root }
 
 configure :development do
   set :domain,'localhost:9393'
+  set :scss, { :style => :compressed }
 end
 
 configure :test do
