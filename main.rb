@@ -10,7 +10,6 @@ set :public, Proc.new { root }
 
 configure :development do
   set :domain,'localhost:9393'
-  set :scss, { :style => :compressed }
 end
 
 configure :test do
@@ -19,7 +18,7 @@ end
 
 configure :production do
   set :domain,'cardsinthecloud.com'
-  set :sass, { :style => :compressed }
+  set :scss, { :style => :compressed }
 end
 
 ########### Models ###########
