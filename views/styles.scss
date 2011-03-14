@@ -1,0 +1,90 @@
+@import url('http://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here|Sniglet:800|Corben:bold|Ubuntu|Chewy&subset=latin');
+$bg:#fff;$color: #666;
+$primary:#619FEA;
+$secondary:#1757A4;
+$font:Ubuntu,Times,'Times New Roman',serif;
+$titlefont:'Chewy',serif;
+$msgfont:'Just Me Again Down Here',sans-serif;
+$hfont:'Corben',sans-serif;
+$hcolor:$primary;
+$hbold:false;
+
+html, body, div, span, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,abbr, address, cite, code,del, dfn, em, img, ins, kbd, q, samp,small, strong, sub, sup, var,b, i,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary,time, mark, audio, video{ margin: 0;padding: 0;border: 0;outline: 0;font-size: 100%;vertical-align: baseline;background: transparent; }
+article,aside,canvas,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section,summary{ display: block; }
+body{ font-family: $font;background-color: $bg;color: $color; }
+h1,h2,h3,h4,h5,h6{ color:$hcolor;font-family:$hfont;margin:0;@if $hbold { font-weight: bold; } @else {font-weight: normal;}}
+h1{font-size:4.2em;}h2{font-size:3em;}h3{font-size:2.4em;}
+h4{font-size:1.6em;}h5{font-size:1.2em;}h6{font-size:1em;}
+p{font-size:1.2em;line-height:1.5;margin-bottom:0.5em;}
+ul,ol{list-style:none;}
+li{font-size:1.2em;line-height:1.5;}
+a,a:link,a:visited{color:inherit;}
+a:hover{text-decoration:none;color:$secondary;}
+
+html{background:$primary;}
+
+@mixin gradient($start:#CCCCCC,$finish:darken($start,25%),$stop:1){
+-webkit-background-clip: padding-box;
+background-image: -moz-linear-gradient(top, $start 0%, $finish percentage($stop));
+background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, $start),color-stop($stop, $finish));
+-pie-background: linear-gradient(top, $start 0%, $finish percentage($stop));
+background-image: linear-gradient(top, $start 0%, $finish percentage($stop));
+behavior: url(PIE.htc);}
+
+header{padding:5px 0 16px;background:$primary;
+position:relative;@include gradient($primary, #fff);
+h1{font-size:48px;text-align:center;}}
+
+.content{padding:0 10%;
+h1{text-align:center;}
+p{margin:0 auto 0.5em;}
+.cards{overflow:hidden;
+li{float:left;margin-right:10px;
+h1{font-size:16px;}}}}
+
+footer{text-align:center;background:$primary;position:relative;
+@include gradient(white,$primary);color:white;font-size:90%;
+text-shadow: 0px 1px 0px $primary;
+clear:both;margin-top:20px;padding:40px 20px 20px;
+.logo{font-size:1.4em;padding-right:0.2em;}}
+
+#card{height:420px;width:640px;margin:10px auto 0;
+h1{font-size:64px;}}
+
+#message{
+padding:20px 10px;margin:10px auto;text-align:center;display:block;
+background: #fff;border:5px solid #ccc;
+font-size: 32px;font-family:$msgfont;  
+min-height:4em;_height:4em;width:610px;}
+
+h1.croc{color:#ff6;}
+h1.hippo{color:#ff6;}
+h1.fish{color:#f6f;}
+h1.cake{color:#96f;}
+h1.snow{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
+h1.robin{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
+
+.content form{padding-bottom:4em;
+p{margin:0;font-size:0.9em;max-width:100%;color:$secondary;}
+label{display:block;margin:10px auto;font-size:60px;font-family:$msgfont;color:#999;
+input{font-size:24px;font-family:verdana,sans-serif;width:18em;}
+input#to{position:relative;left:2.5em;}
+input#email{position:relative;left:1.0em;}
+input#from{position:relative;left:0.9em;}}
+#send{background:$primary;color:white;@include gradient($primary,$secondary);
+border:1px $secondary solid;border-radius:0.8em;
+margin:10px auto;text-align:center;display:block;width:200px;padding:20px 10px;
+font-size:48px;text-transform:uppercase;font-weight:bold;
+text-shadow:-1px -1px 0px rgba(0,0,0,0.5);}
+}
+
+//OOP
+.logo,.logo:link,.logo:visited{font-family:sniglet;
+color:#fff;text-decoration:none;
+text-shadow: 0px 0.15em 0.2em rgba(255,255,255,0.5);}
+.logo:hover{text-shadow: 0.1em 0.1em 0.4em rgba(255,255,255,0.7),-0.1em -0.1em 0.4em rgba(255,255,255,0.4);}
+.title{font-family:$titlefont;text-align:center;font-weight:bold;}
+.card{position:relative;
+h1{position:absolute;top:0;left:0;width:100%;}
+img{max-width:100%;_width:100%;display:block;margin:0 auto;}}

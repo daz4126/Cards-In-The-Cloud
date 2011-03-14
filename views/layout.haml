@@ -1,0 +1,17 @@
+!!! 5
+%html
+  %head
+    %meta(charset='utf-8')
+    %title= @title || settings.name
+    %link(rel='shortcut icon' href='/favicon.ico')
+    %link(rel='stylesheet' media="screen, projection" href='/styles.css')
+    /[if lt IE 9]
+      %script(src='http://html5shiv.googlecode.com/svn/trunk/html5.js')
+    =haml :analytics,:layout=>false
+  %body
+    %header(role='banner')
+      %h1 <a title='home' href='/' class='logo'>#{settings.name}</a>
+    .content
+      = yield
+    %footer(role='contentinfo')
+      %small <a href='/' class='logo'>#{settings.name}</a> - The simple and free way to send electronic cards to your friends and family!

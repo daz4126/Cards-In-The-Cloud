@@ -3,11 +3,23 @@
 
 ########### Configuration ###########
 set :name,'Cards in the Cloud'
-set :domain,'cardsinthecloud.com'
 set :images, 'https://s3.amazonaws.com/cloudcards'
 set :analytics, ENV['ANALYTICS'] || 'UA-XXXXXXXX-X'
 set :haml, { :format => :html5 }
 set :public, Proc.new { root }
+
+configure :development do
+  set :domain,'localhost:9393'
+end
+
+configure :test do
+  # test stuff here
+end
+
+configure :production do
+  set :domain,'cardsinthecloud.com'
+  set :sass, { :style => :compressed }
+end
 
 ########### Models ###########
 DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",settings.root, "development.db"))
@@ -15,11 +27,9 @@ class Card
   include DataMapper::Resource
   property :id,           Serial
   property :message,      Text
-  property :secret_key,   Text, :default => Proc.new { |r, p| r.message.crypt(Time.now.to_s) }
+  property :secret_key,   Text, :default => Proc.new { |r, p| (r.id.to_s+rand(9).to_s+(1+rand(8)).to_s).reverse.to_i.to_s(36) }
   property :design_id,    Integer
-  def url
-    '/' + self.secret_key 
-  end
+  def url ; '/' + self.secret_key ; end
 end
 DataMapper.auto_upgrade!
 
@@ -28,10 +38,9 @@ not_found { haml :'404' }
 error { @error = request.env['sinatra_error'] ; haml :'500' }
 get('/styles.css'){ content_type 'text/css', :charset => 'utf-8' ; scss :styles }
 
-# home
 get '/' do
-  greetings = %w[Hi Hello Hola Hallo Ciao Sawubona Ola Szervusz Howdy Bonjour]
-  @greeting = greetings[rand(greetings.size)]
+  #greetings = %w[Hi Hello Hola Hallo Ciao Sawubona Ola Szervusz Howdy Bonjour]
+  #@greeting = greetings[rand(greetings.size)]
   haml :index
 end
 
@@ -78,90 +87,17 @@ get '/:key' do
 end
 __END__
 ########### Views ###########
-@@layout
-!!! 5
-%html
-  %head
-    %meta(charset='utf-8')
-    %title= @title || settings.name
-    %link(rel='shortcut icon' href='/favicon.ico')
-    %link(rel='stylesheet' media="screen, projection" href='/styles.css')
-    /[if lt IE 9]
-      %script(src='http://html5shiv.googlecode.com/svn/trunk/html5.js')
-    =haml :analytics,:layout=>false
-  %body
-    %header(role='banner')
-      %h1 <a title='home' href='/' class='logo'>#{settings.name}</a>
-    .content
-      = yield
-    %footer(role='contentinfo')
-      %small <a href='/' class='logo'>#{settings.name}</a> - The simple and free way to send electronic cards to your friends and family!
-  
-@@index
-%h1 Pick A Card, any Card ...
-%p Just click on a card to send it!
-%h3 Birthday Cards
-%ul.cards
-  %li.card
-    %h1.title.croc Snappy Birthday!
-    %a(href='/card/4')
-      %img{:src=>settings.images+"/croc-th.png"}
-  %li.card
-    %h1.title.hippo Hippo Birthday
-    %a(href='/card/3')
-      %img{:src=>settings.images+"/hippo-th.png"}
-      
-  %li.card
-    %h1.title.fish Birthday Fishes
-    %a(href='/card/5')
-      %img{:src=>settings.images+"/fish-th.png"}
-
-  %li.card
-    %h1.title.cake Birthday Cupcakes
-    %a(href='/card/6')
-      %img{:src=>settings.images+"/cupcake-th.png"}
-
-%h3 Xmas Cards
-%ul.cards
-  %li.card
-    %h1.title.snow Let It Snow!
-    %a(href='/card/1')
-      %img{:src=>settings.images+"/snowman-th.png"}
-  %li.card
-    %h1.title.robin Rocking Robins
-    %a(href='/card/2')
-      %img{:src=>settings.images+"/robins-th.png"}
-
-@@new
-#card.card
-  =haml @design
-%form(action="/send" method="post")
-  %textarea#message(name="card[message]")Write your message here...
-  %label(for="to")To:<input type="text" name="to" id="to">
-  %label(for="email")Email:<input type="text" name="email" id="email">
-  %p *TIP* You can send this card to lots of people by writing a list of email addresses, separated by commas
-  %label(for="from")From:<input type="text" name="from" id="from">
-  %input(type="hidden" name="card[design_id]" value="#{@design_id}")
-  %input#send(type="submit" value="Send")
-
-  
 @@email
 :plain
   Hi #{@receiver}. You've been sent a card in the cloud from #{@sender}. You can see your card here http://#{settings.domain+@card.url}
   
-@@card
-#card.card
-  =haml @design
-#message
-  =@message
-  
-@@sent
-%h1 Your Card is now in the Cloud!
-%p Your card has been delivered to #{@receiver} at the following email address(s):
-%p= @email
-%p You can see the card here - <a href="http://#{settings.domain+@card.url}">http://#{settings.domain+@card.url}</a>
-%p Sending a Card in the Cloud is completely free. Why not make a <a href='http://uk.virginmoneygiving.com/giving/'>donation to charity</a> to say thank you?
-      
+@@404
+%h3 That page seems to be lost in the clouds!
+
+@@500
+%h3 Oops ... there was and error, it was:
+%p= @error
+   
 @@design1
 %h1.title.snow Let It Snow! Let It Snow!
 %img{:src=>settings.images+'/snowman.png'}
@@ -185,114 +121,3 @@ __END__
 @@design6
 %h1.title.cake Happy Birthday!
 %img{:src=>settings.images+'/cupcake.png'}
- 
-@@404
-%h3 That page seems to be lost in the clouds!
-
-@@500
-%h3 Oops ... there was and error, it was:
-%p= @error
-
-@@analytics
-:javascript
-  var _gaq = _gaq || [];
-  _gaq.push(["_setAccount", "#{ settings.analytics }"]);
-  _gaq.push(["_trackPageview"]);
-
-  (function() {
-    var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
-    ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-@@styles
-@import url('http://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here|Sniglet:800|Corben:bold|Ubuntu|Chewy&subset=latin');
-$bg:#fff;$color: #666;
-$primary:#619FEA;
-$secondary:#1757A4;
-$font:Ubuntu,Times,'Times New Roman',serif;
-$titlefont:'Chewy',serif;
-$msgfont:'Just Me Again Down Here',sans-serif;
-$hfont:'Corben',sans-serif;
-$hcolor:$primary;
-$hbold:false;
-
-html, body, div, span, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,abbr, address, cite, code,del, dfn, em, img, ins, kbd, q, samp,small, strong, sub, sup, var,b, i,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary,time, mark, audio, video{ margin: 0;padding: 0;border: 0;outline: 0;font-size: 100%;vertical-align: baseline;background: transparent; }
-article,aside,canvas,details,figcaption,figure,
-footer,header,hgroup,menu,nav,section,summary{ display: block; }
-body{ font-family: $font;background-color: $bg;color: $color; }
-h1,h2,h3,h4,h5,h6{ color:$hcolor;font-family:$hfont;margin:0;@if $hbold { font-weight: bold; } @else {font-weight: normal;}}
-h1{font-size:4.2em;}h2{font-size:3em;}h3{font-size:2.4em;}
-h4{font-size:1.6em;}h5{font-size:1.2em;}h6{font-size:1em;}
-p{font-size:1.2em;line-height:1.5;margin-bottom:0.5em;}
-ul,ol{list-style:none;}
-li{font-size:1.2em;line-height:1.5;}
-a,a:link,a:visited{color:inherit;}
-a:hover{text-decoration:none;color:$secondary;}
-
-html{background:$primary;}
-
-@mixin gradient($start:#CCCCCC,$finish:darken($start,25%),$stop:1){
--webkit-background-clip: padding-box;
-background-image: -moz-linear-gradient(top, $start 0%, $finish percentage($stop));
-background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, $start),color-stop($stop, $finish));
--pie-background: linear-gradient(top, $start 0%, $finish percentage($stop));
-background-image: linear-gradient(top, $start 0%, $finish percentage($stop));
-behavior: url(PIE.htc);}
-
-header{padding:5px 0 16px;background:$primary;
-position:relative;@include gradient($primary, #fff);
-h1{font-size:48px;text-align:center;}}
-
-.content{padding:0 10%;
-h1{text-align:center;}
-p{margin:0 auto 0.5em;}
-.cards{overflow:hidden;
-li{float:left;margin-right:10px;
-h1{font-size:16px;}}}}
-
-footer{text-align:center;background:$primary;position:relative;
-@include gradient(white,$primary);color:white;font-size:90%;
-text-shadow: 0px 1px 0px $primary;
-clear:both;margin-top:20px;padding:40px 20px 20px;
-.logo{font-size:1.4em;padding-right:0.2em;}}
-
-#card{height:420px;width:640px;margin:10px auto 0;
-h1{font-size:64px;}}
-
-#message{
-padding:20px 10px;margin:10px auto;text-align:center;display:block;
-background: #fff;border:5px solid #ccc;
-font-size: 32px;font-family:$msgfont;  
-min-height:4em;_height:4em;width:610px;}
-
-h1.croc{color:#ff6;}
-h1.hippo{color:#ff6;}
-h1.fish{color:#f6f;}
-h1.cake{color:#96f;}
-h1.snow{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
-h1.robin{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
-
-.content form{padding-bottom:4em;
-p{margin:0;font-size:0.9em;max-width:100%;color:$secondary;}
-label{display:block;margin:10px auto;font-size:60px;font-family:$msgfont;color:#999;
-input{font-size:24px;font-family:verdana,sans-serif;width:18em;}
-input#to{position:relative;left:2.5em;}
-input#email{position:relative;left:1.0em;}
-input#from{position:relative;left:0.9em;}}
-#send{background:$primary;color:white;@include gradient($primary,$secondary);
-border:1px $secondary solid;border-radius:0.8em;
-margin:10px auto;text-align:center;display:block;width:200px;padding:20px 10px;
-font-size:48px;text-transform:uppercase;font-weight:bold;
-text-shadow:-1px -1px 0px rgba(0,0,0,0.5);}
-}
-
-//OOP
-.logo,.logo:link,.logo:visited{font-family:sniglet;
-color:#fff;text-decoration:none;
-text-shadow: 0px 0.15em 0.2em rgba(255,255,255,0.5);}
-.logo:hover{text-shadow: 0.1em 0.1em 0.4em rgba(255,255,255,0.7),-0.1em -0.1em 0.4em rgba(255,255,255,0.4);}
-.title{font-family:$titlefont;text-align:center;font-weight:bold;}
-.card{position:relative;
-h1{position:absolute;top:0;left:0;width:100%;}
-img{max-width:100%;_width:100%;display:block;margin:0 auto;}}
