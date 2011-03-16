@@ -3,7 +3,7 @@
 
 ########### Configuration ###########
 set :name,'Cards in the Cloud'
-set :images, 'https://s3.amazonaws.com/cloudcards'
+set :images, 'http://pics.cardsinthecloud.com'
 set :analytics, ENV['ANALYTICS'] || 'UA-XXXXXXXX-X'
 set :haml, { :format => :html5 }
 set :public, Proc.new { root }
