@@ -30,7 +30,7 @@ background-image: -moz-linear-gradient(top, $start 0%, $finish percentage($stop)
 background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, $start),color-stop($stop, $finish));
 -pie-background: linear-gradient(top, $start 0%, $finish percentage($stop));
 background-image: linear-gradient(top, $start 0%, $finish percentage($stop));
-behavior: url(PIE.htc);}
+behavior: url(/PIE.htc);}
 
 header{padding:5px 0 16px;background:$primary;
 position:relative;@include gradient($primary, #fff);
