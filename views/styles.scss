@@ -1,4 +1,4 @@
-@import url('http://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here|Sniglet:800|Corben:bold|Ubuntu|Indie+Flower|Architects+Daughter|Chewy&subset=latin');
+@import url('http://fonts.googleapis.com/css?family=Sniglet:800|Corben:bold|Ubuntu|Architects+Daughter|Chewy&subset=latin');
 $bg:#fff;$color: #666;
 $primary:#619FEA;
 $secondary:#1757A4;
@@ -39,8 +39,8 @@ h1{font-size:48px;text-align:center;}}
 .content{padding:0 10%;
 h1{text-align:center;}
 p{margin:0 auto 0.5em;}
-.cards{overflow:hidden;background:red;border:red 2px sollid;
-li{float:left;margin-right:10px;display:inline;
+.cards{overflow:hidden;
+li{float:left;margin-right:10px;
 h1{font-size:16px;}}}}
 
 footer{text-align:center;background:$primary;position:relative;
@@ -67,11 +67,11 @@ h1.robin{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
 
 .content form{padding-bottom:4em;
 p{margin:0;font-size:0.9em;max-width:100%;color:$secondary;}
-label{display:block;margin:10px auto;font-size:60px;font-family:$msgfont;color:#999;
+label{display:block;margin:10px auto;font-size:48px;font-family:$msgfont;color:#999;
 input{font-size:24px;font-family:verdana,sans-serif;width:18em;}
-input#to{position:relative;left:2.5em;}
-input#email{position:relative;left:1.0em;}
-input#from{position:relative;left:0.9em;}}
+input#to{position:relative;left:77px;}
+input#email{position:relative;left:30px;}
+input#from{position:relative;left:14px;}}
 #send{background:$primary;color:white;@include gradient($primary,$secondary);
 border:1px $secondary solid;border-radius:0.8em;position:relative;
 margin:10px auto;text-align:center;display:block;width:200px;padding:20px 10px;
