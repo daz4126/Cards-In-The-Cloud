@@ -1,10 +1,10 @@
-@import url('http://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here|Sniglet:800|Corben:bold|Ubuntu|Chewy&subset=latin');
+@import url('http://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here|Sniglet:800|Corben:bold|Ubuntu|Indie+Flower|Architects+Daughter|Chewy&subset=latin');
 $bg:#fff;$color: #666;
 $primary:#619FEA;
 $secondary:#1757A4;
 $font:Ubuntu,Times,'Times New Roman',serif;
 $titlefont:'Chewy',serif;
-$msgfont:'Just Me Again Down Here',sans-serif;
+$msgfont:'Architects Daughter',sans-serif;
 $hfont:'Corben',sans-serif;
 $hcolor:$primary;
 $hbold:false;
@@ -39,7 +39,7 @@ h1{font-size:48px;text-align:center;}}
 .content{padding:0 10%;
 h1{text-align:center;}
 p{margin:0 auto 0.5em;}
-.cards{overflow:hidden;
+.cards{overflow:hidden;background:red;border:red 2px sollid;
 li{float:left;margin-right:10px;
 h1{font-size:16px;}}}}
 
@@ -73,10 +73,10 @@ input#to{position:relative;left:2.5em;}
 input#email{position:relative;left:1.0em;}
 input#from{position:relative;left:0.9em;}}
 #send{background:$primary;color:white;@include gradient($primary,$secondary);
-border:1px $secondary solid;border-radius:0.8em;
+border:1px $secondary solid;border-radius:0.8em;position:relative;
 margin:10px auto;text-align:center;display:block;width:200px;padding:20px 10px;
 font-size:48px;text-transform:uppercase;font-weight:bold;
-text-shadow:-1px -1px 0px rgba(0,0,0,0.5);}
+text-shadow:-1px -1px 0px rgba(0,0,0,0.5);behavior: url(/PIE.htc);}
 }
 
 //OOP
