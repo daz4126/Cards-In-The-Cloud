@@ -121,3 +121,7 @@ __END__
 @@design6
 %h1.title.cake Happy Birthday!
 %img{:src=>settings.images+'/cupcake.png'}
+
+@@design7
+%h1.title.duck Quacky Birthday!
+%img{:src=>settings.images+'/duck.png'}
