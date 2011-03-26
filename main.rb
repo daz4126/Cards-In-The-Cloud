@@ -57,10 +57,10 @@ post '/send' do
   @email = params[:email]
   @email.split(",").each do |email|
     Pony.mail(
-      :from => 'CardsintheCloud',
+      :from => 'Cards in the Cloud<info@cardsinthecloud.com>',
       :to => email,
       :subject => @sender + " has sent you a card",
-      :body => haml(:email,{ :layout=>false,:locals => { :card => @card } }),
+      :html_body => haml(:email,{ :layout=>false,:locals => { :card => @card } }),
       :port => '587',
       :via => :smtp,
       :via_options => { 
@@ -87,10 +87,6 @@ get '/:key' do
 end
 __END__
 ########### Views ###########
-@@email
-:plain
-  Hi #{@receiver}. You've been sent a card in the cloud from #{@sender}. You can see your card here http://#{settings.domain+@card.url}
-  
 @@404
 %h3 That page seems to be lost in the clouds!
 

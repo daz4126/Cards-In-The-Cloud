@@ -1,17 +1,17 @@
-@import url('http://fonts.googleapis.com/css?family=Sniglet:800|Pacifico|Ubuntu|Neucha|Chewy&subset=latin');
-$bg:#fff;$color: #666;
+@import url('http://fonts.googleapis.com/css?family=Sniglet:800|Ubuntu|Chewy|Permanent+Marker|Architects+Daughter&subset=latin');
+$bg:#fff;$color:#666;
 $primary:#619FEA;
 $secondary:#1757A4;
-$font:'Ubuntu',Times,'Times New Roman',serif;
+$font:'Ubuntu',Helvetica,Arial,sans-serif;
 $titlefont:'Chewy',serif;
-$msgfont:'Neucha',sans-serif;
-$hfont:'Pacifico',sans-serif;
-$hcolor:$secondary;
+$msgfont:'Architects Daughter',sans-serif;
+$hfont:'Permanent Marker',sans-serif;
+$hcolor:$primary;
 $hbold:false;
 
-html, body, div, span, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,abbr, address, cite, code,del, dfn, em, img, ins, kbd, q, samp,small, strong, sub, sup, var,b, i,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary,time, mark, audio, video{ margin: 0;padding: 0;border: 0;outline: 0;font-size: 100%;vertical-align: baseline;background: transparent; }
+html,body,div,span,object,iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,abbr,address,cite,code,del, dfn, em, img, ins, kbd, q, samp,small, strong, sub,sup,var,b,i,dl,dt,dd, ol, ul, li,fieldset, form, label, legend,table, caption,tbody,tfoot, thead, tr, th, td,article, aside, canvas, details, figcaption,figure, footer, header, hgroup, menu, nav, section, summary,time, mark, audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}
 article,aside,canvas,details,figcaption,figure,
-footer,header,hgroup,menu,nav,section,summary{ display: block; }
+footer,header,hgroup,menu,nav,section,summary{display: block;}
 body{font-family:$font;background-color:$bg;color:$color;}
 h1,h2,h3,h4,h5,h6{ color:$hcolor;font-family:$hfont;margin:0;@if $hbold { font-weight: bold; } @else {font-weight: normal;}}
 h1{font-size:4.2em;}h2{font-size:3em;}h3{font-size:2.4em;}
@@ -37,7 +37,7 @@ position:relative;@include gradient($primary, #fff);
 h1{font-size:48px;text-align:center;}}
 
 .content{padding:0 10%;
-h1{text-align:center;color:$primary;}
+h1{text-align:center;color:$secondary;}
 p{margin:0 auto 0.5em;}
 .cards{overflow:hidden;
 li{float:left;margin-right:10px;
@@ -66,23 +66,24 @@ h1.snow{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
 h1.robin{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
 h1.duck{color:#fcf;}
 
-.content form{padding-bottom:4em;width:640px;margin:10px auto 0;
+.content form{padding-bottom:2em;width:640px;margin:10px auto 0;
 #message:focus{outline:none;border:$primary 5px solid;}
 p{margin:0;font-size:0.9em;max-width:100%;color:$secondary;}
-label{display:block;margin:16px auto;font-size:48px;font-family:$msgfont;color:#999;
-input{font-size:32px;font-family:$msgfont,sans-serif;width:520px;
-border:none;border-bottom:#ccc dotted 3px;line-height:1.6em;
-position:relative;bottom:16px;}
+label{display:block;margin:16px auto;font-size:36px;font-family:$msgfont;color:#999;overflow:hidden;
+input{font-size:32px;font-family:$msgfont,sans-serif;width:540px;
+border:none;border-bottom:#ccc dotted 3px;line-height:1em;
+float:right;position:relative;bottom:6px;}
 input:focus{background:lighten($primary,30%);outline:none;}
-input#to{left:58px;}
-input#email{left:16px;}
-input#from{left:14px;}}
+textarea::-webkit-input-placeholder{text-align:center;}
+textarea:-moz-placeholder{text-align:center;}}
 #send{background:$primary;color:white;@include gradient($primary,$secondary);
 border:1px $secondary solid;border-radius:0.8em;position:relative;
 margin:10px auto;text-align:center;display:block;width:200px;padding:20px 10px;
 font-size:48px;text-transform:uppercase;font-weight:bold;
-text-shadow:-1px -1px 0px rgba(0,0,0,0.5);behavior: url(/PIE.htc);}
-}
+text-shadow:-1px -1px 0px rgba(0,0,0,0.5);behavior: url(/PIE.htc);}}
+
+ul.sent{width:80%;margin:20px auto;list-style:disc;color:$secondary;
+li{color:$color;}}
 
 //OOP
 .logo,.logo:link,.logo:visited{font-family:sniglet;
@@ -90,5 +91,5 @@ color:#fff;text-decoration:none;
 text-shadow: 0px 0.15em 0.2em rgba(255,255,255,0.5);}
 .logo:hover{text-shadow: 0.1em 0.1em 0.4em rgba(255,255,255,0.7),-0.1em -0.1em 0.4em rgba(255,255,255,0.4);}
 .title{font-family:$titlefont;text-align:center;font-weight:bold;}
-.card{position:relative;
+.card{position:relative;a{text-decoration:none;}
 h1{position:absolute;top:0;left:0;width:100%;}}

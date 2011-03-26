@@ -1,0 +1,12 @@
+%head
+  %style
+    @import url('http://fonts.googleapis.com/css?family=Sniglet:800|Ubuntu&subset=latin');
+    h1{background:#619FEA;color:#fff;text-align:centre;font-family:sniglet,helvetica,arial,sans-serif;text-shadow: 0px 0.15em 0.2em rgba(255,255,255,0.5);}
+    p{font-family:ubuntu,helvetica,arial,sans-serif;}
+    p.footer{background:#619FEA;color:#fff;font-size:11px;}
+%body
+  %h1(style='background:#619FEA;color:#fff;text-align:centre;font-family:sniglet,helvetica,arial,sans-serif;text-shadow: 0px 0.15em 0.2em rgba(255,255,255,0.5);') Cards in the Cloud
+  %p Hi #{@receiver}!
+  %p #{@sender} has sent you a <a href="http://#{settings.domain+@card.url}">card in the cloud</a>.
+  %p You can see your card by clicking on this link: <a href="http://#{settings.domain+@card.url}">http://#{settings.domain+@card.url}</a>    
+  %p(class='footer' style='background:#619FEA;color:#fff;font-size:11px;') Cards in the Cloud is a simple and free way to send electronic cards to your friends and family, why don't you <a href="http://#{settings.domain}">send one too?</a>
