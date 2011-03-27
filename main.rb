@@ -121,3 +121,11 @@ __END__
 @@design7
 %h1.title.duck Quacky Birthday!
 %img{:src=>settings.images+'/duck.png'}
+
+@@design8
+%h1.title.babyboy A New Baby Boy!
+%img{:src=>settings.images+'/babyboy.png'}
+
+@@design9
+%h1.title.babygirl A New Baby Girl!
+%img{:src=>settings.images+'/babygirl.png'}

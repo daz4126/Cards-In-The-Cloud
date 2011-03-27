@@ -14,7 +14,7 @@ article,aside,canvas,details,figcaption,figure,
 footer,header,hgroup,menu,nav,section,summary{display: block;}
 body{font-family:$font;background-color:$bg;color:$color;}
 h1,h2,h3,h4,h5,h6{ color:$hcolor;font-family:$hfont;margin:0;@if $hbold { font-weight: bold; } @else {font-weight: normal;}}
-h1{font-size:4.2em;}h2{font-size:3em;}h3{font-size:2.4em;}
+h1{font-size:3.6em;}h2{font-size:3em;}h3{font-size:2.4em;}
 h4{font-size:1.6em;}h5{font-size:1.2em;}h6{font-size:1em;}
 p{font-size:1.2em;line-height:1.5;margin-bottom:0.5em;}
 ul,ol{list-style:none;}
@@ -37,7 +37,7 @@ position:relative;@include gradient($primary, #fff);
 h1{font-size:48px;text-align:center;}}
 
 .content{padding:0 10%;
-h1{text-align:center;color:$secondary;}
+h1{text-align:center;}
 p{margin:0 auto 0.5em;}
 .cards{overflow:hidden;
 li{float:left;margin-right:10px;
@@ -65,6 +65,8 @@ h1.cake{color:#96f;}
 h1.snow{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
 h1.robin{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
 h1.duck{color:#fcf;}
+h1.babyboy{color:#fff;}
+h1.babygirl{color:#fff;}
 
 .content form{padding-bottom:2em;width:640px;margin:10px auto 0;
 #message:focus{outline:none;border:$primary 5px solid;}
