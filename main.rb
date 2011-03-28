@@ -8,15 +8,14 @@ set :analytics, ENV['ANALYTICS'] || 'UA-XXXXXXXX-X'
 set :haml, { :format => :html5 }
 
 configure :development do
-  set :domain,'localhost:9393'
+  # development config here
 end
 
 configure :test do
-  # test stuff here
+  # test config here
 end
 
 configure :production do
-  set :domain,'cardsinthecloud.com'
   set :scss, { :style => :compressed }
 end
 

@@ -1,6 +1,6 @@
 %h1 Success!
 %h2 Your Card is in the Cloud!
-%p You can see it here - <a href="http://#{settings.domain+@card.url}">http://#{settings.domain+@card.url}</a>
+%p You can see it here - <a href="http://#{request.url_with_port+@card.url}">http://#{request.url_with_port+@card.url}</a>
 %p A notification has been sent to the following email address(es):
 %ul.sent
   - @email.split(",").each do |email|
