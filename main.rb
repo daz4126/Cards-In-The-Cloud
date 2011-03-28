@@ -6,7 +6,6 @@ set :name,'Cards in the Cloud'
 set :images, 'http://pics.cardsinthecloud.com'
 set :analytics, ENV['ANALYTICS'] || 'UA-XXXXXXXX-X'
 set :haml, { :format => :html5 }
-set :public, Proc.new { root }
 
 configure :development do
   set :domain,'localhost:9393'

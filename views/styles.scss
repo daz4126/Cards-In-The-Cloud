@@ -30,7 +30,7 @@ background-image: -moz-linear-gradient(top, $start 0%, $finish percentage($stop)
 background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, $start),color-stop($stop, $finish));
 -pie-background: linear-gradient(top, $start 0%, $finish percentage($stop));
 background-image: linear-gradient(top, $start 0%, $finish percentage($stop));
-behavior: url(/PIE.htc);}
+behavior:url(/PIE.htc);}
 
 header{padding:5px 0 16px;background:$primary;
 position:relative;@include gradient($primary, #fff);
@@ -82,7 +82,7 @@ textarea:-moz-placeholder{text-align:center;}}
 border:1px $secondary solid;border-radius:0.8em;position:relative;
 margin:10px auto;text-align:center;display:block;width:200px;padding:20px 10px;
 font-size:48px;text-transform:uppercase;font-weight:bold;
-text-shadow:-1px -1px 0px rgba(0,0,0,0.5);behavior: url(/PIE.htc);}}
+text-shadow:-1px -1px 0px rgba(0,0,0,0.5);behavior:url(/PIE.htc);}}
 
 ul.sent{width:80%;margin:20px auto;list-style:disc;color:$secondary;
 li{color:$color;}}
@@ -90,8 +90,8 @@ li{color:$color;}}
 //OOP
 .logo,.logo:link,.logo:visited{font-family:sniglet;
 color:#fff;text-decoration:none;
-text-shadow: 0px 0.15em 0.2em rgba(255,255,255,0.5);}
-.logo:hover{text-shadow: 0.1em 0.1em 0.4em rgba(255,255,255,0.7),-0.1em -0.1em 0.4em rgba(255,255,255,0.4);}
+text-shadow: 0px 0.15em 0.2em rgba(255,255,255,0.5);behavior:url(/PIE.htc);}
+.logo:hover{text-shadow: 0.1em 0.1em 0.4em rgba(255,255,255,0.7),-0.1em -0.1em 0.4em rgba(255,255,255,0.4);behavior:url(/PIE.htc);}
 .title{font-family:$titlefont;text-align:center;font-weight:bold;}
 .card{position:relative;a{text-decoration:none;}
 h1{position:absolute;top:0;left:0;width:100%;}}
