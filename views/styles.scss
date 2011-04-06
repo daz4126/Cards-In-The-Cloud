@@ -32,25 +32,41 @@ background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, $st
 background-image: linear-gradient(top, $start 0%, $finish percentage($stop));
 behavior:url(/PIE.htc);}
 
-header{padding:5px 0 16px;background:$primary;
-position:relative;@include gradient($primary, #fff);
-h1{font-size:48px;text-align:center;}}
+header{
+  padding:5px 0 16px;
+  background:$primary;
+  position:relative;
+  @include gradient($primary, #fff);
 
-.content{padding:0 10%;
-h1{text-align:center;}
-p{margin:0 auto 0.5em;}
-.cards{overflow:hidden;
-li{float:left;margin-right:10px;
-h1{font-size:16px;}}}}
+  h1{font-size:48px;text-align:center;}
+}
 
-footer{text-align:center;background:$primary;position:relative;
-@include gradient(white,$primary);color:white;font-size:90%;
-text-shadow: 0px 1px 0px $primary;
-clear:both;margin-top:20px;padding:40px 20px 20px;
-.logo{font-size:1.4em;padding-right:0.2em;}}
+.content{
+  padding:0 10%;
+  h1{text-align:center;}
+  p{margin:0 auto 0.5em;}
+  .cards{overflow:hidden;
+    li{float:left;margin-right:10px;
+      h1{font-size:16px;}
+    }
+  }
+}
 
-#card{height:420px;width:640px;margin:10px auto 0;
-h1{font-size:64px;}}
+footer{
+  text-align:center;
+  background:$primary;
+  position:relative;
+  @include gradient(white,$primary);
+  color:white;
+  font-size:90%;
+  text-shadow: 0px 1px 0px $primary;
+  clear:both;
+  margin-top:20px;
+  padding:40px 20px 20px;
+  .logo{font-size:1.4em;padding-right:0.2em;}
+}
+
+#card{width:640px;margin:10px auto 0;}
 
 #message{
 padding:20px 10px;margin:10px auto;text-align:center;display:block;
@@ -58,40 +74,63 @@ background: #fff;border:5px solid #ccc;
 font-size:32px;font-family:$msgfont;  
 min-height:4em;_height:4em;width:610px;}
 
-h1.croc{color:#ff6;}
-h1.hippo{color:#ff6;}
-h1.fish{color:#f6f;}
-h1.cake{color:#96f;}
-h1.snow{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
-h1.robin{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
-h1.duck{color:#fcf;}
-h1.babyboy{color:#fff;}
-h1.babygirl{color:#fff;}
+.croc{color:#ff6;}
+.hippo{color:#cfc;}
+.fish{color:#f6f;}
+.cake{color:#96f;}
+.snow{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
+.robin{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
+.duck{color:#fcf;}
+.babyboy{color:#fff;}
+.babygirl{color:#fff;}
 
-.content form{padding-bottom:2em;width:640px;margin:10px auto 0;
-#message:focus{outline:none;border:$primary 5px solid;}
-p{margin:0;font-size:0.9em;max-width:100%;color:$secondary;}
-label{display:block;margin:16px auto;font-size:36px;font-family:$msgfont;color:#999;overflow:hidden;
-input{font-size:32px;font-family:$msgfont,sans-serif;width:540px;
-border:none;border-bottom:#ccc dotted 3px;line-height:1em;
-float:right;position:relative;bottom:6px;}
-input:focus{background:lighten($primary,30%);outline:none;}
-textarea::-webkit-input-placeholder{text-align:center;}
-textarea:-moz-placeholder{text-align:center;}}
-#send{background:$primary;color:white;@include gradient($primary,$secondary);
-border:1px $secondary solid;border-radius:0.8em;position:relative;
-margin:10px auto;text-align:center;display:block;width:200px;padding:20px 10px;
-font-size:48px;text-transform:uppercase;font-weight:bold;
-text-shadow:-1px -1px 0px rgba(0,0,0,0.5);behavior:url(/PIE.htc);}}
+form#card{
+  padding-bottom:2em;
+  margin:0 auto;
+  input{border:none;outline:none;background:none;}
+  #message:focus{outline:none;border:$primary 5px solid;}
+  p{margin:0;font-size:0.9em;max-width:100%;color:$secondary;}
+  label{
+    display:block;
+    margin:16px auto;
+    font-size:36px;
+    font-family:$msgfont;
+    color:#999;
+    overflow:hidden;
+    input{
+    font-size:32px;
+    font-family:$msgfont,sans-serif;
+    width:540px;
+    border-bottom:#ccc dotted 3px;line-height:1em;
+    float:right;
+    position:relative;bottom:6px;
+    }
+    input:focus{background:lighten($primary,30%);outline:none;}
+    textarea::-webkit-input-placeholder{text-align:center;}
+    textarea:-moz-placeholder{text-align:center;}
+  }
+  #send{background:$primary;color:white;@include gradient($primary,$secondary);
+  border:1px $secondary solid;border-radius:0.8em;position:relative;
+  margin:10px auto;text-align:center;display:block;width:200px;padding:20px 10px;
+  font-size:48px;text-transform:uppercase;font-weight:bold;
+  text-shadow:-1px -1px 0px rgba(0,0,0,0.5);behavior:url(/PIE.htc);}
+  #bot{display:none;visibility:hidden;width:0;height:0;}
+}
 
 ul.sent{width:80%;margin:20px auto;list-style:disc;color:$secondary;
 li{color:$color;}}
+
+table{
+border-collapse:collapse;width:80%;
+th{background:$primary;color:#fff;}
+td,th{border-left:1px solid $primary;border-bottom:1px solid $primary;
+text-align:center;padding:5px;}
+tr{border-right:1px solid $primary;border-top:1px solid $primary;}}
 
 //OOP
 .logo,.logo:link,.logo:visited{font-family:sniglet;
 color:#fff;text-decoration:none;
 text-shadow: 0px 0.15em 0.2em rgba(255,255,255,0.5);behavior:url(/PIE.htc);}
 .logo:hover{text-shadow: 0.1em 0.1em 0.4em rgba(255,255,255,0.7),-0.1em -0.1em 0.4em rgba(255,255,255,0.4);behavior:url(/PIE.htc);}
-.title{font-family:$titlefont;text-align:center;font-weight:bold;}
-.card{position:relative;a{text-decoration:none;}
-h1{position:absolute;top:0;left:0;width:100%;}}
+.title{font-family:$titlefont;text-align:center;font-weight:bold;font-size:64px;position:absolute;top:0;left:0;width:100%;}
+.card{position:relative;a{text-decoration:none;}}
