@@ -60,7 +60,6 @@ class Card
         })
   end
 end
-DataMapper.auto_upgrade!
 
 ###########  Routes ###########
 not_found { haml :'404' }
