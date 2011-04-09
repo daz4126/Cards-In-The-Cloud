@@ -19,12 +19,13 @@ configure :production do
   set :scss, { :style => :compressed }
 end
 
-########### Models ###########
 DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",settings.root, "development.db"))
+
+########### Models ###########
 class Card
   include DataMapper::Resource
   property :id,           Serial
-  property :code,         Text
+  property :salt,         Text, :default => rand(9).to_s << (1+rand(8)).to_s
   property :design_id,    Integer
   property :title,        Text
   property :message,      Text
@@ -33,13 +34,8 @@ class Card
   property :to,           Text
   property :email,        Text
   
-  #after :create do
-    #self.code = (self.id.to_s << rand(9).to_s << (1+rand(8)).to_s).reverse.to_i.to_s(36)
-    #self.code = 'g-x'
-    #self.save
-  #end
+  def url ; '/' + (id.to_s << salt).reverse.to_i.to_s(36) ; end
   
-  def url ; '/' + self.code ; end
   def self.send_daily_stats
     @cards = self.all(:sent_at => ((Time.now - 24*60*60)..Time.now))
       Pony.mail(
@@ -81,8 +77,6 @@ end
 post '/send' do
   if params['bot']['message']=='D2'&&params['bot']['email'].empty?
     @card = Card.create(params[:card].merge({:sent_at => Time.now}))
-    @card.code = (@card.id.to_s << rand(9).to_s << (1+rand(8)).to_s).reverse.to_i.to_s(36)
-    @card.save
     @card.email.split(",").each do |email|
       Pony.mail(
         :from => 'Cards in the Cloud<donotreply@cardsinthecloud.com>',
@@ -112,9 +106,11 @@ get '/stats' do
   haml :stats
 end
 
-get '/:code' do
-  @card = Card.first(:code => params[:code])
-  raise error(404) unless @card
+get '/:shorturl' do
+  id = params[:shorturl].to_i(36).to_s.reverse
+  salt = id.slice!(-2,2)
+  @card = Card.get(id)
+  raise error(404) unless @card && salt == @card.salt
   @design = ("design" + @card.design_id.to_s).to_sym
   haml :card
 end
