@@ -185,3 +185,10 @@ __END__
 -else
   %input.title.babygirl(value="A New Baby Girl!" type="text" name="card[title]")
 %img{:src=>settings.images+'/babygirl.png'}
+
+@@design10
+-if @card.title
+  %h1.title.easter= @card.title
+-else
+  %input.title.easter(value="Happy Easter!" type="text" name="card[title]")
+%img{:src=>settings.images+'/easter.png'}
