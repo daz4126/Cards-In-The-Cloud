@@ -68,6 +68,7 @@ error { @error = request.env['sinatra_error'] ; haml :'500' }
 
 get '/styles.css' do
   content_type 'text/css', :charset => 'utf-8'
+  cache_control :public, :must_revalidate, :max_age => 60*60*24, :vary => 'Accept-Encoding'
   last_modified(File.mtime(__FILE__))
   scss :styles
 end
