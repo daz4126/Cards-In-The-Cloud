@@ -74,11 +74,11 @@ font-size:32px;font-family:$msgfont;
 min-height:4em;_height:4em;width:610px;}
 
 .croc{color:#ff6;}
-.hippo{color:#cfc;}
+.hippo{color:#a02c2c;}
 .fish{color:#f6f;}
 .cake{color:#96f;}
 .snow{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
-.robin{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
+.robin{color:#F7FB4A;text-shadow: 0.05em 0.05em 0 #F57B24;}
 .duck{color:#fcf;}
 .babyboy{color:#fff;}
 .babygirl{color:#fff;}
@@ -88,6 +88,10 @@ form#card{
   padding-bottom:2em;
   margin:0 auto;
   input{border:none;outline:none;background:none;}
+  textarea.title{
+  border:none;outline:none;background:none;
+  height:420px;width:640px;
+  overflow:hidden;resize: none;}
   #message:focus{outline:none;border:$primary 5px solid;}
   p{margin:0;font-size:0.9em;max-width:100%;color:$secondary;}
   label{
@@ -128,9 +132,25 @@ text-align:center;padding:5px;}
 tr{border-right:1px solid $primary;border-top:1px solid $primary;}}
 
 //OOP
-.logo,.logo:link,.logo:visited{font-family:sniglet;
+.logo,.logo:link,.logo:visited{
+font-family:sniglet;
 color:#fff;text-decoration:none;
-text-shadow: 0px 0.15em 0.2em rgba(255,255,255,0.5);behavior:url(/PIE.htc);}
-.logo:hover{text-shadow: 0.1em 0.1em 0.4em rgba(255,255,255,0.7),-0.1em -0.1em 0.4em rgba(255,255,255,0.4);behavior:url(/PIE.htc);}
-.title{font-family:$titlefont;text-align:center;font-weight:bold;font-size:64px;position:absolute;top:0;left:0;width:100%;}
+text-shadow: 0px 0.15em 0.2em rgba(255,255,255,0.5);
+behavior:url(/PIE.htc);
+}
+.logo:hover{
+text-shadow: 0.1em 0.1em 0.4em rgba(255,255,255,0.7),-0.1em -0.1em 0.4em rgba(255,255,255,0.4);
+behavior:url(/PIE.htc);
+}
+
+.title{
+font-family:$titlefont;
+text-align:center;
+font-weight:bold;
+font-size:64px;
+letter-spacing:0.05em;
+position:absolute;top:0;left:0;
+width:100%;
+}
+
 .card{position:relative;a{text-decoration:none;}}

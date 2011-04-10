@@ -59,12 +59,16 @@ class Card
 end
 
 ###########  Routes ###########
+before do
+  cache_control :public, :must_revalidate, :max_age => 60*60*24
+end
+
 not_found { haml :'404' }
 error { @error = request.env['sinatra_error'] ; haml :'500' }
 
 get '/styles.css' do
   content_type 'text/css', :charset => 'utf-8'
-  response.headers['Cache-Control'] = 'public, max-age=604800'
+  last_modified(File.mtime(__FILE__))
   scss :styles
 end
 
@@ -147,7 +151,7 @@ __END__
 -if @card.title
   %h1.title.hippo= @card.title
 -else
-  %input.title.hippo(value="Hippo Birthday!" type="text" name="card[title]")
+  %textarea.title.hippo(value="Hippo Birthday!" type="text" name="card[title]")Hippo Birthday!
 %img{:src=>settings.images+'/hippo.png'}
 
 @@design4
