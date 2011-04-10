@@ -59,10 +59,6 @@ class Card
 end
 
 ###########  Routes ###########
-before do
-  cache_control :public, :must_revalidate, :max_age => 60*60
-end
-
 not_found { haml :'404' }
 error { @error = request.env['sinatra_error'] ; haml :'500' }
 
