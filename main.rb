@@ -22,18 +22,18 @@ end
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",settings.root, "development.db"))
 
-########### Models ###########
+########### Cards ###########
 class Card
   include DataMapper::Resource
   property :id,           Serial
   property :salt,         Text, :default => rand(9).to_s << (1+rand(8)).to_s
-  property :design_id,    Integer
   property :title,        Text
   property :message,      Text
   property :sent_at,      DateTime
   property :from,         Text
   property :to,           Text
   property :email,        Text
+  belongs_to :design
   
   def url ; '/' + (id.to_s << salt).reverse.to_i.to_s(36) ; end
   
@@ -58,6 +58,30 @@ class Card
   end
 end
 
+########### Designs ###########
+class Design
+  include DataMapper::Resource
+  property :id,           Serial
+  property :name,         Text
+  property :title,        Text
+  property :image,        Text
+  property :css,          Text
+  property :type,         Text
+  has n, :cards
+end
+
+#Design.create(:name => 'croc',:title => 'Snappy Birthday!',:image => 'croc',:css => 'color:#ff6;',:type => 'birthday');
+#Design.create(:name => 'hippo',:title => 'Hippo Birthday!',:image => 'hippo',:css => 'color:#a02c2c;',:type => 'birthday');
+#Design.create(:name => 'fish',:title => 'Birthday Fishes!',:image => 'fish',:css => 'color:#f6f;',:type => 'birthday');
+#Design.create(:name => 'cupcake',:title => 'Birthday Cupcakes!',:image => 'cupcake',:css => 'color:#96f;',:type => 'birthday');
+#Design.create(:name => 'duck',:title => 'Quacky Birthday!',:image => 'duck',:css => 'color:#fcf;',:type => 'birthday');
+#Design.create(:name => 'snowman',:title => 'Let It Snow!',:image => 'snowman',:css => 'color:#c00;text-shadow: 0.05em 0.05em 0 #050;',:type => 'xmas');
+#Design.create(:name => 'robins',:title => 'Rocking Robins!',:image => 'robins',:css => 'color:#F7FB4A;text-shadow: 0.05em 0.05em 0 #F57B24;',:type => 'xmas');
+#Design.create(:name => 'easter',:title => 'Happy Easter!',:image => 'easter',:css => 'color:#ff9955;text-shadow: 0.05em 0.05em 0 #4386eb;',:type => 'easter');
+#Design.create(:name => 'babyboy',:title => 'Baby Boy!',:image => 'babyboy',:css => 'color:#fff;',:type => 'babies');
+#Design.create(:name => 'babygirl',:title => 'Baby Girl!',:image => 'babygirl',:css => 'color:#fff;',:type => 'babies')
+
+
 ###########  Routes ###########
 not_found { haml :'404' }
 error { @error = request.env['sinatra_error'] ; haml :'500' }
@@ -72,18 +96,21 @@ end
 get '/' do
   #greetings = %w[Hi Hello Hola Hallo Ciao Sawubona Ola Szervusz Howdy Bonjour]
   #@greeting = greetings[rand(greetings.size)]
+  @birthday = Design.all(:type => 'birthday')
+  @xmas = Design.all(:type => 'xmas')
+  @easter = Design.all(:type => 'easter')
+  @babies = Design.all(:type => 'baby')
   haml :index
 end
 
 get '/card/:id' do
-  @card = Card.new(:design_id => params[:id])
-  @design = ("design" + params[:id]).to_sym
+  @card = Design.get(params[:id]).cards.new
   haml :new
 end
 
 post '/send' do
   if params['bot']['message']=='D2'&&params['bot']['email'].empty?
-    @card = Card.create(params[:card].merge({:sent_at => Time.now}))
+    @card = Design.get(params[:id]).cards.create(params[:card].merge({:sent_at => Time.now}))
     @card.email.split(",").each do |email|
       Pony.mail(
         :from => 'Cards in the Cloud<donotreply@cardsinthecloud.com>',
@@ -118,7 +145,6 @@ get '/:shorturl' do
   salt = id.slice!(-2,2)
   @card = Card.get(id)
   raise error(404) unless @card && salt == @card.salt
-  @design = ("design" + @card.design_id.to_s).to_sym
   haml :card
 end
 __END__
@@ -129,73 +155,3 @@ __END__
 @@500
 %h3 Oops ... there was and error, it was:
 %p= @error
-   
-@@design1
--if @card.title
-  %h1.title.snow= @card.title
--else
-  %input.title.snow(value="Let It Snow! Let It Snow!" type="text" name="card[title]")
-%img{:src=>settings.images+'/snowman.png'}
-
-@@design2
--if @card.title
-  %h1.title.robin= @card.title
--else
-  %input.title.robin(value="Rocking Robins!" type="text" name="card[title]")
-%img{:src=>settings.images+'/robins.png'}
-
-@@design3
--if @card.title
-  %h1.title.hippo= @card.title
--else
-  %textarea.title.hippo(value="Hippo Birthday!" type="text" name="card[title]")Hippo Birthday!
-%img{:src=>settings.images+'/hippo.png'}
-
-@@design4
--if @card.title
-  %h1.title.croc= @card.title
--else
-  %input.title.croc(value="Snappy Birthday!" type="text" name="card[title]")
-%img{:src=>settings.images+'/croc.png'}
-
-@@design5
--if @card.title
-  %h1.title.fish= @card.title
--else
-  %input.title.fish(value="Birthday Fishes!" type="text" name="card[title]")
-%img{:src=>settings.images+'/fish.png'}
-
-@@design6
--if @card.title
-  %h1.title.cake= @card.title
--else
-  %input.title.cake(value="Birthday Cupcakes!" type="text" name="card[title]")
-%img{:src=>settings.images+'/cupcake.png'}
-
-@@design7
--if @card.title
-  %h1.title.duck= @card.title
--else
-  %input.title.duck(value="Quacky Birthday!" type="text" name="card[title]")
-%img{:src=>settings.images+'/duck.png'}
-
-@@design8
--if @card.title
-  %h1.title.babyboy= @card.title
--else
-  %input.title.babyboy(value="A New Baby Boy!" type="text" name="card[title]")
-%img{:src=>settings.images+'/babyboy.png'}
-
-@@design9
--if @card.title
-  %h1.title.babygirl= @card.title
--else
-  %input.title.babygirl(value="A New Baby Girl!" type="text" name="card[title]")
-%img{:src=>settings.images+'/babygirl.png'}
-
-@@design10
--if @card.title
-  %h1.title.easter= @card.title
--else
-  %input.title.easter(value="Happy Easter!" type="text" name="card[title]")
-%img{:src=>settings.images+'/easter.png'}

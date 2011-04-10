@@ -1,11 +1,14 @@
 %form#card.card(action="/send" method="post")
-  =haml @design
+  
+  %textarea.title{:class => @card.design.name, :type=>"text", :name=>"card[title]"}= @card.design.title
+  %img{:src=>settings.images+'/'+@card.design.image+'.png'}
+  
   %textarea#message(name="card[message]" placeholder="Write your message here...")
   %label(for="to")To:<input type="text" name="card[to]" id="to" value="#{@card.to}">
   %label(for="email")Email:<input multiple type="email" name="card[email]" id="email">
   %p You can send this card to lots of people by writing a list of email addresses, separated by commas
   %label(for="from")From:<input type="text" name="card[from]" id="from" value="#{@card.from}">
-  %input(type="hidden" name="card[design_id]" value="#{@card.design_id}")
+  %input(type="hidden" name="id" value="#{@card.design.id}")
   %input#send(type="submit" value="Send")
   #bot
     %p Please do not change these fields - they are to avoid spam

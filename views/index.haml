@@ -2,58 +2,29 @@
 %p Just click on a card to send it!
 %h3 Birthday Cards
 %ul.cards
-  %li.card
-    %a(href='/card/4')
-      %h1.title.croc Snappy Birthday!
-      %img{:src=>settings.images+"/croc-th.png"}
-      
-  %li.card 
-    %a(href='/card/3')
-      %h1.title.hippo Hippo Birthday
-      %img{:src=>settings.images+"/hippo-th.png"}  
-          
-  %li.card    
-    %a(href='/card/5')
-      %h1.title.fish Birthday Fishes
-      %img{:src=>settings.images+"/fish-th.png"}
-      
-  %li.card   
-    %a(href='/card/6')
-      %h1.title.cake Cupcakes
-      %img{:src=>settings.images+"/cupcake-th.png"}
-
-  %li.card
-    %a(href='/card/7')
-      %h1.title.duck Quacky Birthday
-      %img{:src=>settings.images+"/duck-th.png"}
-      
-%h3 Easter Cards
-%ul.cards
-  %li.card   
-    %a(href='/card/10')
-      %h1.title.easter Happy Easter!
-      %img{:src=>settings.images+"/easter-th.png"}
-
+  - @birthday.each do |design|
+    %li.card
+      %a(href='/card/#{design.id}')
+        %h1.title{:class => design.name}= design.title
+        %img{:src=>settings.images + "/" + design.image + "-th.png"}
 %h3 Christmas Cards
 %ul.cards
-  %li.card   
-    %a(href='/card/1')
-      %h1.title.snow Let It Snow!
-      %img{:src=>settings.images+"/snowman-th.png"}
-      
-  %li.card  
-    %a(href='/card/2')
-      %h1.title.robin Robins
-      %img{:src=>settings.images+"/robins-th.png"}
-      
-%h3 New Babies
+  - @xmas.each do |design|
+    %li.card
+      %a(href='/card/#{design.id}')
+        %h1.title{:class => design.name}= design.title
+        %img{:src=>settings.images + "/" + design.image + "-th.png"}
+%h3 Easter Cards
 %ul.cards
-  %li.card   
-    %a(href='/card/8')
-      %h1.title.babyboy Baby Boy!
-      %img{:src=>settings.images+"/babyboy-th.png"}
-      
-  %li.card  
-    %a(href='/card/9')
-      %h1.title.babygirl Baby Girl!
-      %img{:src=>settings.images+"/babygirl-th.png"}
+  - @easter.each do |design|
+    %li.card
+      %a(href='/card/#{design.id}')
+        %h1.title{:class => design.name}= design.title
+        %img{:src=>settings.images + "/" + design.image + "-th.png"}
+%h3 New Baby Cards
+%ul.cards
+  - @babies.each do |design|
+    %li.card
+      %a(href='/card/#{design.id}')
+        %h1.title{:class => design.name}= design.title
+        %img{:src=>settings.images + "/" + design.image + "-th.png"}
