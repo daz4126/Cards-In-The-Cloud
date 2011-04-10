@@ -17,6 +17,7 @@ end
 
 configure :production do
   set :scss, { :style => :compressed }
+  set :haml, { :ugly => true }
 end
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",settings.root, "development.db"))
@@ -60,7 +61,12 @@ end
 ###########  Routes ###########
 not_found { haml :'404' }
 error { @error = request.env['sinatra_error'] ; haml :'500' }
-get('/styles.css'){ content_type 'text/css', :charset => 'utf-8' ; scss :styles }
+
+get '/styles.css' do
+  content_type 'text/css', :charset => 'utf-8'
+  response.headers['Cache-Control'] = 'public, max-age=604800'
+  scss :styles
+end
 
 get '/' do
   #greetings = %w[Hi Hello Hola Hallo Ciao Sawubona Ola Szervusz Howdy Bonjour]
