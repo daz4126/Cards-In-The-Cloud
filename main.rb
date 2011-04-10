@@ -60,7 +60,7 @@ end
 
 ###########  Routes ###########
 before do
-  cache_control :public, :must_revalidate, :max_age => 7*60*60*24
+  cache_control :public, :must_revalidate, :max_age => 60*60
 end
 
 not_found { haml :'404' }
