@@ -1,34 +1,37 @@
-%h1 Pick A Card, Any Card
-%p Just click on a card to send it!
+%p Welcome to Cards in the Cloud - the easiest way to send electronic greetings cards to your friends and family. There's no silly music, animations or adverts, just bright and colourful cards that you can personalize. And it's totally free too - just pick a card and click to send it!
 
-%h3 Birthday Cards
-%ul.cards
-  - @birthday.each do |design|
-    %li.card
-      %a(href='/card/#{design.id}')
-        %h1.title{:class => design.name}= design.title
-        %img{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
+%section.cards
+  %h1.category Birthday Cards
+  %ul
+    - @birthday.each do |design|
+      %li.card
+        %a(href='/card/#{design.id}')
+          %h1.title{:class => design.name}= design.title
+          %img{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
 
-%h3 Easter Cards
-%ul.cards
-  - @easter.each do |design|
-    %li.card
-      %a(href='/card/#{design.id}')
-        %h1.title{:class => design.name}= design.title
-        %img{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
-        
-%h3 Christmas Cards
-%ul.cards
-  - @xmas.each do |design|
-    %li.card
-      %a(href='/card/#{design.id}')
-        %h1.title{:class => design.name}= design.title
-        %img{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
+%section.cards
+  %h1.category Easter Cards
+  %ul
+    - @easter.each do |design|
+      %li.card
+        %a(href='/card/#{design.id}')
+          %h1.title{:class => design.name}= design.title
+          %img{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
 
-%h3 New Baby Cards
-%ul.cards
-  - @babies.each do |design|
-    %li.card
-      %a(href='/card/#{design.id}')
-        %h1.title{:class => design.name}= design.title
-        %img{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
+%section.cards        
+  %h1.category Christmas Cards
+  %ul.cards
+    - @xmas.each do |design|
+      %li.card
+        %a(href='/card/#{design.id}')
+          %h1.title{:class => design.name}= design.title
+          %img{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
+
+%section.cards
+  %h1.category New Baby Cards
+  %ul.cards
+    - @babies.each do |design|
+      %li.card
+        %a(href='/card/#{design.id}')
+          %h1.title{:class => design.name}= design.title
+          %img{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}

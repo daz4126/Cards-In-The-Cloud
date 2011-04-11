@@ -18,6 +18,9 @@ end
 configure :production do
   set :scss, { :style => :compressed }
   set :haml, { :ugly => true }
+  before do 
+    cache_control :public, :must_revalidate, :max_age => 60*60*24*7 
+  end 
 end
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",settings.root, "development.db"))
@@ -84,12 +87,6 @@ end
 
 
 ###########  Routes ###########
-before do
-  if settings.environment == :production
-    cache_control :public, :must_revalidate, :max_age => 60*60*24*7
-  end
-end
-
 not_found { haml :'404' }
 error { @error = request.env['sinatra_error'] ; haml :'500' }
 

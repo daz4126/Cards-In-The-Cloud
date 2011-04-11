@@ -6,26 +6,28 @@ $green:#006000;
 $sky:#619FEA;
 $blue:#1757A4;
 $yellow:#ffff00;
+$pink:#FD4581;
+$darkpink:#852042;
 
-$font:'Ubuntu',Helvetica,Arial,sans-serif;
+$font:'Architects Daughter',Helvetica,Arial,sans-serif;
 $titlefont:'Chewy',serif;
 $msgfont:'Architects Daughter',sans-serif;
-$hfont:'Permanent Marker',sans-serif;
-$hcolor:$primary;
-$hbold:false;
+$hfont:'Pacifico',sans-serif;
+$hcolor:$pink;
 
 html,body,div,span,object,iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,abbr,address,cite,code,del, dfn, em, img, ins, kbd, q, samp,small, strong, sub,sup,var,b,i,dl,dt,dd, ol, ul, li,fieldset, form, label, legend,table, caption,tbody,tfoot, thead, tr, th, td,article, aside, canvas, details, figcaption,figure, footer, header, hgroup, menu, nav, section, summary,time, mark, audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}
 article,aside,canvas,details,figcaption,figure,
 footer,header,hgroup,menu,nav,section,summary{display: block;}
 body{font-family:$font;background-color:$bg;color:$color;}
-h1,h2,h3,h4,h5,h6{ color:$hcolor;font-family:$hfont;margin:0;@if $hbold { font-weight: bold; } @else {font-weight: normal;}}
+h1,h2,h3,h4,h5,h6{font-family:$hfont;margin:0;color:$pink;
+  text-shadow: 0.05em 0.05em 0em $darkpink;font-weight:normal;}
 h1{font-size:3.6em;}h2{font-size:3em;}h3{font-size:2.4em;}
 h4{font-size:1.6em;}h5{font-size:1.2em;}h6{font-size:1em;}
-p{font-size:1.2em;line-height:1.5;margin-bottom:0.5em;}
+p{font-size:1.2em;line-height:1.2;margin-bottom:0.4em;}
 ul,ol{list-style:none;}
 li{font-size:1.2em;line-height:1.5;}
 a,a:link,a:visited{color:inherit;}
-a:hover{text-decoration:none;color:$secondary;}
+a:hover{text-decoration:none;}
 
 html{background:$green;}
 
@@ -37,8 +39,11 @@ background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, $st
 background-image: linear-gradient(top, $start 0%, $finish percentage($stop));
 behavior:url(/PIE.htc);}
 
+@mixin clearfix{_height: 1%;*min-height: 1px;zoom: 1;
+  &:after{content: ".";display: block;height: 0;clear: both;visibility: hidden;}}
+
 header{
-  padding:10px 0 50px;
+  padding:0px 0 50px;
   background: $sky url(top.png) 20% bottom repeat-x;
   h1{font-size:64px;text-align:center;}
 }
@@ -48,11 +53,40 @@ header{
   padding:10px 10% 170px;
   background: #fff url(bottom.png) 10% bottom repeat-x;
   p{margin:0 auto 0.5em;}
-  .cards{overflow:hidden;
-    li{float:left;margin-right:10px;
+  
+  
+  .cards{
+    @include clearfix;
+    margin-bottom:10px;
+    
+    li{
+    float:left;
+    margin:0;padding:0;margin-right:10px;
+    height:84px;
+    line-height:1;font-size:1em;
+    -webkit-box-reflect: below -2px -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0)),color-stop(0.4, rgba(255,255,255,0.0)),color-stop(0.8, rgba(255,255,255,0.3)), to(rgba(255,255,255,0.5)));
+    
+      &:hover{
+        -webkit-box-reflect:none;
+        position:relative;z-index:2;
+        -moz-transform: scale(1.4);
+        -webkit-transform: scale(1.4);
+        transform: scale(1.4);
+        
+        -webkit-background-clip: padding-box;
+        -webkit-box-shadow: 6px 6px 4px rgba(#000,0.5);
+        -moz-box-shadow: 6px 6px 4px rgba(#000,0.5);
+         box-shadow: 6px 6px 4px rgba(#000,0.5);
+        behavior: url(PIE.htc);
+      a{
+        display:block;
+        padding:0;margin:0;
+        line-height:1;}
+  }
       h1{font-size:16px;}
     }
   }
+  
 }
 
 footer{
@@ -64,6 +98,7 @@ footer{
   clear:both;
   padding:90px 20px 20px;
   .logo{font-size:1.4em;padding-right:0.2em;}
+  small{font-size:0.9em;}
 }
 
 #card{width:640px;margin:20px auto 0;}
@@ -73,29 +108,31 @@ background: #fff;
 font-size:32px;font-family:$msgfont;  
 min-height:4em;_height:4em;width:610px;}
 
-.croc{color:#ff6;}
-.hippo{color:#a02c2c;}
-.fish{color:#f6f;}
-.cupcake{color:#96f;}
+.croc{color:#ff6;text-shadow: none;}
+.hippo{color:#a02c2c;text-shadow: none;}
+.fish{color:#F45CCA;text-shadow: none;}
+.cupcake{color:#96f;text-shadow: none;}
 .snowman{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
 .robins{color:#F7FB4A;text-shadow: 0.05em 0.05em 0 #F57B24;}
-.duck{color:#fcf;}
-.babyboy{color:#fff;}
-.babygirl{color:#fff;}
-.easter{color:#ff9955;text-shadow: 0.05em 0.05em 0 #4386eb;}
+.duck{color:#fcf;text-shadow: none;}
+.babyboy{color:#fff;text-shadow: none;}
+.babygirl{color:#fff;text-shadow: none;}
+.easter{color:#F9C052;text-shadow: 0.05em 0.05em 0 #4386eb;}
 
 form#card{
   padding-bottom:2em;
   input{border:none;outline:none;background:none;}
   textarea.title{
+  postion:relative;top:20px;
   border:none;outline:none;background:none;
   height:420px;width:640px;
-  overflow:hidden;resize: none;}
+  overflow:hidden;resize:none;}
   #message{border:5px solid #ccc;
-  &:focus{outline:none;border:$primary 5px solid;}}
-  p{margin:0;font-size:0.9em;max-width:100%;color:$secondary;}
+  &:focus{outline:none;border:$sky 5px solid;}}
+  p{margin:0;font-size:1em;color:$blue;}
   label{
     display:block;
+    text-align:left;
     margin:16px auto;
     font-size:36px;
     font-family:$msgfont;
@@ -109,19 +146,19 @@ form#card{
     float:right;
     position:relative;bottom:6px;
     }
-    input:focus{background:lighten($primary,30%);outline:none;}
+    input:focus{background:lighten($sky,30%);outline:none;}
     textarea::-webkit-input-placeholder{text-align:center;}
     textarea:-moz-placeholder{text-align:center;}
   }
-  #send{background:$primary;color:white;@include gradient($primary,$secondary);
-  border:1px $secondary solid;border-radius:0.8em;position:relative;
+  #send{background:$pink;color:white;@include gradient($sky,$blue);
+  border:1px $blue solid;border-radius:0.8em;position:relative;
   margin:10px auto;text-align:center;display:block;width:200px;padding:20px 10px;
   font-size:48px;text-transform:uppercase;font-weight:bold;
   text-shadow:-1px -1px 0px rgba(0,0,0,0.5);behavior:url(/PIE.htc);}
   #bot{display:none;visibility:hidden;width:0;height:0;}
 }
 
-ul.sent{width:80%;margin:20px auto;list-style:disc;color:$secondary;
+ul.sent{width:80%;margin:20px auto;list-style:disc;color:$blue;
 li{color:$color;}}
 
 table{
@@ -151,6 +188,14 @@ font-size:64px;
 letter-spacing:0.00em;
 position:absolute;top:0;left:0;
 width:100%;
+}
+
+.category{
+  text-align:left;
+  font-size:36px;
+  -webkit-transform:rotate(-4deg);
+  padding-bottom:0.26em;
+  position:relative;z-index:1;
 }
 
 .card{position:relative;a{text-decoration:none;}}
