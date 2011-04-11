@@ -1,7 +1,7 @@
 %form#card.card(action="/send" method="post")
   
   %textarea.title{:class => @card.design.name, :type=>"text", :name=>"card[title]"}= @card.design.title
-  %img{:src=>settings.images+'/'+@card.design.image+'.png'}
+  %img{:src=>settings.images+'/'+@card.design.image+'.png',:alt => @card.design.alt, :width => 640, :height => 420}
   
   %textarea#message(name="card[message]" placeholder="Write your message here...")
   %label(for="to")To:<input type="text" name="card[to]" id="to" value="#{@card.to}">

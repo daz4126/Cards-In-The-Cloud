@@ -1,30 +1,34 @@
 %h1 Pick A Card, Any Card
 %p Just click on a card to send it!
+
 %h3 Birthday Cards
 %ul.cards
   - @birthday.each do |design|
     %li.card
       %a(href='/card/#{design.id}')
         %h1.title{:class => design.name}= design.title
-        %img{:src=>settings.images + "/" + design.image + "-th.png"}
-%h3 Christmas Cards
-%ul.cards
-  - @xmas.each do |design|
-    %li.card
-      %a(href='/card/#{design.id}')
-        %h1.title{:class => design.name}= design.title
-        %img{:src=>settings.images + "/" + design.image + "-th.png"}
+        %img{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
+
 %h3 Easter Cards
 %ul.cards
   - @easter.each do |design|
     %li.card
       %a(href='/card/#{design.id}')
         %h1.title{:class => design.name}= design.title
-        %img{:src=>settings.images + "/" + design.image + "-th.png"}
+        %img{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
+        
+%h3 Christmas Cards
+%ul.cards
+  - @xmas.each do |design|
+    %li.card
+      %a(href='/card/#{design.id}')
+        %h1.title{:class => design.name}= design.title
+        %img{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
+
 %h3 New Baby Cards
 %ul.cards
   - @babies.each do |design|
     %li.card
       %a(href='/card/#{design.id}')
         %h1.title{:class => design.name}= design.title
-        %img{:src=>settings.images + "/" + design.image + "-th.png"}
+        %img{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}

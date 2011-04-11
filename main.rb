@@ -67,29 +67,38 @@ class Design
   property :image,        Text
   property :css,          Text
   property :type,         Text
+  property :alt,          Text
   has n, :cards
 end
 
-#Design.create(:name => 'croc',:title => 'Snappy Birthday!',:image => 'croc',:css => 'color:#ff6;',:type => 'birthday');
-#Design.create(:name => 'hippo',:title => 'Hippo Birthday!',:image => 'hippo',:css => 'color:#a02c2c;',:type => 'birthday');
-#Design.create(:name => 'fish',:title => 'Birthday Fishes!',:image => 'fish',:css => 'color:#f6f;',:type => 'birthday');
-#Design.create(:name => 'cupcake',:title => 'Birthday Cupcakes!',:image => 'cupcake',:css => 'color:#96f;',:type => 'birthday');
-#Design.create(:name => 'duck',:title => 'Quacky Birthday!',:image => 'duck',:css => 'color:#fcf;',:type => 'birthday');
-#Design.create(:name => 'snowman',:title => 'Let It Snow!',:image => 'snowman',:css => 'color:#c00;text-shadow: 0.05em 0.05em 0 #050;',:type => 'xmas');
-#Design.create(:name => 'robins',:title => 'Rocking Robins!',:image => 'robins',:css => 'color:#F7FB4A;text-shadow: 0.05em 0.05em 0 #F57B24;',:type => 'xmas');
-#Design.create(:name => 'easter',:title => 'Happy Easter!',:image => 'easter',:css => 'color:#ff9955;text-shadow: 0.05em 0.05em 0 #4386eb;',:type => 'easter');
-#Design.create(:name => 'babyboy',:title => 'Baby Boy!',:image => 'babyboy',:css => 'color:#fff;',:type => 'babies');
-#Design.create(:name => 'babygirl',:title => 'Baby Girl!',:image => 'babygirl',:css => 'color:#fff;',:type => 'babies')
+#Design.create(:name => 'croc',:title => 'Snappy Birthday!',:image => 'croc',:css => 'color:#ff6;',:type => 'birthday',:alt => 'A Hungry Crocodile');
+#Design.create(:name => 'hippo',:title => 'Hippo Birthday!',:image => 'hippo',:css => 'color:#a02c2c;',:type => 'birthday',:alt => 'A Big Hippo');
+#Design.create(:name => 'fish',:title => 'Birthday Fishes!',:image => 'fish',:css => 'color:#f6f;',:type => 'birthday',:alt => 'Fishes in the Sea');
+#Design.create(:name => 'cupcake',:title => 'Birthday Cupcakes!',:image => 'cupcake',:css => 'color:#96f;',:type => 'birthday',:alt => 'Three Cupcakes');
+#Design.create(:name => 'duck',:title => 'Quacky Birthday!',:image => 'duck',:css => 'color:#fcf;',:type => 'birthday',:alt => 'A Flying Duck');
+#Design.create(:name => 'snowman',:title => 'Let It Snow!',:image => 'snowman',:css => 'color:#c00;text-shadow: 0.05em 0.05em 0 #050;',:type => 'xmas',:alt => 'A Snowman');
+#Design.create(:name => 'robins',:title => 'Rocking Robins!',:image => 'robins',:css => 'color:#F7FB4A;text-shadow: 0.05em 0.05em 0 #F57B24;',:type => 'xmas',:alt => 'Three Robins');
+#Design.create(:name => 'easter',:title => 'Happy Easter!',:image => 'easter',:css => 'color:#ff9955;text-shadow: 0.05em 0.05em 0 #4386eb;',:type => 'easter',:alt => 'The Easter Bunny with lots of Easter Eggs');
+#Design.create(:name => 'babyboy',:title => 'Baby Boy!',:image => 'babyboy',:css => 'color:#fff;',:type => 'baby',:alt => 'A Baby Boy');
+#Design.create(:name => 'babygirl',:title => 'Baby Girl!',:image => 'babygirl',:css => 'color:#fff;',:type => 'baby',:alt => 'A Baby Girl')
 
 
 ###########  Routes ###########
+before do
+  if settings.environment == :production
+    cache_control :public, :must_revalidate, :max_age => 60*60*24*7
+  end
+end
+
 not_found { haml :'404' }
 error { @error = request.env['sinatra_error'] ; haml :'500' }
 
 get '/styles.css' do
+  if settings.environment == :production
+    cache_control :public, :must_revalidate, :max_age => 60*60*24*7, :vary => 'Accept-Encoding'
+    last_modified(File.mtime(__FILE__))
+  end
   content_type 'text/css', :charset => 'utf-8'
-  cache_control :public, :must_revalidate, :max_age => 60*60*24, :vary => 'Accept-Encoding'
-  last_modified(File.mtime(__FILE__))
   scss :styles
 end
 
