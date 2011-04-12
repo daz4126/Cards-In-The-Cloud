@@ -52,12 +52,12 @@ header{
   padding:10px 10% 170px;
   background: #fff url(bottom.png) -50% bottom repeat-x;
   
-  p{margin:0 auto 0.5em;padding:0 -130%;}  
+  p{margin:0 auto 2em;padding:0 5%;}  
 }
 
 footer{
   text-align:center;
-  background: $green url(ground.png) 40% top repeat-x;
+  background: $green url(ground.png) -140% top repeat-x;
   color:$yellow;
   font-size:90%;
   text-shadow: 0px 1px 0px darken($green,20%);
@@ -69,19 +69,38 @@ footer{
 
 
 .cards{
+  margin-bottom:48px;
   ul {@include clearfix;}
   
   li{
+  -webkit-transform:skew(0,6deg);
+  -moz-transform:skew(0,6deg);
+  -o-transform:skew(0,6deg);
+  transform:skew(0,6deg);
+  -webkit-box-shadow: 5px 1px 2px rgba(#000,0.3);
+  -moz-box-shadow: 5px 1px 2px rgba(#000,0.3);
+  -o-box-shadow: 5px 1px 2px rgba(#000,0.3);
+  box-shadow: 5px 1px 2px rgba(#000,0.3);
   float:left;
-  margin:0;padding:0;margin-right:10px;
+  margin:0;padding:0;margin-right:20px;
   height:84px;
   line-height:1;font-size:1em;
-  border:5px #eee solid;
-  border-radius:5px;
   position:relative;
+  -webkit-transition: ease-in-out 0.2s all;
+  -moz-transition: ease-in-out 0.2s all;
+  -o-transition: ease-in-out 0.2s all;
+  transition: ease-in-out 0.2s all;
   behavior:url(/PIE.htc);
     &:hover{
-    border:5px $sky solid;
+    -webkit-box-shadow:none;
+    -moz-box-shadow:none;
+    -o-box-shadow:none;
+    box-shadow:none;
+    -webkit-transform:scale(1.2) skew(0,0);
+    -moz-transform:scale(1.2) skew(0,0);
+    -o-transform:scale(1.2) skew(0,0);
+    transform:scale(1.2) skew(0,0);
+    z-index:1;
       }
     a{
       display:block;
@@ -194,10 +213,10 @@ width:100%;
   text-shadow: 0.05em 0.05em 0em $darkpink;font-weight:normal;
   text-align:left;
   font-size:36px;
-  -webkit-transform:rotate(-4deg);
-  -moz-transform:rotate(-4deg);
-  transform:rotate(-4deg);
-  padding-bottom:0.5em;
+  -webkit-transform:rotate(-4deg) translate(-0.4em,-1.0em);
+  -moz-transform:rotate(-4deg) translate(-0.4em,-1.0em);
+  -o-transform:rotate(-4deg) translate(-0.4em,-1.0em);
+  transform:rotate(-4deg) translate(-0.4em,-1.0em);
   position:relative;z-index:1;line-height:1.2;
 }
 
