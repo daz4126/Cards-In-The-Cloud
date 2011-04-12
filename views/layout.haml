@@ -9,8 +9,10 @@
     %link(rel='stylesheet' media="screen, projection" href='/styles.css')
     %link(href='http://fonts.googleapis.com/css?family=Sniglet:800' rel='stylesheet')
     %link(href='http://fonts.googleapis.com/css?family=Chewy' rel='stylesheet')
+    %link(href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet')
     %link(href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet')
     %link(href='http://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet')
+    %script(src='/reflection.js')
     =haml :analytics,:layout=>false
   %body
     %header(role='banner')
@@ -19,7 +21,7 @@
       = yield
     %footer(role='contentinfo')
       %small 
-        %p <a href='/' class='logo'>#{settings.name}</a> - &copy; DAZ 2010 - #{Time.now.year}
-        %p This site is currently in public Beta - please accept my apologies if things go wrong.
+        %p <a href='/' class='logo'>#{settings.name}</a> &copy; 2010 - #{Time.now.year} DAZ
         %p All images are licensed under a <a href="licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>
-        %p This site would not be possible without a lot of Open Source software - Ruby, Sinatra, Inkscape, Ubuntu, DataMapper, Heroku
+        %p This site would not be possible without the awesomeness of <a href="http://ubuntu.com">Ubuntu</a>, <a href="http://ruby-lang.org/en/">Ruby</a>, <a href="http://sinatrarb.com">Sinatra</a>, <a href="http://datamapper.org/">DataMapper</a>, <a href="http://inkscape.org/">Inkscape</a> &amp; <a href="http://heroku.com">Heroku</a>. 
+        %p Currently in public Beta so please accept my apologies if anything go wrong.
