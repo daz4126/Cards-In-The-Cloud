@@ -52,7 +52,9 @@ header{
   padding:10px 10% 170px;
   background:#fff url(bottom.png) -50% bottom repeat-x;
   
-  p{margin:0 auto 1em;padding:0 5%;}  
+  p{margin:0 auto 1em;padding:0 5%;}
+  strong{font-weight:bold;color:$blue;}
+  em{font-weight:bold;color:$sky;font-style:normal;}
 }
 
 footer{
@@ -118,13 +120,13 @@ min-height:4em;_height:4em;width:610px;}
 
 form#card{
   padding-bottom:2em;
-  input{border:none;outline:none;background:none;}
+  input{border:none;outline:none;background:none;color:#666;}
   textarea.title{
   postion:relative;top:20px;
   border:none;outline:none;background:none;
   height:420px;width:640px;
   overflow:hidden;resize:none;}
-  #message{border:5px solid #ccc;
+  #message{border:5px solid #ccc;color:#666;
   &:focus{outline:none;border:$sky 5px solid;}}
   p{margin:0;font-size:0.9em;color:$blue;}
   label{
@@ -150,6 +152,7 @@ form#card{
   #send{
   background:$pink;color:white;@include gradient($sky,$blue);
   border:1px $blue solid;border-radius:0.8em;
+  -moz-border-radius:0.8em;
   position:relative;
   margin:10px auto;
   text-align:center;display:block;
@@ -190,7 +193,6 @@ font-family:$titlefont;
 text-align:center;
 font-weight:bold;
 font-size:64px;
-letter-spacing:0.00em;
 position:absolute;top:0;left:0;
 width:100%;
 }
@@ -207,4 +209,4 @@ width:100%;
   position:relative;z-index:1;line-height:1.2;
 }
 
-.card{position:relative;a{text-decoration:none;}}
+.card{position:relative;letter-spacing:-0.06em;a{text-decoration:none;}}

@@ -156,8 +156,12 @@ end
 __END__
 ########### Views ###########
 @@404
-%h3 That page seems to be lost in the clouds!
+%h1 Ooops!
+%p Whatever you're looking for seems to be lost in the clouds. 
+%p You might find a silver lining on the <a href='/'>homepage</a>.
 
 @@500
-%h3 Oops ... there was and error, it was:
+%h3 Crikey!
+%p We're very sorry, but there's been an error.
+%p It seems that the error is:
 %p= @error

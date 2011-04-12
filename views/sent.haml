@@ -1,4 +1,5 @@
 %h1 Your Card is in the Cloud!
+%img.reflect{:src=>settings.images+'/'+@card.design.image+'-th.png',:alt => @card.design.alt, :width => 128, :height => 84,:style => 'margin:0 auto;'}
 %p You can see it here - <a href="http://#{request.host_with_port+@card.url}">http://#{request.host_with_port+@card.url}</a>
 %p A notification has been sent to the following email address(es):
 %ul.sent
