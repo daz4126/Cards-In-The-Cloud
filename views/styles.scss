@@ -50,14 +50,14 @@ header{
 .content{
   text-align:center;
   padding:10px 10% 170px;
-  background: #fff url(bottom.png) -50% bottom repeat-x;
+  background:#fff url(bottom.png) -50% bottom repeat-x;
   
   p{margin:0 auto 2em;padding:0 5%;}  
 }
 
 footer{
   text-align:center;
-  background: $green url(ground.png) -140% top repeat-x;
+  background:$green url(ground.png) -140% top repeat-x;
   color:$yellow;
   font-size:90%;
   text-shadow: 0px 1px 0px darken($green,20%);
@@ -69,44 +69,28 @@ footer{
 
 
 .cards{
-  margin-bottom:48px;
+  @include clearfix;
+  margin-bottom:28px;
   ul {@include clearfix;}
   
   li{
-  -webkit-transform:skew(0,6deg);
-  -moz-transform:skew(0,6deg);
-  -o-transform:skew(0,6deg);
-  transform:skew(0,6deg);
-  -webkit-box-shadow: 5px 1px 2px rgba(#000,0.3);
-  -moz-box-shadow: 5px 1px 2px rgba(#000,0.3);
-  -o-box-shadow: 5px 1px 2px rgba(#000,0.3);
-  box-shadow: 5px 1px 2px rgba(#000,0.3);
+
   float:left;
-  margin:0;padding:0;margin-right:20px;
-  height:84px;
-  line-height:1;font-size:1em;
-  position:relative;
-  -webkit-transition: ease-in-out 0.2s all;
-  -moz-transition: ease-in-out 0.2s all;
-  -o-transition: ease-in-out 0.2s all;
-  transition: ease-in-out 0.2s all;
-  behavior:url(/PIE.htc);
-    &:hover{
-    -webkit-box-shadow:none;
-    -moz-box-shadow:none;
-    -o-box-shadow:none;
-    box-shadow:none;
-    -webkit-transform:scale(1.2) skew(0,0);
-    -moz-transform:scale(1.2) skew(0,0);
-    -o-transform:scale(1.2) skew(0,0);
-    transform:scale(1.2) skew(0,0);
-    z-index:1;
-      }
+  margin:0 20px 10px 0;
+
     a{
-      display:block;
-      padding:0;margin:0;
-      line-height:1;}
-      
+      display:block;height:84px;
+      -webkit-transform:skew(0,-6deg);
+      -webkit-box-shadow:-6px -2px 6px rgba(#000,0.3);
+      -webkit-transition: ease-in-out 0.1s all;
+          
+          &:hover{   
+          -webkit-transform: skew(0,0) scale(1.2);
+          -webkit-box-shadow:none;
+          //position:relative;z-index:1;
+        }
+      }
+
     h1{font-size:16px;}
   }
 }
@@ -213,10 +197,10 @@ width:100%;
   text-shadow: 0.05em 0.05em 0em $darkpink;font-weight:normal;
   text-align:left;
   font-size:36px;
-  -webkit-transform:rotate(-4deg) translate(-0.4em,-1.0em);
-  -moz-transform:rotate(-4deg) translate(-0.4em,-1.0em);
-  -o-transform:rotate(-4deg) translate(-0.4em,-1.0em);
-  transform:rotate(-4deg) translate(-0.4em,-1.0em);
+  -webkit-transform:rotate(-4deg) translate(-0.4em,-0.72em);
+  -moz-transform:rotate(-4deg) translate(-0.4em,-0.72em);
+  -o-transform:rotate(-4deg) translate(-0.4em,-0.72em);
+  transform:rotate(-4deg) translate(-0.4em,-0.72em);
   position:relative;z-index:1;line-height:1.2;
 }
 
