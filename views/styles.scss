@@ -52,7 +52,7 @@ header{
   padding:10px 10% 170px;
   background:#fff url(bottom.png) -50% bottom repeat-x;
   
-  p{margin:0 auto 2em;padding:0 5%;}  
+  p{margin:0 auto 1em;padding:0 5%;}  
 }
 
 footer{
@@ -71,7 +71,10 @@ footer{
 .cards{
   @include clearfix;
   margin-bottom:28px;
-  ul {@include clearfix;}
+  
+  ul{
+  @include clearfix;
+  }
   
   li{
 
