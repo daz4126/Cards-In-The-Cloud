@@ -1,7 +1,5 @@
 //colours
-$bg:#fff;$color:#999;
-$primary:#619FEA;
-$secondary:#1757A4;
+$color:#999;
 $green:#006000;
 $sky:#619FEA;
 $blue:#1757A4;
@@ -18,7 +16,7 @@ $hcolor:$blue;
 html,body,div,span,object,iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,abbr,address,cite,code,del, dfn, em, img, ins, kbd, q, samp,small, strong, sub,sup,var,b,i,dl,dt,dd, ol, ul, li,fieldset, form, label, legend,table, caption,tbody,tfoot, thead, tr, th, td,article, aside, canvas, details, figcaption,figure, footer, header, hgroup, menu, nav, section, summary,time, mark, audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}
 article,aside,canvas,details,figcaption,figure,
 footer,header,hgroup,menu,nav,section,summary{display: block;}
-body{font-family:$font;background-color:$bg;color:$color;}
+body{font-family:$font;background-color:$sky;color:$color;}
 h1,h2,h3,h4,h5,h6{font-family:$hfont;margin:0;color:$hcolor;}
 h1{font-size:3.6em;}h2{font-size:3em;}h3{font-size:2.4em;}
 h4{font-size:1.6em;}h5{font-size:1.2em;}h6{font-size:1em;}
@@ -42,9 +40,9 @@ behavior:url(/PIE.htc);}
   &:after{content: ".";display: block;height: 0;clear: both;visibility: hidden;}}
 
 header{
-  padding:0px 0 50px;
+  padding:10px 0 60px;
   background: $sky url(top.png) 20% bottom repeat-x;
-  h1{font-size:64px;text-align:center;}
+  h1{font-size:64px;text-align:center;line-height:1;}
 }
 
 .content{
@@ -67,37 +65,47 @@ footer{
 
 
 .cards{
-  @include clearfix;
-  
-  ul{
-  @include clearfix;
-  }
-  
+  @include clearfix; 
+  ul{float:left;}  
   li{
-
-  float:left;
-  margin-right:20px;
-  padding-bottom:44px;
-
-    a{
-      display:block;height:84px;
-      -webkit-transform:skew(0,-6deg);
-      -webkit-box-shadow:-6px -2px 6px rgba(#000,0.3);
-      -webkit-transition: ease-in-out 0.1s all;
-          
-          &:hover{   
-          -webkit-transform: skew(0,0) scale(1.2);
-          -webkit-box-shadow:none;
-          //position:relative;z-index:1;
-        }
-      }
-
-    h1{font-size:16px;}
+    float:left;
+    margin-right:20px;
+    padding-bottom:44px;
   }
 }
 
-#card{width:640px;margin:20px auto 0;}
-#message{
+//All Cards
+.card{
+  position:relative;
+  display:block;
+  text-decoration:none;
+  //Big Card
+  width:640px;
+  margin:20px auto 0;
+  .title{font-size:64px;letter-spacing:-0.06em;}
+}
+//Medium Card
+.card.medium{
+  width:256px;
+  margin-top:0;
+  .title{font-size:32px;}
+}
+//Small Card
+.cards .card{
+  width:128px;
+  height:84px;
+  margin-top:0;
+  -webkit-transform:skew(0,-6deg);
+  -webkit-box-shadow:-6px -2px 6px rgba(#000,0.3);
+  -webkit-transition: ease-in-out 0.1s all;
+    &:hover{   
+    -webkit-transform: skew(0,0) scale(1.2);
+    -webkit-box-shadow:none;
+    }
+  .title{font-size:16px;}
+}
+
+.message{
 padding:20px 10px;margin:10px auto;text-align:center;display:block;
 background: #fff;
 font-size:32px;font-family:$msgfont;  
@@ -114,17 +122,24 @@ min-height:4em;_height:4em;width:610px;}
 .babygirl{color:#fff;text-shadow: none;}
 .easter{color:#F9C052;text-shadow: 0.05em 0.05em 0 #4386eb;}
 
-form#card{
+form{
   padding-bottom:2em;
+  
   input{border:none;outline:none;background:none;color:#666;}
+  input:focus{background:lighten($sky,30%);outline:none;}
+  
   textarea.title{
   postion:relative;top:20px;
   border:none;outline:none;background:none;
   height:420px;width:640px;
   overflow:hidden;resize:none;}
-  #message{border:5px solid #ccc;color:#666;
+  
+  .message{border:5px solid #ccc;color:#666;
   &:focus{outline:none;border:$sky 5px solid;}}
-
+    
+  textarea::-webkit-input-placeholder{text-align:center;}
+  textarea:-moz-placeholder{text-align:center;}
+  
   label{
     display:block;
     text-align:left;
@@ -133,69 +148,74 @@ form#card{
     font-family:$msgfont;
     color:#999;
     overflow:hidden;
+    
     input{
-    font-size:32px;
-    font-family:$msgfont,sans-serif;
-    width:540px;
-    border-bottom:#ccc dotted 3px;line-height:1em;
-    float:right;
-    position:relative;bottom:6px;
+      font-size:32px;
+      font-family:$msgfont,sans-serif;
+      width:540px;
+      border-bottom:#ccc dotted 3px;line-height:1em;
+      float:right;
+      position:relative;bottom:6px;
     }
-    input:focus{background:lighten($sky,30%);outline:none;}
-    textarea::-webkit-input-placeholder{text-align:center;}
-    textarea:-moz-placeholder{text-align:center;}
   }
-  #send{
-  background:$pink;color:white;@include gradient($sky,$blue);
-  border:1px $blue solid;border-radius:0.8em;
-  -moz-border-radius:0.8em;
-  position:relative;
-  margin:10px auto;
-  text-align:center;display:block;
-  width:200px;padding:20px 10px;
-  font-size:48px;
-  text-transform:uppercase;font-weight:bold;
-  text-shadow:-1px -1px 0px rgba(0,0,0,0.5);
-  behavior:url(/PIE.htc);
+  
+  .button{
+    background:$sky;color:white;@include gradient($sky,$blue);
+    border:1px $blue solid;border-radius:0.8em;
+    -moz-border-radius:0.8em;
+    position:relative;
+    margin:10px auto;
+    text-align:center;display:block;
+    width:200px;padding:20px 10px;
+    font-size:48px;
+    text-transform:uppercase;font-weight:bold;
+    text-shadow:-1px -1px 0px rgba(0,0,0,0.5);
+    behavior:url(/PIE.htc);
   }
   
   #bot{display:none;visibility:hidden;width:0;height:0;}
 }
 
-ul.sent{width:80%;margin:20px auto;list-style:disc;color:$blue;
-li{color:$color;}}
+ul.sent{
+  width:80%;margin:20px auto;list-style:disc;color:$blue;
+  
+  li{color:$blue;}
+}
 
 table{
-border-collapse:collapse;width:80%;
-th{background:$primary;color:#fff;}
-td,th{border-left:1px solid $primary;border-bottom:1px solid $primary;
-text-align:center;padding:5px;}
-tr{border-right:1px solid $primary;border-top:1px solid $primary;}}
+  border-collapse:collapse;
+  width:80%;
+  
+  th{background:$sky;color:#fff;}
+  td,th{border-left:1px solid $sky;border-bottom:1px solid $sky;
+  text-align:center;padding:5px;}
+  tr{border-right:1px solid $sky;border-top:1px solid $sky;}
+}
 
-//OOP
 .logo,.logo:link,.logo:visited{
-font-family:sniglet;
-color:#fff;text-decoration:none;
-text-shadow: 0px 0.1em 0.1em rgba(255,255,255,0.5);
-behavior:url(/PIE.htc);
+  font-family:sniglet;
+  color:#fff;text-decoration:none;
+  text-shadow: 0px 0.1em 0.1em rgba(255,255,255,0.5);
 }
 .logo:hover{
 text-shadow: 0.1em 0.1em 0.4em rgba(255,255,255,0.7),-0.1em -0.1em 0.4em rgba(255,255,255,0.4);
-behavior:url(/PIE.htc);
 }
 
 .title{
 font-family:$titlefont;
 text-align:center;
 font-weight:bold;
-font-size:64px;
 position:absolute;top:0;left:0;
 width:100%;
 }
 
 .category{
   color:$pink;
-  text-shadow: 0.05em 0.05em 0em $darkpink;font-weight:normal;
+  text-shadow: 0.05em 0.05em 0em $darkpink;
+  -ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Strength=2,Direction=135,Color='#{$darkpink}')";
+  filter:progid:DXImageTransform.Microsoft.Shadow(Strength=2,Direction=135,Color='#{$darkpink}');
+  zoom:1;
+  font-weight:normal;
   text-align:left;
   font-size:36px;
   -webkit-transform:rotate(-4deg) translate(-0.4em,-0.72em);
@@ -205,12 +225,10 @@ width:100%;
   position:relative;z-index:1;line-height:1.2;
 }
 
-.card{position:relative;letter-spacing:-0.06em;a{text-decoration:none;}}
-
 .tip{margin:0;font-size:0.9em;color:$blue;}
 
 .intro{
-margin:0 auto 1em;padding:0 5%;
+  margin:0 auto 0.4em;padding:0 5%;
   strong{font-weight:bold;color:$blue;}
   em{font-weight:bold;color:$sky;font-style:normal;}
 }

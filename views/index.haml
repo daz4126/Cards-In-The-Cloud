@@ -1,4 +1,4 @@
-%p.intro Welcome to the <em>easy</em> way to send electronic greeting cards to your <em>friends</em> and <em>family</em> online. You won't find any silly music, animations or adverts here. Just <em>bright</em> and <em>colourful</em> e-cards that you can <em>personalize</em>. 
+%p.intro The <em>easy</em> way to send <em>personalized</em> greeting cards to your <em>friends</em> and <em>family</em> online. You won't find any silly music, animations or adverts here - just <em>great looking</em> e-cards!
 
 %p.intro <strong>Click on a card to get started!</strong>
 
@@ -6,8 +6,8 @@
   %h1.category Birthday Cards
   %ul
     - @birthday.each do |design|
-      %li.card
-        %a(href='/card/#{design.id}')
+      %li
+        %a.card(href='/card/#{design.id}')
           %h1.title{:class => design.name}= design.title
           %img.reflect{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
 
@@ -15,8 +15,8 @@
   %h1.category Easter Cards
   %ul
     - @easter.each do |design|
-      %li.card
-        %a(href='/card/#{design.id}')
+      %li
+        %a.card(href='/card/#{design.id}')
           %h1.title{:class => design.name}= design.title
           %img.reflect{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
 
@@ -24,8 +24,8 @@
   %h1.category Christmas Cards
   %ul.cards
     - @xmas.each do |design|
-      %li.card
-        %a(href='/card/#{design.id}')
+      %li
+        %a.card(href='/card/#{design.id}')
           %h1.title{:class => design.name}= design.title
           %img.reflect{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
 
@@ -33,7 +33,7 @@
   %h1.category New Baby Cards
   %ul.cards
     - @babies.each do |design|
-      %li.card
-        %a(href='/card/#{design.id}')
+      %li
+        %a.card(href='/card/#{design.id}')
           %h1.title{:class => design.name}= design.title
           %img.reflect{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}

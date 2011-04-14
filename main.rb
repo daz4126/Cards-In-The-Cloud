@@ -19,7 +19,7 @@ configure :production do
   set :scss, { :style => :compressed }
   set :haml, { :ugly => true }
   before do 
-    cache_control :public, :must_revalidate, :max_age => 60*60*24*7 
+    cache_control :public, :must_revalidate, :max_age => 60*60*24*7
   end 
 end
 
@@ -93,7 +93,7 @@ error { @error = request.env['sinatra_error'] ; haml :'500' }
 get '/styles.css' do
   if settings.environment == :production
     cache_control :public, :must_revalidate, :max_age => 60*60*24*7, :vary => 'Accept-Encoding'
-    last_modified(File.mtime(__FILE__))
+    last_modified(File.mtime(settings.views << '/styles.scss'))
   end
   content_type 'text/css', :charset => 'utf-8'
   scss :styles

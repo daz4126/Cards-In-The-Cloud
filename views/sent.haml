@@ -1,9 +1,11 @@
 %h1 Your Card is in the Cloud!
-%img.reflect{:src=>settings.images+'/'+@card.design.image+'-th.png',:alt => @card.design.alt, :width => 128, :height => 84,:style => 'margin:0 auto;'}
-%p You can see it here - <a href="http://#{request.host_with_port+@card.url}">http://#{request.host_with_port+@card.url}</a>
+%a.medium.card{:href=>"http://"<<request.host_with_port<<@card.url}
+  %h1.title{:class => @card.design.name}= @card.title
+  %img.reflect{:src=>settings.images + "/" + @card.design.image + ".png",:alt => @card.design.alt, :width => 256, :height => 172}
+%p <a href="http://#{request.host_with_port+@card.url}">http://#{request.host_with_port+@card.url}</a>
 %p A notification has been sent to the following email address(es):
 %ul.sent
   - @card.email.split(",").each do |email|
     %li= email
 %p Thanks for using Cards in the Cloud! 
-%p This service is completely free. Why not make a <a href='http://uk.virginmoneygiving.com/giving/'>donation to charity</a> to say thank you?
+%p Sending a Card in the Cloud is free. Why not make a <a href='http://uk.virginmoneygiving.com/giving/'>donation to charity</a> to say thank you?
