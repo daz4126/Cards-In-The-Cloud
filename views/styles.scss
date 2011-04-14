@@ -212,9 +212,9 @@ width:100%;
 .category{
   color:$pink;
   text-shadow: 0.05em 0.05em 0em $darkpink;
-  -ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Strength=2,Direction=135,Color='#{$darkpink}')";
-  filter:progid:DXImageTransform.Microsoft.Shadow(Strength=2,Direction=135,Color='#{$darkpink}');
-  zoom:1;
+  -ms-filter:"progid:DXImageTransform.Microsoft.Shadow(Strength=1,Direction=135,Color='#{$darkpink}')";
+  filter:progid:DXImageTransform.Microsoft.Shadow(Strength=1,Direction=135,Color='#{$darkpink}');
+  zoom:1;position:relative;z-index:1;
   font-weight:normal;
   text-align:left;
   font-size:36px;
