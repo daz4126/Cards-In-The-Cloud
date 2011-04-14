@@ -212,8 +212,6 @@ width:100%;
 .category{
   color:$pink;
   text-shadow: 0.05em 0.05em 0em $darkpink;
-  -ms-filter:"progid:DXImageTransform.Microsoft.DropShadow(OffX=1, OffY=1,Color=$darkpink)";
-  filter:progid:DXImageTransform.Microsoft.DropShadow(OffX=1, OffY=1,Color=$darkpink);
   zoom:1;position:relative;z-index:1;
   font-weight:normal;
   text-align:left;
