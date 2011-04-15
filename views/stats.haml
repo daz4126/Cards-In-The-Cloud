@@ -1,6 +1,7 @@
 %table
   %tr
     %th ID
+    %th Salt
     %th Date Sent
     %th Title
     %th Design
@@ -10,6 +11,7 @@
   - @cards.each do |card|
     %tr
       %td= card.id
+      %td= card.salt
       %td= card.sent_at
       %td= card.title
       %td= card.design_id
