@@ -38,7 +38,7 @@ class Card
   property :email,        Text
   belongs_to :design
   
-  def url ; '/' + (self.id.to_s + self.salt).reverse.to_i.to_s(36) ; end
+  def url ; '/' + (id.to_s + salt).reverse.to_i.to_s(36) ; end
   
   def self.send_daily_stats
     @cards = self.all(:sent_at => ((Time.now - 24*60*60)..Time.now))
