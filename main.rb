@@ -29,13 +29,13 @@ DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",setting
 class Card
   include DataMapper::Resource
   property :id,           Serial
-  property :salt,         Text, :default =>  proc { |m,p| rand(9).to_s + (1+rand(8)).to_s} 
-  property :title,        Text
+  property :salt,         String, :default =>  proc { |m,p| rand(9).to_s + (1+rand(8)).to_s} 
+  property :title,        String
   property :message,      Text
   property :sent_at,      DateTime
-  property :from,         Text
-  property :to,           Text
-  property :email,        Text
+  property :from,         String
+  property :to,           String
+  property :email,        String
   belongs_to :design
   
   def url ; '/' + (id.to_s + salt).reverse.to_i.to_s(36) ; end
