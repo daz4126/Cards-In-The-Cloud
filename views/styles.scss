@@ -65,7 +65,8 @@ footer{
 
 
 .cards{
-  @include clearfix; 
+  @include clearfix;
+  margin-top:16px;
   ul{float:left;}  
   li{
     float:left;
@@ -82,7 +83,7 @@ footer{
   //Big Card
   width:640px;
   margin:20px auto 0;
-  .title{font-size:64px;letter-spacing:-0.06em;}
+  .title{font-size:64px;}
 }
 //Medium Card
 .card.medium{
@@ -226,7 +227,7 @@ width:100%;
 .tip{margin:0;font-size:0.9em;color:$blue;}
 
 .intro{
-  margin:0 auto 0.4em;padding:0 5%;
+  margin:0 auto 0.4em;padding:0 20%;
   strong{font-weight:bold;color:$blue;}
   em{font-weight:bold;color:$sky;font-style:normal;}
 }

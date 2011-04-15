@@ -1,4 +1,4 @@
-%p.intro The <em>easy</em> way to send <em>personalized</em> greeting cards to your <em>friends</em> and <em>family</em> online. You won't find any silly music, animations or adverts here - just <em>great looking</em> e-cards!
+%p.intro The <em>easy</em> way to send <em>personalized</em> greeting cards to your <em>friends</em> and <em>family</em> online for <em>free</em>
 
 %p.intro <strong>Click on a card to get started!</strong>
 
@@ -22,7 +22,7 @@
 
 %section.cards        
   %h1.category Christmas Cards
-  %ul.cards
+  %ul
     - @xmas.each do |design|
       %li
         %a.card(href='/card/#{design.id}')
@@ -31,7 +31,7 @@
 
 %section.cards
   %h1.category New Baby Cards
-  %ul.cards
+  %ul
     - @babies.each do |design|
       %li
         %a.card(href='/card/#{design.id}')
