@@ -29,16 +29,19 @@ DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",setting
 class Card
   include DataMapper::Resource
   property :id,           Serial
-  property :salt,         String, :default =>  proc { |m,p| rand(9).to_s + (1+rand(8)).to_s} 
-  property :title,        String
+  property :salt,         String, :default =>  proc { |m,p| rand(9).to_s + (1+rand(8)).to_s}, :length => 256
+  property :title,        String, :length => 2
   property :message,      Text
-  property :sent_at,      DateTime
-  property :from,         String
-  property :to,           String
-  property :email,        String
+  property :created_at,   DateTime, :default =>  proc { |m,p| Time.now}
+  property :from,         String, :length => 128
+  property :to,           String, :length => 128
+  property :email,        String, :length => 128
   belongs_to :design
   
   def url ; '/' + (id.to_s + salt).reverse.to_i.to_s(36) ; end
+  
+  # expires after 30 days
+  def expires ; created_at + 30 ; end
   
   def self.send_daily_stats
     @cards = self.all(:sent_at => ((Time.now - 24*60*60)..Time.now))
@@ -84,11 +87,18 @@ end
 #Design.create(:name => 'easter',:title => 'Happy Easter!',:image => 'easter',:css => 'color:#ff9955;text-shadow: 0.05em 0.05em 0 #4386eb;',:type => 'easter',:alt => 'The Easter Bunny with lots of Easter Eggs');
 #Design.create(:name => 'babyboy',:title => 'Baby Boy!',:image => 'babyboy',:css => 'color:#fff;',:type => 'baby',:alt => 'A Baby Boy');
 #Design.create(:name => 'babygirl',:title => 'Baby Girl!',:image => 'babygirl',:css => 'color:#fff;',:type => 'baby',:alt => 'A Baby Girl')
-
+#Design.create(:name => 'eastereggs',:title => 'Easter Eggs!',:image => 'eggs',:css => 'color:#ff2a7f;',:type => 'easter',:alt => 'Some Easter Eggs')
+#Design.create(:name => 'bunny',:title => 'Hoppy Easter!',:image => 'hoppy',:css => 'color:#e5ff80;',:type => 'easter',:alt => 'The Easter Bunny')
 
 ###########  Routes ###########
 not_found { haml :'404' }
-error { @error = request.env['sinatra_error'] ; haml :'500' }
+error { @error = request.env['sinatra_error'].name ; haml :'500' }
+
+class CardExpired < StandardError; end
+
+error CardExpired do
+  haml :expired, 404
+end
 
 get '/styles.css' do
   if settings.environment == :production
@@ -116,7 +126,7 @@ end
 
 post '/send' do
   if params['bot']['message']=='D2'&&params['bot']['email'].empty?
-    @card = Design.get(params[:id]).cards.create(params[:card].merge({:sent_at => Time.now}))
+    @card = Design.get(params[:id]).cards.create(params[:card])
     @card.email.split(",").each do |email|
       Pony.mail(
         :from => 'Cards in the Cloud<donotreply@cardsinthecloud.com>',
@@ -151,17 +161,21 @@ get '/:shorturl' do
   salt = id.slice!(-2,2)
   @card = Card.get(id)
   raise error(404) unless @card && salt == @card.salt
+  raise error(404) if @card.expires < Time.now
   haml :card
 end
 __END__
 ########### Views ###########
 @@404
-%h1 Ooops!
-%p Whatever you're looking for seems to be lost in the clouds. 
-%p You might find a silver lining on the <a href='/'>homepage</a>.
+%h1 Lost in the Clouds!
+%p The card you're looking for seems to be missing. Are you sure that you typed the web address correctly?
 
 @@500
-%h3 Crikey!
+%h1 Crikey!
 %p We're very sorry, but there's been an error.
 %p It seems that the error is:
 %p= @error
+
+@@expired
+%h1 That Card has expired!
+%p Cards only stay in the cloud for a month.

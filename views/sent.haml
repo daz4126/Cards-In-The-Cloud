@@ -7,5 +7,6 @@
 %ul.sent
   - @card.email.split(",").each do |email|
     %li= email
+%p This card will be available  for 30 days (until #{@card.expires.strftime('%B %e %Y') })
 %p Thanks for using Cards in the Cloud! 
-%p Sending a Card in the Cloud is free. Why not make a <a href='http://uk.virginmoneygiving.com/giving/'>donation to charity</a> to say thank you?
+%p Sending a Card in the Cloud is free, why not make a <a href='http://uk.virginmoneygiving.com/giving/'>donation to charity</a> to say thank you?

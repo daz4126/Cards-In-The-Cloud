@@ -53,7 +53,8 @@ header{
 
 footer{
   text-align:center;
-  background:$green url(ground.png) -140% top repeat-x;
+  background:url(ground.png) -140% top repeat-x;
+  background-color:$green;
   color:$yellow;
   font-size:90%;
   text-shadow: 0px 1px 0px darken($green,20%);
@@ -111,7 +112,7 @@ footer{
     -moz-transform: skew(0,0) scale(1.2);
     -moz-box-shadow:none;
     }
-  .title{font-size:16px;}
+  .title{font-size:14px;}
 }
 
 .message{
@@ -130,6 +131,8 @@ min-height:4em;_height:4em;width:610px;}
 .babyboy{color:#fff;text-shadow: none;}
 .babygirl{color:#fff;text-shadow: none;}
 .easter{color:#F9C052;text-shadow: 0.05em 0.05em 0 #4386eb;}
+.bunny{color:#e5ff80;text-shadow: none;}
+.eastereggs{color:#ff2a7f;text-shadow: none;}
 
 form{
   padding-bottom:2em;
@@ -186,7 +189,7 @@ form{
 }
 
 ul.sent{
-  width:80%;margin:20px auto;list-style:disc;color:$blue;
+  width:80%;margin:20px auto;list-style:none;color:$blue;
   
   li{color:$blue;}
 }
@@ -235,7 +238,7 @@ width:100%;
 .tip{margin:0;font-size:0.9em;color:$blue;}
 
 .intro{
-  margin:0 auto 0.4em;padding:0 20%;
+  margin:0 auto 0.4em;padding:0 15%;max-width:32em;
   strong{font-weight:bold;color:$blue;}
   em{font-weight:bold;color:$sky;font-style:normal;}
 }
