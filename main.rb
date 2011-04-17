@@ -29,10 +29,10 @@ DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",setting
 class Card
   include DataMapper::Resource
   property :id,           Serial
-  property :salt,         String, :default =>  proc { |m,p| rand(9).to_s + (1+rand(8)).to_s}
+  property :salt,         String, :default =>  proc { |m,p| rand(9).to_s + (1+rand(8)).to_s}, :length => 2
   property :title,        String, :length => 256
   property :message,      Text
-  property :created_at,   DateTime, :default =>  proc { |m,p| DateTime.now}
+  property :created_at,   DateTime, :default =>  proc { |m,p| Time.now}
   property :from,         String, :length => 128
   property :to,           String, :length => 128
   property :email,        String, :length => 128
