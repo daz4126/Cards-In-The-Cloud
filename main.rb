@@ -18,9 +18,12 @@ end
 configure :production do
   set :scss, { :style => :compressed }
   set :haml, { :ugly => true }
-  before do 
+  sha1, date = `git log HEAD~1..HEAD --pretty=format:%h^%ci`.strip.split('^') 
+  before do
     cache_control :public, :must_revalidate, :max_age => 60*60*24*7
-  end 
+    etag sha1
+    last_modified date
+  end
 end
 
 DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",settings.root, "development.db"))
@@ -29,7 +32,7 @@ DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",setting
 class Card
   include DataMapper::Resource
   property :id,           Serial
-  property :salt,         String, :default =>  proc { |m,p| rand(9).to_s + (1+rand(8)).to_s}, :length => 2
+  property :salt,         String, :default =>  proc { |m,p| (1+rand(8)).to_s}, :length => 1
   property :title,        String, :length => 256
   property :message,      Text
   property :created_at,   DateTime, :default =>  proc { |m,p| Time.now}
@@ -94,17 +97,13 @@ end
 not_found { haml :'404' }
 error { @error = request.env['sinatra_error'].name ; haml :'500' }
 
-class CardExpired < StandardError; end
+class Expired < StandardError; end
 
-error CardExpired do
-  haml :expired, 404
+error Expired do
+  haml :expired
 end
 
 get '/styles.css' do
-  if settings.environment == :production
-    cache_control :public, :must_revalidate, :max_age => 60*60*24*7, :vary => 'Accept-Encoding'
-    last_modified(File.mtime(settings.views << '/styles.scss'))
-  end
   content_type 'text/css', :charset => 'utf-8'
   scss :styles
 end
@@ -146,7 +145,7 @@ post '/send' do
         })
       end
   else
-    halt [ 401, 'Not authorized' ]
+    halt [ 401, 'Get Lost Spam Bot!' ]
   end
   haml :sent
 end
@@ -161,7 +160,8 @@ get '/:shorturl' do
   salt = id.slice!(-2,2)
   @card = Card.get(id)
   raise error(404) unless @card && salt == @card.salt
-  raise error(404) if @card.expires < Time.now
+  raise error(404) if @card.created_at < Time.now
+  #raise Expired,'Card has Expired' if @card.created_at < Time.now
   haml :card
 end
 __END__
