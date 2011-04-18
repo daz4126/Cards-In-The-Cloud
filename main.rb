@@ -47,7 +47,7 @@ class Card
   def expires ; created_at + 30 ; end
   
   def self.send_daily_stats
-    @cards = self.all(:sent_at => ((Time.now - 24*60*60)..Time.now))
+    @cards = self.all(:created_at => ((Time.now - 24*60*60)..Time.now))
       Pony.mail(
         :from => 'Cards in the Cloud<donotreply@cardsinthecloud.com>',
         :to => 'daz4126@gmail.com',
@@ -157,7 +157,7 @@ end
 
 get '/:shorturl' do
   id = params[:shorturl].to_i(36).to_s.reverse
-  salt = id.slice!(-2,2)
+  salt = id.slice!(-1,1)
   @card = Card.get(id)
   raise error(404) unless @card && salt == @card.salt
   raise error(404) if @card.expires < Time.now
