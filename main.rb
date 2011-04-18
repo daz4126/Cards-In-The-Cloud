@@ -160,7 +160,7 @@ get '/:shorturl' do
   salt = id.slice!(-2,2)
   @card = Card.get(id)
   raise error(404) unless @card && salt == @card.salt
-  raise error(404) if @card.created_at < Time.now
+  raise error(404) if @card.expires < Time.now
   #raise Expired,'Card has Expired' if @card.created_at < Time.now
   haml :card
 end
