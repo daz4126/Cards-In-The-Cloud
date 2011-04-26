@@ -7,11 +7,13 @@ $yellow:#ffff00;
 $pink:#FD4581;
 $darkpink:#852042;
 
+$logofont:'sniglet',sans-serif;
 $font:'Ubuntu',Helvetica,Arial,sans-serif;
 $titlefont:'Chewy',serif;
 $msgfont:'Architects Daughter',sans-serif;
-$hfont:'Pacifico',sans-serif;
-$hcolor:$blue;
+$hfont:'sniglet',sans-serif;
+$categoryfont:'Pacifico',sans-serif;
+$hcolor:$sky;
 
 html,body,div,span,object,iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,abbr,address,cite,code,del, dfn, em, img, ins, kbd, q, samp,small, strong, sub,sup,var,b,i,dl,dt,dd, ol, ul, li,fieldset, form, label, legend,table, caption,tbody,tfoot, thead, tr, th, td,article, aside, canvas, details, figcaption,figure, footer, header, hgroup, menu, nav, section, summary,time, mark, audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;}
 article,aside,canvas,details,figcaption,figure,
@@ -83,8 +85,8 @@ footer{
   text-decoration:none;
   //Big Card
   width:640px;
-  margin:20px auto 0;
-  .title{font-size:64px;}
+  margin:0 auto;
+  .title{font-size:60px;}
 }
 //Medium Card
 .card.medium{
@@ -112,7 +114,7 @@ footer{
     -moz-transform: skew(0,0) scale(1.2);
     -moz-box-shadow:none;
     }
-  .title{font-size:14px;}
+  .title{font-size:12px;}
 }
 
 .message{
@@ -121,21 +123,21 @@ background: #fff;
 font-size:32px;font-family:$msgfont;  
 min-height:4em;_height:4em;width:610px;}
 
-.croc{color:#ff6;text-shadow: none;}
-.hippo{color:#a02c2c;text-shadow: none;}
-.fish{color:#F45CCA;text-shadow: none;}
-.cupcake{color:#96f;text-shadow: none;}
-.snowman{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
-.robins{color:#F7FB4A;text-shadow: 0.05em 0.05em 0 #F57B24;}
-.duck{color:#fcf;text-shadow: none;}
-.babyboy{color:#fff;text-shadow: none;}
-.babygirl{color:#fff;text-shadow: none;}
-.easter{color:#F9C052;text-shadow: 0.05em 0.05em 0 #4386eb;}
-.bunny{color:#e5ff80;text-shadow: none;}
-.eastereggs{color:#ff2a7f;text-shadow: none;}
-
 form{
   padding-bottom:2em;
+  width:640px;
+  margin:0 auto;
+  
+  .to,.from{width:310px;float:left;margin-bottom:20px;
+  legend{font-family:$msgfont;text-align:left;
+    color:#666;font-size:36px;font-weight:bold;}
+  }
+  
+  .to{
+    margin-right:9px;
+    border-right:solid #ccc 2px;
+    padding-right:9px;
+  }
   
   input{border:none;outline:none;background:none;color:#666;}
   input:focus{background:lighten($sky,30%);outline:none;}
@@ -146,7 +148,7 @@ form{
   height:420px;width:640px;
   overflow:hidden;resize:none;}
   
-  .message{border:5px solid #ccc;color:#666;
+  .message{border:5px solid #ccc;color:#666;resize:none;
   &:focus{outline:none;border:$sky 5px solid;}}
     
   textarea::-webkit-input-placeholder{text-align:center;}
@@ -155,34 +157,40 @@ form{
   label{
     display:block;
     text-align:left;
-    margin:16px auto;
-    font-size:36px;
+    margin:10px auto;
+    font-size:28px;
     font-family:$msgfont;
     color:#999;
     overflow:hidden;
     
     input{
-      font-size:32px;
+      font-size:1em;
       font-family:$msgfont,sans-serif;
-      width:540px;
-      border-bottom:#ccc dotted 3px;line-height:1em;
+      width:240px;
+      border-bottom:#ccc dotted 1px;
+      line-height:1em;
       float:right;
       position:relative;bottom:6px;
     }
   }
   
   .button{
+    clear:left;
+    display:block;
     background:$sky;color:white;@include gradient($sky,$blue);
-    border:1px $blue solid;border-radius:0.8em;
+    border:1px $blue solid;
+    border-radius:0.8em;
     -moz-border-radius:0.8em;
     position:relative;
-    margin:10px auto;
-    text-align:center;display:block;
-    width:200px;padding:20px 10px;
-    font-size:48px;
+    text-align:center;
+    padding:10px;
+    margin:0 auto;
+    width:4em;
+    font-size:36px;
     text-transform:uppercase;font-weight:bold;
     text-shadow:-1px -1px 0px rgba(0,0,0,0.5);
     behavior:url(/PIE.htc);
+    &:focus{outline:none;background:$sky;color:white;@include gradient($sky,$blue);}
   }
   
   #bot{display:none;visibility:hidden;width:0;height:0;}
@@ -205,7 +213,7 @@ table{
 }
 
 .logo,.logo:link,.logo:visited{
-  font-family:sniglet;
+  font-family:$logofont;
   color:#fff;text-decoration:none;
   text-shadow: 0px 0.1em 0.1em rgba(255,255,255,0.5);
 }
@@ -225,6 +233,7 @@ width:100%;
   color:$pink;
   text-shadow: 0.05em 0.05em 0em $darkpink;
   zoom:1;position:relative;z-index:1;
+  font-family:$categoryfont;
   font-weight:normal;
   text-align:left;
   font-size:36px;
@@ -235,10 +244,61 @@ width:100%;
   position:relative;z-index:1;line-height:1.2;
 }
 
-.tip{margin:0;font-size:0.9em;color:$blue;}
+.info{margin:0;font-size:0.9em;color:$blue;}
 
 .intro{
-  margin:0 auto 0.4em;padding:0 15%;max-width:32em;
+  margin:0 auto 0.4em;padding:0 20%;max-width:20em;
   strong{font-weight:bold;color:$blue;}
   em{font-weight:bold;color:$sky;font-style:normal;}
 }
+
+.feedback{
+  background: transparent url(feedback.png) right bottom no-repeat;
+  position:fixed; right:0px;bottom:0px;
+  //width:150px;height:150px;
+  padding-bottom:100px;
+  text-decoration:none;
+  p{
+    -webkit-background-clip: padding-box;
+    position:relative;right:12px;bottom:0px;
+    background:#fff;
+    border:#222 solid 3px;
+    font-family:$msgfont;
+    font-size:20px;
+    width:120px;
+    color:#222;
+    border-radius:50px;
+    padding:5px;
+  }
+  p:before{  
+    content: ' ';  
+    position:absolute;left:40px;top:64px; 
+    width:0;height:0;
+    border:8px solid;  
+    border-color:#222 #222 transparent transparent; 
+  }
+  
+  p:after{  
+      content: ' ';  
+      position:absolute;left:42px;top:62px;  
+      width:0;height:0;  
+      border: 6px solid;  
+      border-color:#fff #fff transparent transparent;  
+  }
+  
+  em{font-weight:bold;font-style:normal;}
+}
+
+.croc{color:#ff6;text-shadow:none;}
+.hippo{color:#a02c2c;text-shadow:none;}
+.fish{color:#F45CCA;text-shadow:none;}
+.cupcake{color:#96f;text-shadow:none;}
+.snowman{color:#c00;text-shadow: 0.05em 0.05em 0 #050;}
+.robins{color:#F7FB4A;text-shadow: 0.05em 0.05em 0 #F57B24;}
+.duck{color:#fcf;text-shadow: none;}
+.babyboy{color:#fff;text-shadow:none;}
+.babygirl{color:#fff;text-shadow:none;}
+.easter{color:#F9C052;text-shadow: 0.05em 0.05em 0 #4386eb;}
+.bunny{color:#e5ff80;text-shadow:none;}
+.eastereggs{color:#ff2a7f;text-shadow:none;}
+.sheep{color:#ff0;text-shadow: 0.05em 0.05em 0 #4386eb;}

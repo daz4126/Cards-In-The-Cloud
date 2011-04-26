@@ -1,12 +1,17 @@
-%h1 Your Card is in the Cloud!
-%a.medium.card{:href=>"http://"<<request.host_with_port<<@card.url}
-  %h1.title{:class => @card.design.name}= @card.title
-  %img.reflect{:src=>settings.images + "/" + @card.design.image + ".png",:alt => @card.design.alt, :width => 256, :height => 172}
-%p <a href="http://#{request.host_with_port+@card.url}">http://#{request.host_with_port+@card.url}</a>
-%p A notification has been sent to the following email address(es):
-%ul.sent
-  - @card.email.split(",").each do |email|
-    %li= email
-%p This card will be available  for 30 days (until #{@card.expires.strftime('%B %e %Y') })
-%p Thanks for using Cards in the Cloud! 
-%p Sending a Card in the Cloud is free, why not make a <a href='http://uk.virginmoneygiving.com/giving/'>donation to charity</a> to say thank you?
+-if @card
+  %h1 Your Card is in the Cloud!
+  %a.medium.card{:href=>"http://"<<request.host_with_port<<@card.url}
+    %h1.title{:class => @card.design.name}= @card.title
+    %img.reflect{:src=>settings.images + "/" + @card.design.image + ".png",:alt => @card.design.alt, :width => 256, :height => 172}
+  %p <a href="http://#{request.host_with_port+@card.url}">http://#{request.host_with_port+@card.url}</a>
+  %p A notification has been sent to the following email address(es):
+  %ul.sent
+    - @card.email.split(",").each do |email|
+      %li= email
+  %p This card will be available  for 30 days (until #{@card.expires.strftime('%B %e, %Y') })
+  %p Thanks for using Cards in the Cloud! 
+  %p Sending a Card in the Cloud is free, why not make a <a href='http://uk.virginmoneygiving.com/giving/'>donation to charity</a> to say thank you?
+-else
+  %h1 Thanks for the FeedBAAck!
+  %img.medium.card.reflect{:src=>settings.images+'/feedback.png',:alt => 'The Feedbaack Sheep', :width => 256, :height => 172}
+  %p If you included an email address, we'll be in touch soon.

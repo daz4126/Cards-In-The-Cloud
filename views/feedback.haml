@@ -1,0 +1,15 @@
+%form.card(action="/feedback" method="post")
+  %h1.title.sheep FeedBAAck
+  %img{:src=>settings.images+'/feedback.png',:alt => 'The Feedbaack Sheep', :width => 640, :height => 420}
+  %p Please send any ideas you have to make this website better or tell us about any problems you have had using the site. 
+  %textarea.message(name="message" placeholder="Write your feedback here...")
+  %fieldset
+    %legend About You:
+    %label(for="from")Name:<input type="text" name="from" id="from" value="">
+    %label(for="email")Email:<input type="email" name="email" id="email">
+    %p.info You only need to fill in your email address if you want a reply
+  %input#send.button(type="submit" value="Send")
+  #bot
+    %p Please do not change these fields - they are to avoid spam
+    %input(name="bot[email]")
+    %textarea(name="bot[message]")D2

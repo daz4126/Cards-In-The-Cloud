@@ -4,6 +4,7 @@
 ########### Configuration ###########
 set :name,'Cards in the Cloud'
 set :images, 'http://pics.cardsinthecloud.com'
+set :email, 'daz4126@gmail.com'
 set :analytics, ENV['ANALYTICS'] || 'UA-XXXXXXXX-X'
 set :haml, { :format => :html5 }
 
@@ -31,28 +32,48 @@ DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",setting
 ########### Cards ###########
 class Card
   include DataMapper::Resource
-  property :id,           Serial
-  property :salt,         String, :default =>  proc { |m,p| (1+rand(8)).to_s}, :length => 1
-  property :title,        String, :length => 256
-  property :message,      Text
-  property :created_at,   DateTime, :default =>  proc { |m,p| Time.now}
-  property :from,         String, :length => 128
-  property :to,           String, :length => 128
-  property :email,        String, :length => 128
-  belongs_to :design
+  property    :id,           Serial
+  property    :salt,         String, :default =>  proc { |m,p| (1+rand(8)).to_s}
+  property    :title,        String, :length => 256
+  property    :message,      Text
+  property    :created_at,   DateTime, :default =>  proc { |m,p| Time.now}
+  property    :from,         String, :length => 128
+  property    :to,           String, :length => 128
+  property    :email,        String, :length => 128
+  property    :sender_email, String, :length => 128
+  belongs_to  :design
   
-  def url ; '/' + (id.to_s + salt).reverse.to_i.to_s(36) ; end
+  def url
+    '/' + (id.to_s + salt).reverse.to_i.to_s(36)
+  end
+  
+#  def viewed
+#  case self.views
+#    when 1: 'once'
+#    when 2: 'twice'
+#    else  self.views.to_s + ' times'
+#  end
+#  
+#  end
   
   # expires after 30 days
-  def expires ; created_at + 30 ; end
+  def expires
+    created_at + 30
+  end
   
-  def self.send_daily_stats
-    @cards = self.all(:created_at => ((Time.now - 24*60*60)..Time.now))
+  def send
+    body = "<h1>Cards in the Cloud</h1>"
+    name = self.to.nil? ? "" : " " + self.to
+    body << "<p>Hi" << name << "!</p>"
+    body << "<p>{self.from} has sent you a <a href=#{self.url}'>card in the cloud</a>.</p>"
+    body << "<p>You can see your card by clicking on this link: <a href='#{self.url}'>#{self.url}</a>.</p>"
+    body << "<p style='background:#619FEA;color:#fff;font-size:11px;'> Cards in the Cloud is the easy way to send personalized greeting cards to your friends and family for free. Why don't you <a href=''>send one too?</a>.</p>"
+    self.email.split(",").each do |email|
       Pony.mail(
-        :from => 'Cards in the Cloud<donotreply@cardsinthecloud.com>',
-        :to => 'daz4126@gmail.com',
-        :subject => "Cards sent Today",
-        :body => "#{@cards.count} card(s) were sent in the cloud today",
+        :from => "#{settings.name}<donotreply@cardsinthecloud.com>",
+        :to => email,
+        :subject => self.from + " has sent you a card",
+        :html_body => body,
         :port => '587',
         :via => :smtp,
         :via_options => { 
@@ -64,6 +85,34 @@ class Card
           :authentication       => :plain, 
           :domain               => ENV['SENDGRID_DOMAIN']||'localhost.localdomain'
         })
+    end
+  end
+  
+  def self.send_daily_stats
+    @cards = self.all(:created_at => ((Time.now - 24*60*60)..Time.now))
+#    email :from => 'Cards in the Cloud<donotreply@cardsinthecloud.com>',
+#          :subject => "Cards sent Today",
+#          :body => "#{@cards.count} card(s) were sent in the cloud today"
+    Pony.mail(
+      :from => 'Cards in the Cloud<donotreply@cardsinthecloud.com>',
+      :to => settings.email,
+      :subject => "Cards sent Today",
+      :body => "#{@cards.count} card(s) were sent in the cloud today",
+      :port => '587',
+      :via => :smtp,
+      :via_options => { 
+        :address              => ENV['SENDGRID_ADDRESS']||'smtp.gmail.com', 
+        :port                 => '587', 
+        :enable_starttls_auto => true, 
+        :user_name            => ENV['SENDGRID_USERNAME']||'daz4126', 
+        :password             => ENV['SENDGRID_PASSWORD']||'senior6DJ!', 
+        :authentication       => :plain, 
+        :domain               => ENV['SENDGRID_DOMAIN']||'localhost.localdomain'
+      })
+  end
+  
+  def self.stats(days=30)
+    self.all(:created_at => ((Time.now - days*24*60*60)..Time.now)).count
   end
 end
 
@@ -71,30 +120,43 @@ end
 class Design
   include DataMapper::Resource
   property :id,           Serial
-  property :name,         Text
-  property :title,        Text
-  property :image,        Text
+  property :name,         String
+  property :title,        String
+  property :image,        String
   property :css,          Text
-  property :type,         Text
-  property :alt,          Text
+  property :type,         String
+  property :alt,          String
   has n, :cards
 end
 
-#Design.create(:name => 'croc',:title => 'Snappy Birthday!',:image => 'croc',:css => 'color:#ff6;',:type => 'birthday',:alt => 'A Hungry Crocodile');
-#Design.create(:name => 'hippo',:title => 'Hippo Birthday!',:image => 'hippo',:css => 'color:#a02c2c;',:type => 'birthday',:alt => 'A Big Hippo');
-#Design.create(:name => 'fish',:title => 'Birthday Fishes!',:image => 'fish',:css => 'color:#f6f;',:type => 'birthday',:alt => 'Fishes in the Sea');
-#Design.create(:name => 'cupcake',:title => 'Birthday Cupcakes!',:image => 'cupcake',:css => 'color:#96f;',:type => 'birthday',:alt => 'Three Cupcakes');
-#Design.create(:name => 'duck',:title => 'Quacky Birthday!',:image => 'duck',:css => 'color:#fcf;',:type => 'birthday',:alt => 'A Flying Duck');
-#Design.create(:name => 'snowman',:title => 'Let It Snow!',:image => 'snowman',:css => 'color:#c00;text-shadow: 0.05em 0.05em 0 #050;',:type => 'xmas',:alt => 'A Snowman');
-#Design.create(:name => 'robins',:title => 'Rocking Robins!',:image => 'robins',:css => 'color:#F7FB4A;text-shadow: 0.05em 0.05em 0 #F57B24;',:type => 'xmas',:alt => 'Three Robins');
-#Design.create(:name => 'easter',:title => 'Happy Easter!',:image => 'easter',:css => 'color:#ff9955;text-shadow: 0.05em 0.05em 0 #4386eb;',:type => 'easter',:alt => 'The Easter Bunny with lots of Easter Eggs');
-#Design.create(:name => 'babyboy',:title => 'Baby Boy!',:image => 'babyboy',:css => 'color:#fff;',:type => 'baby',:alt => 'A Baby Boy');
-#Design.create(:name => 'babygirl',:title => 'Baby Girl!',:image => 'babygirl',:css => 'color:#fff;',:type => 'baby',:alt => 'A Baby Girl')
-#Design.create(:name => 'eastereggs',:title => 'Easter Eggs!',:image => 'eggs',:css => 'color:#ff2a7f;',:type => 'easter',:alt => 'Some Easter Eggs')
-#Design.create(:name => 'bunny',:title => 'Hoppy Easter!',:image => 'hoppy',:css => 'color:#e5ff80;',:type => 'easter',:alt => 'The Easter Bunny')
+###########  email helper ###########
+
+helpers do
+
+def email(opts = {} )
+  to = opts[:to] || settings.email
+  Pony.mail(
+    :from => opts[:from],
+    :to => to,
+    :subject => opts[:subject],
+    :html_body => opts[:body],
+    :port => '587',
+    :via => :smtp,
+    :via_options => { 
+      :address              => ENV['SENDGRID_ADDRESS']||'smtp.gmail.com', 
+      :port                 => '587', 
+      :enable_starttls_auto => true, 
+      :user_name            => ENV['SENDGRID_USERNAME']||'daz4126', 
+      :password             => ENV['SENDGRID_PASSWORD']||'senior6DJ!', 
+      :authentication       => :plain, 
+      :domain               => ENV['SENDGRID_DOMAIN']||'localhost.localdomain'
+    })
+end
+
+end
 
 ###########  Routes ###########
-not_found { haml :'404' }
+not_found { @title='Card Missing' ; haml :'404' }
 error { @error = request.env['sinatra_error'].name ; haml :'500' }
 
 class Expired < StandardError; end
@@ -115,34 +177,41 @@ get '/' do
   @xmas = Design.all(:type => 'xmas')
   @easter = Design.all(:type => 'easter')
   @babies = Design.all(:type => 'baby')
+  @title='Cards in the Cloud - the easy way to send personalized e-cards'
   haml :index
 end
 
 get '/card/:id' do
-  @card = Design.get(params[:id]).cards.new
+  design = Design.get(params[:id])
+  @card = design.cards.new
+  @title = design.title
   haml :new
+end
+
+get '/feedback' do
+  @title = 'FeedBAAck'
+  haml :feedback
+end
+
+post '/feedback' do
+  #if params['bot']['message']=='D2'&&params['bot']['email'].empty?
+    email :from => "#{params[:from]}<#{params[:email]}>",
+          :body => params[:message], 
+          :subject => "Cards in the Cloud FeedBAAck"
+#  else
+#    halt [ 401, 'Get Lost Spam Bot!' ]
+#  end
+  haml :sent
 end
 
 post '/send' do
   if params['bot']['message']=='D2'&&params['bot']['email'].empty?
     @card = Design.get(params[:id]).cards.create(params[:card])
-    @card.email.split(",").each do |email|
-      Pony.mail(
-        :from => 'Cards in the Cloud<donotreply@cardsinthecloud.com>',
-        :to => email,
-        :subject => @card.from + " has sent you a card",
-        :html_body => haml(:email,{ :layout=>false,:locals => { :card => @card } }),
-        :port => '587',
-        :via => :smtp,
-        :via_options => { 
-          :address              => ENV['SENDGRID_ADDRESS']||'smtp.gmail.com', 
-          :port                 => '587', 
-          :enable_starttls_auto => true, 
-          :user_name            => ENV['SENDGRID_USERNAME']||'daz4126', 
-          :password             => ENV['SENDGRID_PASSWORD']||'senior6DJ!', 
-          :authentication       => :plain, 
-          :domain               => ENV['SENDGRID_DOMAIN']||'localhost.localdomain'
-        })
+    @card.email.split(",").each do |e|
+      email :from =>"#{settings.name}<donotreply@cardsinthecloud.com>",
+            :to => e,
+            :subject => @card.from + " has sent you a card",
+            :body => haml(:email,{ :layout=>false,:locals => { :card => @card } })
       end
   else
     halt [ 401, 'Get Lost Spam Bot!' ]
@@ -150,10 +219,11 @@ post '/send' do
   haml :sent
 end
 
-get '/stats' do
-  @cards = Card.all
-  haml :stats
-end
+#get '/stats' do
+#  @cards = Card.all
+#  @title = settings.name + ' - statistics'
+#  haml :stats
+#end
 
 get '/:shorturl' do
   id = params[:shorturl].to_i(36).to_s.reverse
@@ -162,19 +232,21 @@ get '/:shorturl' do
   raise error(404) unless @card && salt == @card.salt
   raise error(404) if @card.expires < Time.now
   #raise Expired,'Card has Expired' if @card.created_at < Time.now
+  @title = @card.title
   haml :card
 end
 __END__
 ########### Views ###########
 @@404
 %h1 Lost in the Clouds!
-%p The card you're looking for seems to be missing. Are you sure that you typed the web address correctly?
+%p The card you're looking for seems to be missing.
+%p Are you sure that you typed the web address correctly?
 
 @@500
 %h1 Crikey!
-%p We're very sorry, but there's been an error.
-%p It seems that the error is:
+%p We're very sorry, but there's been an error:
 %p= @error
+%p We'll get it fixed so things are back up and running as soon as possible.
 
 @@expired
 %h1 That Card has expired!
