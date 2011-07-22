@@ -1,0 +1,20 @@
+%table
+  %tr
+    %th ID
+    %th Salt
+    %th Date Sent
+    %th Title
+    %th Design
+    %th Short Url
+    %th Sent to
+    %th Sent by
+  - @cards.each do |card|
+    %tr
+      %td= card.id
+      %td= card.salt
+      %td= card.created_at
+      %td= card.title
+      %td= card.design.name
+      %td= card.url
+      %td= card.to
+      %td= card.from

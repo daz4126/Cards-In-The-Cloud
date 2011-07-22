@@ -1,40 +1,54 @@
-%h1 Pick A Card, Any Card ...
-%p Just click on a card to send it!
-%h3 Birthday Cards
-%ul.cards
-  %li.card
-    %a(href='/card/4')
-      %h1.title.croc Snappy Birthday!
-      %img{:src=>settings.images+"/croc-th.png"}
-      
-  %li.card 
-    %a(href='/card/3')
-      %h1.title.hippo Hippo Birthday
-      %img{:src=>settings.images+"/hippo-th.png"}  
+%p.intro The <em>easy</em> way to send <em>personalized</em> e-cards to your <em>friends</em> and <em>family</em> for <em>free</em>
+
+%p.intro <strong>Click on a card to get started!</strong>
+
+       
+%section.cards
+  %h1.category Birthday Cards
+  %ul
+    - @birthday.each do |design|
+      %li
+        %a.card(href='/card/#{design.id}')
+          %h1.title{:class => design.name}= design.title
+          %img.reflect{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
+
+%section.cards
+  %h1.category Good Luck Cards
+  %ul
+    - @goodluck.each do |design|
+      %li
+        %a.card(href='/card/#{design.id}')
+          %h1.title{:class => design.name}= design.title
+          %img.reflect{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
+
+%section.cards
+  %h1.category New Baby Cards
+  %ul
+    - @babies.each do |design|
+      %li
+        %a.card(href='/card/#{design.id}')
+          %h1.title{:class => design.name}= design.title
+          %img.reflect{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
+
+   
+%section.cards        
+  %h1.category Christmas Cards
+  %ul
+    - @xmas.each do |design|
+      %li
+        %a.card(href='/card/#{design.id}')
+          %h1.title{:class => design.name}= design.title
+          %img.reflect{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
+         
           
-  %li.card    
-    %a(href='/card/5')
-      %h1.title.fish Birthday Fishes
-      %img{:src=>settings.images+"/fish-th.png"}
-      
-  %li.card   
-    %a(href='/card/6')
-      %h1.title.cake Cupcakes
-      %img{:src=>settings.images+"/cupcake-th.png"}
-
-  %li.card
-    %a(href='/card/7')
-      %h1.title.duck Quacky Birthday
-      %img{:src=>settings.images+"/duck-th.png"}
-
-%h3 Christmas Cards
-%ul.cards
-  %li.card   
-    %a(href='/card/1')
-      %h1.title.snow Let It Snow!
-      %img{:src=>settings.images+"/snowman-th.png"}
-      
-  %li.card  
-    %a(href='/card/2')
-      %h1.title.robin Rocking Robins
-      %img{:src=>settings.images+"/robins-th.png"}
+%section.cards
+  %h1.category Easter Cards
+  %ul
+    - @easter.each do |design|
+      %li
+        %a.card(href='/card/#{design.id}')
+          %h1.title{:class => design.name}= design.title
+          %img.reflect{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
+          
+%a.feedback(href="/feedback")
+  %p Send some feed<em>BAA</em>ck!

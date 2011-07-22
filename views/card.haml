@@ -1,4 +1,5 @@
-#card.card
-  =haml @design
-#message
-  =@message
+.card
+  %h1.title{:class => @card.design.name}= @card.title
+  %img{:src=>settings.images+'/'+@card.design.image+'.png',:alt => @card.design.alt, :width => 640, :height => 420}
+  .message
+    =@card.message
