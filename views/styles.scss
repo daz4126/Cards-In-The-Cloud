@@ -51,6 +51,7 @@ header{
   text-align:center;
   padding:10px 10% 170px;
   background:#fff url(bottom.png) -50% bottom repeat-x;
+  @include clearfix;
 }
 
 footer{
@@ -69,7 +70,8 @@ footer{
 
 .cards{
   @include clearfix;
-  margin-top:16px;
+  margin:8px;
+  float:left;
   ul{float:left;}  
   li{
     float:left;
