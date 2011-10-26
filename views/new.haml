@@ -7,13 +7,13 @@
     %input(type="hidden" name="id" value="#{@card.design.id}")
   
   %feildset.to
-    %legend To:
+    %h1 To:
     %label(for="to")Name:<input type="text" name="card[to]" id="to" value="#{@card.to}">
     %label(for="email")Email:<input multiple type="email" name="card[email]" id="email">
     %p.info You can send this card to more than one person by writing a list of emails, separated by commas
     
   %feildset.from
-    %legend From:
+    %h1 From:
     %label(for="from")Name:<input type="text" name="card[from]" id="from" value="#{@card.from}">
     %label(for="sender_email")Email:<input multiple type="email" name="card[sender_email]" id="sender_email">
     -#%p.info You only need to give your email address if you want an alert when the card is viewed

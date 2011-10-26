@@ -128,15 +128,10 @@ form{
   width:640px;
   margin:0 auto;
   
-  .to,.from{width:310px;float:left;margin-bottom:20px;
-  legend{font-family:$msgfont;text-align:left;
-    color:#666;font-size:36px;font-weight:bold;}
-  }
-  
-  .to{
-    margin-right:9px;
-    border-right:solid #ccc 2px;
-    padding-right:9px;
+  h1{font-family:$msgfont;text-align:left;
+    color:#666;font-size:36px;font-weight:bold;
+    margin:0;
+    //-webkit-transform:rotate(-15deg) translate(-0.4em,-1.6em);
   }
   
   input{border:none;outline:none;background:none;color:#666;}
@@ -166,7 +161,7 @@ form{
     input{
       font-size:1em;
       font-family:$msgfont,sans-serif;
-      width:240px;
+      width:540px;
       border-bottom:#ccc dotted 1px;
       line-height:1em;
       float:right;

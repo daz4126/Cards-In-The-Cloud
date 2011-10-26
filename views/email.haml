@@ -1,5 +1,8 @@
 %h1(style='background:#619FEA;color:#fff;text-align:centre;') Cards in the Cloud
 %p Hi #{@card.to}!
 %p #{@card.from} has sent you a <a href="http://#{request.host_with_port+@card.url}">card in the cloud</a>.
-%p You can see your card by clicking on this link: <a href="http://#{request.host_with_port+@card.url}">http://#{request.host_with_port+@card.url}</a>    
+%p You can see your card by clicking on this link: <a href="http://#{request.host_with_port+@card.url}">http://#{request.host_with_port+@card.url}</a>
+-unless @card.sender_email.empty?
+  %p Why not send #{@card.from} <a href="mailto:#{@card.sender_email}">an email</a> to say thanks?
+%p Have a nice day!  
 %p(style='background:#619FEA;color:#fff;font-size:11px;') Cards in the Cloud is the easy way to send personalized greeting cards to your friends and family for free. Why don't you <a href="http://#{request.host_with_port}">send one too?</a>

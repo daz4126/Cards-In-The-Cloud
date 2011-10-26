@@ -33,10 +33,10 @@ DataMapper.setup(:default, ENV['DATABASE_URL'] || File.join("sqlite3://",setting
 class Card
   include DataMapper::Resource
   property    :id,           Serial
-  property    :salt,         String, :default =>  proc { |m,p| (1+rand(8)).to_s}
+  property    :salt,         String, :default =>  proc { (1+rand(8)).to_s}
   property    :title,        String, :length => 256
   property    :message,      Text
-  property    :created_at,   DateTime, :default =>  proc { |m,p| Time.now}
+  property    :created_at,   DateTime, :default =>  proc { Time.now}
   property    :from,         String, :length => 128
   property    :to,           String, :length => 128
   property    :email,        String, :length => 128
@@ -61,38 +61,8 @@ class Card
     created_at + 30
   end
   
-  def send
-    body = "<h1>Cards in the Cloud</h1>"
-    name = self.to.nil? ? "" : " " + self.to
-    body << "<p>Hi" << name << "!</p>"
-    body << "<p>{self.from} has sent you a <a href=#{self.url}'>card in the cloud</a>.</p>"
-    body << "<p>You can see your card by clicking on this link: <a href='#{self.url}'>#{self.url}</a>.</p>"
-    body << "<p style='background:#619FEA;color:#fff;font-size:11px;'> Cards in the Cloud is the easy way to send personalized greeting cards to your friends and family for free. Why don't you <a href=''>send one too?</a>.</p>"
-    self.email.split(",").each do |email|
-      Pony.mail(
-        :from => "#{settings.name}<donotreply@cardsinthecloud.com>",
-        :to => email,
-        :subject => self.from + " has sent you a card",
-        :html_body => body,
-        :port => '587',
-        :via => :smtp,
-        :via_options => { 
-          :address              => ENV['SENDGRID_ADDRESS']||'smtp.gmail.com', 
-          :port                 => '587', 
-          :enable_starttls_auto => true, 
-          :user_name            => ENV['SENDGRID_USERNAME']||'daz4126', 
-          :password             => ENV['SENDGRID_PASSWORD']||'senior6DJ!', 
-          :authentication       => :plain, 
-          :domain               => ENV['SENDGRID_DOMAIN']||'localhost.localdomain'
-        })
-    end
-  end
-  
   def self.send_daily_stats
     @cards = self.all(:created_at => ((Time.now - 24*60*60)..Time.now))
-#    email :from => 'Cards in the Cloud<donotreply@cardsinthecloud.com>',
-#          :subject => "Cards sent Today",
-#          :body => "#{@cards.count} card(s) were sent in the cloud today"
     Pony.mail(
       :from => 'Cards in the Cloud<donotreply@cardsinthecloud.com>',
       :to => settings.email,
@@ -105,7 +75,7 @@ class Card
         :port                 => '587', 
         :enable_starttls_auto => true, 
         :user_name            => ENV['SENDGRID_USERNAME']||'daz4126', 
-        :password             => ENV['SENDGRID_PASSWORD']||'senior6DJ!', 
+        :password             => ENV['SENDGRID_PASSWORD']||'topsecret', 
         :authentication       => :plain, 
         :domain               => ENV['SENDGRID_DOMAIN']||'localhost.localdomain'
       })
@@ -128,6 +98,8 @@ class Design
   property :alt,          String
   has n, :cards
 end
+
+DataMapper.finalize
 
 ###########  email helper ###########
 
@@ -171,8 +143,6 @@ get '/styles.css' do
 end
 
 get '/' do
-  #greetings = %w[Hi Hello Hola Hallo Ciao Sawubona Ola Szervusz Howdy Bonjour]
-  #@greeting = greetings[rand(greetings.size)]
   @birthday = Design.all(:type => 'birthday')
   @xmas = Design.all(:type => 'xmas')
   @easter = Design.all(:type => 'easter')
@@ -231,7 +201,7 @@ get '/:shorturl' do
   salt = id.slice!(-1,1)
   @card = Card.get(id)
   raise error(404) unless @card && salt == @card.salt
-  raise error(404) if @card.expires < Time.now
+  raise error(404) if @card.expires < DateTime.now
   #raise Expired,'Card has Expired' if @card.created_at < Time.now
   @title = @card.title
   haml :card
