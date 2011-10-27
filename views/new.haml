@@ -1,6 +1,6 @@
 %form(action="/send" method="post")
   %fieldset.card
-    %p.info You can edit this title to personalize your card
+    %p.info Click on the title to edit it and personalize your card
     %textarea.title{:class => @card.design.name, :type=>"text", :name=>"card[title]"}= @card.design.title
     %img{:src=>settings.images+'/'+@card.design.image+'.png',:alt => @card.design.alt, :width => 640, :height => 420} 
     %textarea.message(name="card[message]" placeholder="Write a nice message here...")
@@ -16,7 +16,7 @@
     %h1 From:
     %label(for="from")Name:<input type="text" name="card[from]" id="from" value="#{@card.from}">
     %label(for="sender_email")Email:<input multiple type="email" name="card[sender_email]" id="sender_email">
-    -#%p.info You only need to give your email address if you want an alert when the card is viewed
+    #%p.info You don't have to write your email (it's only so the recipient can reply to you)
     
   %input#send.button(type="submit" value="Send")
   
