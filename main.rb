@@ -143,6 +143,7 @@ get '/styles.css' do
 end
 
 get '/' do
+  @halloween = Design.all(:type => 'halloween')
   @birthday = Design.all(:type => 'birthday')
   @xmas = Design.all(:type => 'xmas')
   @easter = Design.all(:type => 'easter')

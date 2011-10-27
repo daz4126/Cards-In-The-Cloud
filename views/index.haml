@@ -2,6 +2,14 @@
 
 %p.intro <strong>Click on a card to get started!</strong>
 
+%section.cards
+  %h1.category Halloween Cards
+  %ul
+    - @halloween.each do |design|
+      %li
+        %a.card(href='/card/#{design.id}')
+          %h1.title{:class => design.name}= design.title
+          %img.reflect{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
        
 %section.cards
   %h1.category Birthday Cards
