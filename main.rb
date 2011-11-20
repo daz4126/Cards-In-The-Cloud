@@ -1,6 +1,3 @@
-########### Libraries ###########
-%w[rubygems sinatra dm-core dm-migrations haml sass pony].each{ |lib| require lib }
-
 ########### Configuration ###########
 set :name,'Cards in the Cloud'
 set :images, 'http://pics.cardsinthecloud.com'

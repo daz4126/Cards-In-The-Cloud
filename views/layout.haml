@@ -9,6 +9,9 @@
     %link(href='http://fonts.googleapis.com/css?family=Sniglet:800|Chewy|Ubuntu|Pacifico|Architects+Daughter' rel='stylesheet')
     %link(rel='stylesheet' media="screen, projection" href='/styles.css')
     /[if lt IE 9]
+    -if @card
+      %style
+        =  scss ".card .title{"+@card.design.css+"}", layout: false
       %script(src='http://html5shiv.googlecode.com/svn/trunk/html5.js')
     %script(src='/reflection.js')
     =haml :analytics,:layout=>false
