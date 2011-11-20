@@ -1,6 +1,0 @@
-sinatra
-haml
-dm-core
-dm-migrations
-dm-postgres-adapter
-pony
