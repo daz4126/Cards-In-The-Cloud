@@ -2,7 +2,7 @@
 %html
   %head
     %meta(charset='utf-8')
-    %meta(name="description" content="The easy way to send personalized e-cards to your friends and family for free")
+    %meta(name="description" content="The easy way to send personalized Ecards to your friends and family for free")
     %meta(name="author" content="DAZ")
     %title= @title || settings.name
     %link(rel='shortcut icon' href='/favicon.ico')
@@ -11,9 +11,13 @@
     /[if lt IE 9]
     -if @card
       %style
-        =  scss ".card .title{"+@card.design.css+"}", layout: false
+        =  scss ".card .title{"+@card.css+"}", layout: false
       %script(src='http://html5shiv.googlecode.com/svn/trunk/html5.js')
     %script(src='/reflection.js')
+    %script(src='http://cdn.rightjs.org/right.js')
+    %script(src='http://cdn.rightjs.org/ui/slider.js')
+    %script(src='http://cdn.rightjs.org/ui/colorpicker.js')
+    %script(src='/application.js')
     =haml :analytics,:layout=>false
   %body
     %header(role='banner')
@@ -24,5 +28,5 @@
       %small 
         %p <a href='/' class='logo'>#{settings.name}</a> &copy; #{Time.now.year} DAZ
         %p All images are licensed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>
-        %p This site would not be possible without the awesomeness of <a href="http://ubuntu.com">Ubuntu</a>, <a href="http://ruby-lang.org/en/">Ruby</a>, <a href="http://sinatrarb.com">Sinatra</a>, <a href="http://datamapper.org/">DataMapper</a>, <a href="http://inkscape.org/">Inkscape</a>, <a href="http://cow.neondragon.net/stuff/reflection/">Reflection.js</a> &amp; <a href="http://heroku.com">Heroku</a>
+        %p This site would not be possible without the awesomeness of <a href="http://xubuntu.org">Xubuntu</a>, <a href="http://ruby-lang.org/en/">Ruby</a>, <a href="http://sinatrarb.com">Sinatra</a>, <a href="http://datamapper.org/">DataMapper</a>, <a href="http://inkscape.org/">Inkscape</a>, <a href="http://rightjs.org/">RightJS</a>, <a href="http://cow.neondragon.net/stuff/reflection/">Reflection.js</a>, <a href="http://sendgrid.com/">SendGrid</a> &amp; <a href="http://heroku.com">Heroku</a>
         %p Currently in public Beta so please accept my apologies if anything goes wrong

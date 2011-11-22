@@ -1,6 +1,6 @@
-%p.intro The <em>easy</em> way to send <em>personalized</em> e-cards to your <em>friends</em> and <em>family</em> for <em>free</em>
+%p.intro The <em>easy</em> way to send <em>personalized</em> Ecards to your <em>friends</em> and <em>family</em> for <em>free</em>
 
-%p.intro <strong>Click on a card to get started!</strong>
+%p.intro <strong>Click on a card to send it!</strong>
 
 - @categories.each do |category|
   %section.cards
@@ -9,7 +9,7 @@
       - Design.all(:type => category).each do |design|
         %li
           %a.card(href='/card/#{design.id}')
-            %h1.title{:class => design.name}= design.title
+            %h1.title{class: design.name,style: design.css}= design.title
             %img.reflect{:src=>settings.images + "/" + design.image + "-th.png",:alt => design.alt, :width => 128, :height => 84}
           
 %a.feedback(href="/feedback")

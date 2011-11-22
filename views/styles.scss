@@ -133,17 +133,19 @@ form{
   h1{font-family:$msgfont;text-align:left;
     color:#666;font-size:36px;font-weight:bold;
     margin:0;
-    //-webkit-transform:rotate(-15deg) translate(-0.4em,-1.6em);
   }
   
   input{border:none;outline:none;background:none;color:#666;}
   input:focus{background:lighten($sky,30%);outline:none;}
   
   textarea.title{
-  postion:relative;top:20px;
-  border:none;outline:none;background:none;
+  border:none;
+  outline:none;
+  background:none;
   height:420px;width:640px;
-  overflow:hidden;resize:none;}
+  overflow:hidden;
+  resize:none;
+  display:block;}
   
   .message{border:5px solid #ccc;color:#666;resize:none;
   &:focus{outline:none;border:$sky 5px solid;}}
@@ -181,7 +183,7 @@ form{
     position:relative;
     text-align:center;
     padding:10px;
-    margin:0 auto;
+    margin:20px auto;
     width:4em;
     font-size:36px;
     text-transform:uppercase;font-weight:bold;
@@ -241,7 +243,7 @@ width:100%;
   position:relative;z-index:1;line-height:1.2;
 }
 
-.info{margin:0;font-size:0.9em;color:$blue;}
+.info, fieldset.controls label{margin:0;font-size:0.9em;color:$blue;}
 
 .intro{
   margin:-0.4em auto 0.8em;padding:0 20%;max-width:20em;
@@ -284,6 +286,17 @@ width:100%;
   }
   
   em{font-weight:bold;font-style:normal;}
+}
+
+p.color{
+  cursor: pointer;
+  &:hover{color: $pink;}
+}
+
+div.rui-colorpicker{height:150px;right:100px;left:0;}
+
+div.rui-colorpicker div.controls{display:none;width:0;height:0;
+label{color:black;font-family:ubuntu,sans-serif;font-size:11px;display:none;}
 }
 
 .croc{color:#ff6;text-shadow:none;}

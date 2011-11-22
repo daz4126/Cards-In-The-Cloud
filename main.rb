@@ -1,3 +1,5 @@
+%w[rubygems sinatra dm-core dm-migrations haml sass pony].each{ |lib| require lib }
+
 ########### Configuration ###########
 set :name,'Cards in the Cloud'
 set :images, 'http://pics.cardsinthecloud.com'
@@ -38,20 +40,12 @@ class Card
   property    :to,           String, :length => 128
   property    :email,        String, :length => 128
   property    :sender_email, String, :length => 128
+  property    :css,          String, :default =>  proc { |r,p| r.design.css }
   belongs_to  :design
   
   def url
     '/' + (id.to_s + salt).reverse.to_i.to_s(36)
   end
-  
-#  def viewed
-#  case self.views
-#    when 1: 'once'
-#    when 2: 'twice'
-#    else  self.views.to_s + ' times'
-#  end
-#  
-#  end
   
   # expires after 30 days
   def expires
@@ -134,10 +128,8 @@ error Expired do
   haml :expired
 end
 
-get '/styles.css' do
-  content_type 'text/css', :charset => 'utf-8'
-  scss :styles
-end
+get('/styles.css'){ scss :styles }
+get('/application.js') { coffee :application }
 
 get '/' do
   @title='Cards in the Cloud - the easy way to send personalized e-cards'
@@ -170,7 +162,8 @@ end
 
 post '/send' do
   if params['bot']['message']=='D2'&&params['bot']['email'].empty?
-    @card = Design.get(params[:id]).cards.create(params[:card])
+    css = {css: "color:#{params['color']};font-size:#{params['font-size']}px;"}
+    @card = Design.get(params[:id]).cards.create(params[:card].merge(css))
     @card.email.split(",").each do |e|
       email :from =>"#{settings.name}<donotreply@cardsinthecloud.com>",
             :to => e,

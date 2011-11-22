@@ -1,7 +1,14 @@
 %form(action="/send" method="post")
+  %fieldset.controls
+    %p.info Click on the title to change it and use the slider to change the size
+    .rui-slider(data-slider="{min:0,max:100,value:50,update: 'font-size'}")
+      .level
+      .handle
+    %p.info.color(for='color' data-colorpicker='{updateColor:"title", update:"color"}')You can also change the color by clicking here
+    %input(name='font-size' id='font-size' type='hidden')
+    %input(name='color' id='color' type='hidden' value='#ff6')
   %fieldset.card
-    %p.info Click on the title to edit it and personalize your card
-    %textarea.title{:class => @card.design.name, :type=>"text", :name=>"card[title]"}= @card.design.title
+    %textarea#title.title{:class => @card.design.name, :type=>"text", :name=>"card[title]"}= @card.design.title
     %img{:src=>settings.images+'/'+@card.design.image+'.png',:alt => @card.design.alt, :width => 640, :height => 420} 
     %textarea.message(name="card[message]" placeholder="Write a nice message here...")
     %input(type="hidden" name="id" value="#{@card.design.id}")
